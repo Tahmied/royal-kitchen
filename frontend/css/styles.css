@@ -1,0 +1,153 @@
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Urbanist", sans-serif;
+    background-color: #9FADBE;
+}
+
+/* hero section */
+
+.first-section {
+    background-image: url('/frontend/images/hero/bg.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.first-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 2rem 0 2rem 0;
+    position: relative;
+}
+
+/* navbar */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.nav-link {
+    font-style: normal;
+    font-weight: 800;
+    font-size: 13px;
+    line-height: 28px;
+    leading-trim: both;
+    text-edge: cap;
+    text-align: center;
+    letter-spacing: 0.28em;
+    text-decoration-line: underline;
+    text-transform: uppercase;
+    color: rgba(222, 235, 250, 0.62);
+}
+
+.logo {
+    width: 13.33rem;
+    height: 8.125rem;
+}
+
+.right-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+/* hero section */
+
+.hero {
+    width: 1300px;
+    margin: 3rem auto;
+    height: 55vh;
+}
+
+.hero-text {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 127px;
+    leading-trim: both;
+    text-edge: cap;
+    text-align: center;
+    letter-spacing: -0.02em;
+    text-transform: capitalize;
+    background: linear-gradient(90.87deg, rgba(184, 192, 200, 0) -3.19%, #C0DDFF 29.28%, rgba(160, 184, 212, 0.859813) 65.45%, rgba(184, 192, 200, 0) 102.57%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+}
+
+.hero-description {
+    font-family: 'Urbanist';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 22px;
+    leading-trim: both;
+    text-edge: cap;
+    text-align: center;
+    letter-spacing: 0.03em;
+    text-transform: lowercase;
+    color: rgba(222, 235, 250, 0.62);
+    margin: 1rem auto;
+    width: 80%;
+}
+
+.underhero {
+    position: absolute;
+    top: 500px;
+}
+
+.hero-img-container {
+    max-width: 1000px;
+    position: relative;
+}
+
+.hero-cta-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 235px;
+    height: 72px;
+    background: #9FADBE;
+    border-radius: 900px;
+    position: relative;
+    background-image: url('/frontend/images/hero/button-bg.svg');
+    border: none;
+    outline: none;
+    position: absolute;
+    top:-4px;
+    left: 55%;
+}
+
+.hero-cta-btn p {
+    position: relative;
+    right: 20px;
+    font-weight: 600;
+    font-size: 16px;
+    leading-trim: both;
+    text-edge: cap;
+    text-align: center;
+    text-transform: uppercase;
+    color: #0B141F;
+}
+
+.hero-cta-btn img {
+    position: absolute;
+    right: 5px;
+    width: 59px;
+    height: 59px;
+    background: #DEE3EA;
+    border-radius: 900px;
+}
+
