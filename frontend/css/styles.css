@@ -303,7 +303,7 @@ nav {
     justify-content: space-between;
     align-items: center;
     overflow: hidden;
-    height: 130vh;
+    height: 1000px;
     background-image: url('/frontend/images/section-three/three-bg.png');
     background-position: center;
     background-repeat: no-repeat;
@@ -388,3 +388,112 @@ nav {
 .third-right img {
     max-width: 274.35px;
 }
+
+/* section four */
+
+.fourth-section {
+    background-color: #0B141F;
+    position: relative;
+    overflow: hidden;
+}
+
+.fourth-overlay-shadow {
+    position: absolute;
+    left: 50%;
+    top: -10px;
+    transform: translateX(-50%);
+}
+
+
+.fourth-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.fourth-heading {
+    font-family: 'Urbanist';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 90px;
+    leading-trim: both;
+    text-edge: cap;
+    text-align: center;
+    text-transform: capitalize;
+    background: linear-gradient(90deg, #0B141F 0%, #BAC9DD 33.17%, #BAC9DD 60.1%, #0B141F 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+    margin: 2rem;
+}
+
+.fourth-left {
+    /* padding: 1rem; */
+}
+
+.fourth-left img {
+    border-radius:25px;
+    /* max-width: 800px; */
+}
+
+.fourth-right {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 1rem;
+}
+
+.fourth-right img{
+    width: 149px;
+    height: 177px;
+    border-radius: 12px;
+}
+
+.fourth-video-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 25px;
+    max-width: 1300px;
+    margin: 5rem auto; 
+    position: relative;
+}
+
+.fourth-video-thumbnail {
+    border-radius: 25px;
+}
+
+.fourth-video-overlay {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+}
+
+.video-overlay-text {
+    font-family: 'Clash Display';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 185px;
+    leading-trim: both;
+    text-edge: cap;
+    text-align: center;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    color: #ffffff79;
+    background-image: url('/frontend/images/section-four/fourth-video-thumbnail.png');
+    background-size: cover;
+    background-position: center;
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
