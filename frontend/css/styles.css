@@ -433,6 +433,7 @@ nav {
 
 .fourth-left {
     /* padding: 1rem; */
+    position: relative;
 }
 
 .fourth-left img {
@@ -510,4 +511,54 @@ nav {
     width: 985px;
     height: 566px;
     clip-path: path("M 0,5 L 5,0 L 980,0 L 985,5 L 985,561 L 980,566 L 335,566 A 25,25 0,0,1 310,541 L 310,475 A 25,25 0,0,0 285,450 L 25,453 A 25,25 0,0,1 0,428 L 0,5 Z");
+}
+
+.project-pinned-pic-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    width: 297px;
+    height: 91px;
+    background: rgba(255, 255, 255, 0.74);
+    border-radius: 25px;
+    position: absolute;
+    bottom: 13px;
+    border: none;
+    outline: none;
+}
+
+.profile-pic {
+    border: 7px solid #E4E8ED;
+    background: #E4E8ED;
+    border-radius: 999px !important;
+    height: 70px;
+    width: 70px;
+}
+
+.house-owner-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 7px;
+    font-family: 'Urbanist';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    leading-trim: both;
+    text-edge: cap;
+    text-transform: capitalize;
+    color: #293B52;
+}
+
+.owner-name {
+    font-family: 'Clash Display';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    leading-trim: both;
+    text-edge: cap;
+    text-transform: uppercase;
+    color: #0B141F;
 }
