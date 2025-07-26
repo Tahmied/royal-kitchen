@@ -497,3 +497,17 @@ nav {
     background-clip: text;
 }
 
+#reverse-project-section {
+    background-color:transparent;
+    padding-top: 3rem;
+}
+
+#reverse-project-container {
+    flex-direction: row-reverse;
+}
+
+.pinned-project-img {
+    width: 985px;
+    height: 566px;
+    clip-path: path("M 0,5 L 5,0 L 980,0 L 985,5 L 985,561 L 980,566 L 335,566 A 25,25 0,0,1 310,541 L 310,475 A 25,25 0,0,0 285,450 L 25,453 A 25,25 0,0,1 0,428 L 0,5 Z");
+}
