@@ -565,6 +565,11 @@ nav {
 
 /* fifth section - feedback section */
 
+.fifth-section {
+    overflow: hidden;
+    padding: 1rem 0 1rem 0;
+}
+
 .feedback-title {
     font-family: 'Clash Display';
     font-style: normal;
@@ -697,4 +702,71 @@ nav {
     text-fill-color: transparent;
     position: relative;
     left: 10px;
+}
+
+/* sixth section */
+
+.sixth-section {
+    background-color: #0B141F;
+    padding: 2rem 0 2rem 0;
+}
+
+.sixth-title {
+    font-family: 'Urbanist';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 90px;
+    leading-trim: both;
+    text-edge: cap;
+    text-align: center;
+    text-transform: capitalize;
+    background: linear-gradient(90deg, #0B141F 0%, #BAC9DD 33.17%, #BAC9DD 60.1%, #0B141F 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+    margin-bottom: 2rem;
+}
+
+.sixth-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 3rem;
+}
+
+.sixth-left img {
+    max-width: 760px;
+    border-radius: 22px;
+}
+
+.sixth-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.sixth-heading {
+    font-family: 'Urbanist';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 60px;
+    text-edge: cap;
+    text-transform: capitalize;
+    color: #FFFFFF;
+}
+
+.sixth-description {
+    font-family: 'Urbanist';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 23px;
+    leading-trim: both;
+    text-edge: cap;
+    text-transform: capitalize;
+    color: #FFFFFF;
 }
