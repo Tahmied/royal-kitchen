@@ -829,7 +829,6 @@ footer {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 346px;
     height: 72px;
     background: #9FADBE;
     border-radius: 900px;
@@ -861,34 +860,3 @@ footer {
     border-radius: 900px;
 }
 
-.footer-end {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 3rem;
-    margin: 2rem;
-}
-
-.footer-center {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-}
-
-.footer-last-description {
-    font-family: 'Sora';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 19px;
-    leading-trim: both;
-    text-edge: cap;
-    text-align: center;
-    text-transform: capitalize;
-    color: #0B141F;
-}
-
-.footer-highlight {
-    font-weight: bold;
-}
