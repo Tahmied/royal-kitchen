@@ -8,10 +8,11 @@
 </head>
 <body>
 
-    <section class="first-section">
+     <section class="first-section">
         <div class="first-container">
             <nav>
             <div class="left-nav">
+                <a href="#" class="nav-link">Home</a>
                 <a href="#" class="nav-link">Facebook</a>
             </div>
             <div class="mid-nav">
@@ -305,6 +306,19 @@
                 <img src="images/footer/footer-right-arrow.svg" alt="" class="footer-right-arrow">
             </div>
         </footer>
-     
+    <script>
+        function updateHeroImage() {
+            const img = document.querySelector('.hero-image');
+            if (!img) return;
+            if (window.innerWidth <= 600) {
+              img.src = 'images/hero/hero-ain-image-mobile.png';
+            } else {
+              img.src = 'images/hero/hero image.png';
+            }
+        }
+    
+        window.addEventListener('load',  updateHeroImage);
+        window.addEventListener('resize', updateHeroImage);
+    </script>
 </body>
 </html>
