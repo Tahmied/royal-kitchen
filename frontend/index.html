@@ -307,6 +307,25 @@
             </div>
         </footer>
     <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const section = document.querySelector('.first-section');
+            if (!section) return;
+
+            const observer = new IntersectionObserver((entries) => {
+              entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                  section.classList.add('active');
+                } else {
+                  section.classList.remove('active');
+                }
+              });
+            }, {
+              threshold: 0.3 
+            });
+
+            observer.observe(section);
+        });
+
         function updateHeroImage() {
             const img = document.querySelector('.hero-image');
             if (!img) return;
@@ -316,9 +335,13 @@
               img.src = 'images/hero/hero image.png';
             }
         }
-    
+        
         window.addEventListener('load',  updateHeroImage);
         window.addEventListener('resize', updateHeroImage);
     </script>
+    <script>
+  
+</script>
+
 </body>
 </html>
