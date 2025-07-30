@@ -410,6 +410,21 @@ nav {
   margin-top: 0;                  
   animation: ctaPulse 2s ease-in-out infinite 1s;
 }
+@keyframes softGlowPulse {
+  0% {
+    box-shadow: 0 0 0px rgba(222, 235, 250, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(222, 235, 250, 0.6);
+  }
+  100% {
+    box-shadow: 0 0 0px rgba(222, 235, 250, 0.2);
+  }
+}
+
+.first-section.active .hero-cta-btn {
+  animation: softGlowPulse 2s ease-in-out infinite;
+}
 
 
 /* section two */
