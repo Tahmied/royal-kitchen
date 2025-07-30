@@ -306,42 +306,70 @@
                 <img src="images/footer/footer-right-arrow.svg" alt="" class="footer-right-arrow">
             </div>
         </footer>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const section = document.querySelector('.first-section');
-            if (!section) return;
 
-            const observer = new IntersectionObserver((entries) => {
-              entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                  section.classList.add('active');
-                } else {
-                  section.classList.remove('active');
-                }
-              });
+
+        <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        // First section observer
+        const section = document.querySelector('.first-section');
+        if (section) {
+            const observer1 = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !section.classList.contains('active')) {
+                        section.classList.add('active');
+                    } else if (!entry.isIntersecting && section.classList.contains('active')) {
+                        section.classList.remove('active');
+                    }
+                });
             }, {
-              threshold: 0.3 
+                threshold: 0.4 
             });
 
-            observer.observe(section);
-        });
-
-        function updateHeroImage() {
-            const img = document.querySelector('.hero-image');
-            if (!img) return;
-            if (window.innerWidth <= 600) {
-              img.src = 'images/hero/hero-ain-image-mobile.png';
-            } else {
-              img.src = 'images/hero/hero image.png';
-            }
+            observer1.observe(section);
         }
-        
-        window.addEventListener('load',  updateHeroImage);
-        window.addEventListener('resize', updateHeroImage);
-    </script>
-    <script>
-  
+
+        // Second section observer
+        const sectionTwo = document.querySelector('.second-section');
+        let exitTimeout = null;
+
+        if (sectionTwo) {
+            const observer2 = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        clearTimeout(exitTimeout); 
+                        sectionTwo.classList.remove('exiting-two');
+                        sectionTwo.classList.add('active-two');
+                    } else {
+                        sectionTwo.classList.remove('active-two');
+                        sectionTwo.classList.add('exiting-two');
+                        exitTimeout = setTimeout(() => {
+                            sectionTwo.classList.remove('exiting-two');
+                        }, 1200);
+                    }
+                });
+            }, {
+                threshold: 0.4 
+            });
+
+            observer2.observe(sectionTwo);
+        }
+    });
+
+
+    function updateHeroImage() {
+        const img = document.querySelector('.hero-image');
+        if (!img) return;
+        if (window.innerWidth <= 600) {
+            img.src = 'images/hero/hero-ain-image-mobile.png';
+        } else {
+            img.src = 'images/hero/hero image.png';
+        }
+    }
+
+    window.addEventListener('load', updateHeroImage);
+    window.addEventListener('resize', updateHeroImage);
 </script>
+
 
 </body>
 </html>
