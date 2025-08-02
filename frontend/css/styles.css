@@ -1480,7 +1480,7 @@ nav {
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;
-    margin: 1rem;
+    margin: 0 1rem 0 0;
     width: 430px;
     height: 400px;
     display: flex;
@@ -1516,7 +1516,7 @@ nav {
     text-transform: lowercase;
     color: #BFD3EB;
     padding: 0 0 2rem 2rem;
-    max-width: 50%;
+    max-width: 300px;
 }
 
 .feedback-highlight {
@@ -1566,6 +1566,129 @@ nav {
     position: relative;
     left: 10px;
 }
+
+@media (max-width : 1320px) {
+    .fifth-container {
+        width: 90%;
+    }
+
+    .fifth-left-img {
+        max-width: 400px;
+    }
+
+    .fifth-feedback {
+        width: 50%;
+    }
+
+    .feedback-name {
+        width: 60%;
+        font-size: 25px;
+    }
+
+    .fifth-right-img {
+        width: 90%;
+    }
+
+    .feedback-title {
+        font-size: 150px;
+    }
+
+}
+
+
+@media (max-width:1024px) {
+    .fifth-left-shadow {
+        max-height: 250px;
+        z-index: 0;
+    }
+
+    .fifth-right {
+        z-index: 1;
+    }
+
+    .fifth-container {
+        margin: 1rem auto;
+    }
+
+    .fifth-feedback {
+        width: 60%;
+        height: 300px;
+    }
+
+    .feedback-name {
+        padding: 0 0 0 1rem;
+        width: 100%;
+    }
+
+    .feedback-text {
+        padding: 0 0 1rem 1rem;
+    }
+
+    .feedback-logo {
+        width: 50px;
+        height: auto;
+    }
+
+    .feedback-title {
+        font-size: 130px;
+    }
+
+}
+
+@media (max-width : 768px) {
+    .fifth-container {
+        flex-direction: column;
+        gap: 3rem;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .fifth-feedback {
+        width: 80%;
+        max-width: 400px;
+        margin: 0;
+    }
+
+    .feedback-name {
+        padding: 0 0 0 2rem;
+        width: 100%;
+    }
+
+    .feedback-text {
+        padding: 0 0 2rem 2rem;
+    }
+
+    .feedback-title {
+        font-size: 90px;
+    }
+
+    .feedback-button {
+        width: 240px;
+    }
+
+    .feedback-btn-text {
+        left: 14px;
+    }
+
+    .feedback-button img {
+        position: relative;
+        right: -14px;
+    }
+
+    .fifth-right {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+}
+
+@media (max-width:425px) {
+    .feedback-title {
+        font-size: 60px;
+    }
+}
+
 
 /* sixth section */
 
