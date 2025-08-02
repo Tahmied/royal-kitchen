@@ -16,7 +16,7 @@ body {
 /* hero section */
 
 .first-section {
-    background-image: url('/frontend/images/hero/bg.png');
+    background-image: url('/images/hero/bg.png');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -846,7 +846,7 @@ nav {
     max-width: 1300px;
     margin: 0 auto;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     gap: 1rem;
 }
@@ -949,7 +949,6 @@ nav {
     height: 566px;
     clip-path: path("M 0,5 L 5,0 L 980,0 L 985,5 L 985,561 L 980,566 L 335,566 A 25,25 0,0,1 310,541 L 310,475 A 25,25 0,0,0 285,450 L 25,453 A 25,25 0,0,1 0,428 L 0,5 Z");
 }
-
 .project-pinned-pic-btn {
     display: flex;
     justify-content: center;
@@ -998,6 +997,433 @@ nav {
     text-edge: cap;
     text-transform: uppercase;
     color: #0B141F;
+}
+
+
+@media (max-width:1350px) {
+
+    .pinned-project-img {
+        width:  885px;
+        height: 466px;
+        clip-path: path("M 0,5 L 5,0 L 880,0 L 885,5 L 885,461 L 880,466 L 235,466 A 25,25 0,0,1 210,441 L 210,375 A 25,25 0,0,0 185,350 L 25,353 A 25,25 0,0,1 0,328 L 0,5 Z");
+    }
+
+    .project-pinned-pic-btn {
+        width: 197px;
+        height: 75px;;
+    }
+
+    .profile-pic {
+        height: 50px;
+        width:  50px;
+    }
+
+    .house-owner-details {
+        font-size: 15px;
+    }
+
+    .owner-name {
+        font-size: 12px;
+    }
+
+    .fourth-video-thumbnail {
+        width: 90%;
+    }
+
+    .video-overlay-text {
+        font-size: 155px;
+    }
+
+
+}
+
+@media (max-width:1250px) {
+    .fourth-right img {
+        width:120px;
+        height: 127px;
+    }
+
+    .video-play-icon {
+        width: 180px;
+        height: auto;
+    }
+}
+
+@media (max-width:1200px) {
+     .pinned-project-img {
+        width:  765px;
+        height: 546px;
+        clip-path: path("M 0,5 L 5,0 L 760,0 L 765,5 L 765,341 L 760,346 L 230,346 A 25,25 0,0,1 205,321 L 205,285 A 25,25 0,0,0 185,260 L 25,260 A 25,25 0,0,1 0,235 L 0,5 Z");
+    }
+
+     .fourth-right img {
+        width: 100px;
+        height: 107px;
+    }
+
+    .fourth-container {
+        align-items: flex-start;
+    }
+
+    .project-pinned-pic-btn {
+        width: 197px;
+        height: 75px;
+        bottom: 0;
+        top: 267px;
+        border-radius: 20px;
+    }
+
+    .video-play-icon {
+        width: 120px;
+        height: auto;
+    }
+
+    .video-overlay-text {
+        font-size: 130px;
+    }
+
+    .fourth-video-container {
+        margin: 0 auto;
+        margin-top: -10rem;
+    }
+    
+}
+
+@media (max-width:1024px) {
+    .pinned-project-img {
+        width:  90%;
+        height: auto;
+        clip-path:none;
+    }
+
+     .fourth-video-container {
+        margin: 3rem auto;
+    }
+
+    .project-pinned-pic-btn {
+        bottom: 20px;
+        left: 20px;
+        top: auto;
+    }
+
+    .fourth-right img {
+        width: 100%;
+        max-height: 110px;
+    }
+
+    .fourth-container {
+        width: 90%;
+        gap: 0;
+        align-items: center;
+    }
+
+}
+
+@media (max-width:980px) {
+    .video-play-icon {
+        width: 90px;
+    }
+
+    .video-overlay-text {
+        font-size: 100px;
+    }
+
+}
+
+@media (max-width:768px) {
+    .fourth-heading {
+        font-size: 60px;
+    }
+
+    .fourth-container {
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .fourth-left {
+        display: flex;
+        position: relative;
+        justify-content: center;
+        align-items: center;
+        width: 90%;
+    }
+
+    .fourth-left img {
+        width: 100%;
+    }
+
+    .fourth-right img {
+        width: 100%;
+        max-height: 171px;
+        height: 100%;
+    }
+
+    .video-overlay-text {
+        font-size: 80px;
+    }
+
+    .video-play-icon {
+        width: 70px;
+    }
+        
+}
+
+@media (max-width:600px) {
+    .fourth-right img {
+        width: 170px;
+        height: 300px;
+    }
+
+    .fourth-left {
+        width: 100%;
+    }
+
+    .project-pinned-pic-btn {
+        gap: 0.3rem;
+        width: 185px;
+        height: 60px;
+        bottom: 10px;
+        left: 10px;
+    }
+
+    .fourth-heading {
+        font-size: 40px;
+    }
+
+    .fourth-left img {
+        border-radius: 15px;
+    }
+
+    .video-overlay-text {
+        font-size: 50px;
+    }
+
+}
+
+@media (max-width:425px) {
+    .fourth-heading {
+        font-size: 30px;
+    }
+
+    .video-play-icon {
+        width: 60px;
+    }
+
+    .video-overlay-text {
+        font-size: 30px;
+    }
+
+}
+
+@media (max-width:375px) {
+    .fourth-right img {
+        width: 140px;
+        height: 150px;
+    }
+}
+
+/* Responsive styles for reverse project section */
+
+@media (max-width:1350px) {
+    #reverse-project-section .pinned-project-img {
+        width: 885px;
+        height: 466px;
+        clip-path: path("M 0,5 L 5,0 L 880,0 L 885,5 L 885,461 L 880,466 L 235,466 A 25,25 0,0,1 210,441 L 210,375 A 25,25 0,0,0 185,350 L 25,353 A 25,25 0,0,1 0,328 L 0,5 Z");
+    }
+
+    #reverse-project-section .project-pinned-pic-btn {
+        width: 197px;
+        height: 75px;
+    }
+
+    #reverse-project-section .profile-pic {
+        height: 50px;
+        width: 50px;
+    }
+
+    #reverse-project-section .house-owner-details {
+        font-size: 15px;
+    }
+
+    #reverse-project-section .owner-name {
+        font-size: 12px;
+    }
+
+    #reverse-project-section .fourth-video-thumbnail {
+        width: 90%;
+    }
+
+    #reverse-project-section .video-overlay-text {
+        font-size: 155px;
+    }
+}
+
+@media (max-width:1250px) {
+    #reverse-project-section .fourth-right img {
+        width: 120px;
+        height: 127px;
+    }
+
+    #reverse-project-section .video-play-icon {
+        width: 180px;
+        height: auto;
+    }
+}
+
+@media (max-width:1200px) {
+    #reverse-project-section .pinned-project-img {
+        width: 765px;
+        height: 546px;
+        clip-path: path("M 0,5 L 5,0 L 760,0 L 765,5 L 765,341 L 760,346 L 230,346 A 25,25 0,0,1 205,321 L 205,285 A 25,25 0,0,0 185,260 L 25,260 A 25,25 0,0,1 0,235 L 0,5 Z");
+    }
+
+    #reverse-project-section .fourth-right img {
+        width: 100px;
+        height: 107px;
+    }
+
+    #reverse-project-section .fourth-container {
+        align-items: flex-start;
+    }
+
+    #reverse-project-section .project-pinned-pic-btn {
+        width: 197px;
+        height: 75px;
+        bottom: 0;
+        top: 267px;
+        border-radius: 20px;
+    }
+
+    #reverse-project-section .video-play-icon {
+        width: 120px;
+        height: auto;
+    }
+
+    #reverse-project-section .video-overlay-text {
+        font-size: 130px;
+    }
+
+    #reverse-project-section .fourth-video-container {
+        margin: 0 auto;
+        margin-top: -10rem;
+    }
+}
+
+@media (max-width:1024px) {
+    #reverse-project-section .pinned-project-img {
+        width: 90%;
+        height: auto;
+        clip-path: none;
+    }
+
+    #reverse-project-section .fourth-video-container {
+        margin: 3rem auto;
+    }
+
+    #reverse-project-section .project-pinned-pic-btn {
+        bottom: 20px;
+        left: 20px;
+        top: auto;
+    }
+
+    #reverse-project-section .fourth-right img {
+        width: 100%;
+        max-height: 110px;
+    }
+
+    #reverse-project-section .fourth-container {
+        width: 90%;
+        gap: 0;
+        align-items: center;
+        gap: 1rem;
+    }
+}
+
+@media (max-width:980px) {
+    #reverse-project-section .video-play-icon {
+        width: 90px;
+    }
+
+    #reverse-project-section .video-overlay-text {
+        font-size: 100px;
+    }
+}
+
+@media (max-width:768px) {
+    #reverse-project-section .fourth-container {
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    #reverse-project-section .fourth-left {
+        display: flex;
+        position: relative;
+        justify-content: center;
+        align-items: center;
+        width: 90%;
+    }
+
+    #reverse-project-section .fourth-left img {
+        width: 100%;
+    }
+
+    #reverse-project-section .fourth-right img {
+        width: 100%;
+        max-height: 171px;
+        height: 100%;
+    }
+
+    #reverse-project-section .video-overlay-text {
+        font-size: 80px;
+    }
+
+    #reverse-project-section .video-play-icon {
+        width: 70px;
+    }
+}
+
+@media (max-width:600px) {
+    #reverse-project-section .fourth-right img {
+        width: 170px;
+        height: 300px;
+    }
+
+    #reverse-project-section .fourth-left {
+        width: 100%;
+    }
+
+    #reverse-project-section .project-pinned-pic-btn {
+        gap: 0.3rem;
+        width: 185px;
+        height: 60px;
+        bottom: 10px;
+        left: 10px;
+    }
+
+    #reverse-project-section .fourth-left img {
+        border-radius: 15px;
+    }
+
+    #reverse-project-section .video-overlay-text {
+        font-size: 50px;
+    }
+}
+
+@media (max-width:425px) {
+    #reverse-project-section .video-play-icon {
+        width: 60px;
+    }
+
+    #reverse-project-section .video-overlay-text {
+        font-size: 30px;
+    }
+}
+
+@media (max-width:375px) {
+    #reverse-project-section .fourth-right img {
+        width: 140px;
+        height: 150px;
+    }
 }
 
 /* fifth section - feedback section */
@@ -1222,7 +1648,7 @@ footer {
     justify-content: center;
     align-items: center;
     gap: 1rem;
-    background-image: url('/frontend/images/footer/bg.svg');
+    background-image: url('/images/footer/bg.svg');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
