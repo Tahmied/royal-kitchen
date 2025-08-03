@@ -249,9 +249,45 @@
         <section class="sixth-section">
             <p class="sixth-title">Why Royal Kitchen</p>
             <div class="sixth-container">
+
                 <div class="sixth-left">
-                    <img src="images/section-six/sixth-left-img.png" alt="" class="sixth-left-img">
+                   
+                    <div class = "sixth-left-main" >
+                        <div class="sixth-left-container">
+                                <img src="images/section-six/experience tag image.png" alt="" class="experience-tag">
+                          <div class="sixth-left-image-container">
+                            <img
+                              class="image-before slider-image"
+                             src="images/section-six/before image.png"
+                              alt="color photo"
+                            />
+                            <img
+                              class="image-after slider-image"
+                              src="images/section-six/after image.png"
+                              alt="black and white"
+                            />
+                          </div>
+                          <!-- step="10" -->
+                          <input
+                            type="range"
+                            min="0"
+                            max="100"
+                            value="50"
+                            aria-label="Percentage of before photo shown"
+                            class="slider"
+                          />
+                          <div class="slider-line" aria-hidden="true"></div>
+                          <div class="slider-button" aria-hidden="true">
+
+                              <img src="images/section-six/Group 19.png" alt="">
+
+                          </div>
+                        </div>
+
+                    </div>
                 </div>
+
+
                 <div class="sixth-right">
                     <p class="sixth-heading">Where Experience Meets Innovation</p>
                     <p class="sixth-description">Laser-precise measurements, state-of-the-art CNC production, and EU-backed innovation setting the standard in bespoke kitchens for 12 years.</p>
@@ -262,7 +298,6 @@
                 </div>
             </div>
         </section>
-
         <!-- footer -->
     
         <footer>
@@ -354,6 +389,12 @@
 
     window.addEventListener('load', updateHeroImage);
     window.addEventListener('resize', updateHeroImage);
+    
+
+    const container = document.querySelector('.sixth-left-container');
+        document.querySelector('.slider').addEventListener('input', (e) => {
+          container.style.setProperty('--position', `${e.target.value}%`);
+    })
 </script>
 
 
