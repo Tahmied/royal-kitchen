@@ -256,17 +256,9 @@
                         <div class="sixth-left-container">
                                 <img src="images/section-six/experience tag image.png" alt="" class="experience-tag">
                           <div class="sixth-left-image-container">
-                            <img
-                              class="image-before slider-image"
-                             src="images/section-six/before image.png"
-                              alt="color photo"
-                            />
-                            <img
-                              class="image-after slider-image"
-                              src="images/section-six/after image.png"
-                              alt="black and white"
-                            />
-                          </div>
+  <img class="slider-image image-after" src="images/section-six/after image.png" alt="after" />
+  <img class="slider-image image-before" src="images/section-six/before image.jpeg" alt="before" />
+</div>
                           <input
                             type="range"
                             min="0"
@@ -390,10 +382,13 @@
     window.addEventListener('resize', updateHeroImage);
     
 
+    const slider = document.querySelector('.slider');
     const container = document.querySelector('.sixth-left-container');
-        document.querySelector('.slider').addEventListener('input', (e) => {
-          container.style.setProperty('--position', `${e.target.value}%`);
-    })
+
+    slider.addEventListener('input', (e) => {
+      const position = `${e.target.value}%`;
+      container.style.setProperty('--position', position);
+    });
 </script>
 
 
