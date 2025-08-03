@@ -1966,7 +1966,7 @@ footer {
 .footer-heading {
     font-family: 'Urbanist';
     font-style: normal;
-    font-weight: 300;
+    font-weight: 500;
     font-size: 60px;
     text-align: center;
     letter-spacing: -0.01em;
@@ -1982,7 +1982,6 @@ footer {
 .footer-description {
     font-family: 'Urbanist';
     font-style: normal;
-    font-weight: 500;
     font-size: 20px;
     leading-trim: both;
     text-edge: cap;
@@ -2057,4 +2056,111 @@ footer {
 
 .footer-highlight {
     font-weight: bold;
+}
+
+@media (max-width:1200px) {
+    .footer-container {
+        width: 85%;
+    }
+
+    .footer-heading {
+        font-size: 50px;
+        margin: 1rem auto
+    }
+
+    .footer-description {
+        width: 80%;
+    }
+
+}
+
+@media (max-width:1024px) {
+    .footer-heading {
+        font-size: 40px;
+    }
+
+    .footer-left-arrow , .footer-right-arrow {
+        max-width: 150px;
+    }
+
+}
+
+@media (max-width:768px) {
+    .footer-heading {
+        font-size: 30px;
+    }
+
+    .footer-description {
+        font-size: 18px;
+    }
+
+    .footer-cta-btn {
+        width: 300px;
+        margin-top: 2rem;
+    }
+
+    .footer-cta-btn p {
+        right: 25px;
+        font-size: 14px;
+    }
+
+    .footer-left-arrow , .footer-right-arrow {
+        max-width: 100px;
+    }
+
+    .footer-last-description {
+        font-size: 15px;
+    }
+
+    .footer-center {
+        min-width: 100px;
+    }
+
+}
+
+@media (max-width:375px) {
+    .footer-cta-btn {
+        width: 230px;
+        margin-top: 2rem;
+    }
+
+    .footer-cta-btn p {
+        right: 16px;
+        font-size: 11px;
+    }
+
+    .footer-left-arrow , .footer-right-arrow {
+        max-width: 50px;
+    }
+
+    .footer-last-description {
+        font-size: 15px;
+    }
+
+    .footer-center {
+        min-width: 100px;
+    }
+
+    .footer-cta-btn img {
+        height: 40px;
+        width: 40px;
+    }
+
+    .eu-icon {
+        width: 50px;
+        height: auto;
+    }   
+
+    .footer-end {
+        gap: 2rem;
+    }
+
+    .footer-center {
+        gap: 10px;
+    }
+
+    .footer-container {
+        padding: 40px 0 40px 0;
+    }
+
 }
