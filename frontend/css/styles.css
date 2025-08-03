@@ -1743,7 +1743,7 @@ nav {
 .sixth-heading {
     font-family: 'Urbanist';
     font-style: normal;
-    font-weight: 300;
+    font-weight: 500;
     font-size: 60px;
     text-edge: cap;
     text-transform: capitalize;
@@ -1753,7 +1753,7 @@ nav {
 .sixth-description {
     font-family: 'Urbanist';
     font-style: normal;
-    font-weight: 500;
+    font-weight: 300;
     font-size: 23px;
     leading-trim: both;
     text-edge: cap;
@@ -1902,6 +1902,40 @@ nav {
     height: 150px;
     width:  150px;
 }
+
+@media (max-width:1320px) {
+    .sixth-left-image-container {
+        width: 680px;
+        height: 430px;
+    }
+
+    .sixth-heading {
+        font-size: 50px;
+    }
+
+    .sixth-description {
+        font-size: 20px;
+    }
+
+    .sixth-container {
+        gap: 1rem;
+        width: 90%;
+    }
+
+    .sixth-left img {
+        max-width: 680px;
+    }
+
+    .sixth-left-main {
+        max-width: 680px;
+    }
+
+    .sixth-left {
+        width: 680px;
+    }
+
+}
+
 
 /* footer */
 
