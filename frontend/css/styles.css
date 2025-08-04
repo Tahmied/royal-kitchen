@@ -16,7 +16,7 @@ body {
 /* hero section */
 
 .first-section {
-    background-image: url('/images/hero/bg.png');
+    background-image: url('../images/hero/bg.png');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -129,7 +129,7 @@ nav {
     background: #9FADBE;
     border-radius: 900px;
     position: relative;
-    background-image: url('/frontend/images/hero/button-bg.svg');
+    background-image: url('../images/hero/button-bg.svg');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -513,7 +513,7 @@ nav {
     background: #9FADBE;
     border-radius: 900px;
     position: relative;
-    background-image: url('/frontend/images/hero/cta-btn-bg.svg');
+    background-image: url('../images/hero/cta-btn-bg.svg');
     border: none;
     outline: none;
     cursor: pointer;
@@ -928,7 +928,7 @@ nav {
     letter-spacing: -0.01em;
     text-transform: uppercase;
     color: #ffffff79;
-    background-image: url('/frontend/images/section-four/fourth-video-thumbnail.png');
+    background-image: url('../images/section-four/fourth-video-thumbnail.png');
     background-size: cover;
     background-position: center;
     -webkit-background-clip: text;
@@ -1475,7 +1475,7 @@ nav {
 .fifth-feedback {
     background: #0B141F;
     border-radius: 18px;
-    background-image: url('/frontend/images/section-five/feedback-box-bgg.png');
+    background-image: url('../images/section-five/feedback-box-bgg.png');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -1770,7 +1770,7 @@ nav {
     background: #9FADBE;
     border-radius: 900px;
     position: relative;
-    background-image: url('/frontend/images/hero/cta-btn-bg.svg');
+    background-image: url('../images/hero/cta-btn-bg.svg');
     border: none;
     outline: none;
     cursor: pointer;
