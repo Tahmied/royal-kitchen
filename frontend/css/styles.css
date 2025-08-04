@@ -2052,6 +2052,86 @@ nav {
 
 }
 
+@media (max-width:768px) {
+    .sixth-container {
+        flex-direction: column;
+    }
+
+    .sixth-right {
+        justify-content: center;
+        align-items: center;
+    }
+
+    .sixth-description {
+        text-align: center;
+    }
+
+    .experience-tag {
+        width: 100px;
+        top: -16px;
+    }
+
+}
+
+@media (max-width:600px) {
+    .sixth-title {
+        font-size: 40px;
+    }
+
+    .sixth-heading {
+        text-align: center;
+    }
+
+}
+
+@media (max-width:425px) {
+    .sixth-left-image-container {
+        width: 350px;
+        height: 230px;
+    }
+
+     .sixth-left img {
+        max-width: 350px;
+    }
+
+    .sixth-left-main {
+        max-width: 350px;
+    }
+
+    .sixth-left {
+        width: 350px;
+    }
+
+     .experience-tag {
+        width: 80px;
+        top: -16px;
+    }
+
+} 
+
+@media(max-width:375px) {
+    .sixth-left-image-container {
+        width: 300px;
+        height: 180px;
+    }
+
+     .sixth-left img {
+        max-width: 300px;
+    }
+
+    .sixth-left-main {
+        max-width: 300px;
+    }
+
+    .sixth-left {
+        width: 300px;
+    }
+
+    .sixth-title {
+        font-size: 30px;
+    }
+}
+
 
 /* footer */
 
