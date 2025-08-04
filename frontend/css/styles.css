@@ -2147,7 +2147,7 @@ footer {
     justify-content: center;
     align-items: center;
     gap: 1rem;
-    background-image: url('/images/footer/bg.svg');
+    background-image: url('../images/footer/bg.svg');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -2195,7 +2195,7 @@ footer {
     background: #9FADBE;
     border-radius: 900px;
     position: relative;
-    background-image: url('/frontend/images/hero/footer-cta-btn-bg.svg');
+    background-image: url('../images/hero/footer-cta-btn-bg.svg');
     border: none;
     outline: none;
     cursor: pointer;
