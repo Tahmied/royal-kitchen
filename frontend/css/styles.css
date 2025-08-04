@@ -1761,7 +1761,7 @@ nav {
     color: #FFFFFF;
 }
 
-.cta-btn {
+.sixth-cta-btn {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1780,7 +1780,7 @@ nav {
     box-shadow 0.25s ease;
 }
 
-.cta-btn p {
+.sixth-cta-btn p {
     position: relative;
     right: 20px;
     font-weight: 600;
@@ -1792,7 +1792,7 @@ nav {
     color: #0B141F;
 }
 
-.cta-btn img {
+.sixth-cta-btn img {
     position: absolute;
     right: 5px;
     width: 59px;
@@ -1801,7 +1801,7 @@ nav {
     border-radius: 900px;
 }
 
-.cta-btn:hover {
+.sixth-cta-btn:hover {
   transform: scale(1.05);
   filter: brightness(1.15);
   box-shadow: 0 0 25px rgba(222, 235, 250, 0.7);
@@ -1945,6 +1945,18 @@ nav {
         height: 430px;
     }
 
+     .sixth-left img {
+        max-width: 680px;
+    }
+
+    .sixth-left-main {
+        max-width: 680px;
+    }
+
+    .sixth-left {
+        width: 680px;
+    }
+
     .sixth-heading {
         font-size: 50px;
     }
@@ -1958,16 +1970,84 @@ nav {
         width: 90%;
     }
 
-    .sixth-left img {
-        max-width: 680px;
+    .slider-button img {
+        width: 80px;
+        height: 80px;
+    }
+
+}
+
+@media (max-width:1200px) {
+    .sixth-left-image-container {
+        width: 600px;
+        height: 360px;
     }
 
     .sixth-left-main {
-        max-width: 680px;
+        max-width: 600px;
     }
 
     .sixth-left {
-        width: 680px;
+        width: 600px;
+    }
+
+    .sixth-heading {
+        font-size: 40px;
+    }
+
+}
+
+@media (max-width:1024px) {
+    .sixth-left-image-container {
+        width: 400px;
+        height: 270px;
+    }
+
+     .sixth-left img {
+        max-width: 400px;
+    }
+
+    .sixth-left-main {
+        max-width: 400px;
+    }
+
+    .sixth-left {
+        width: 400px;
+    }
+
+    .sixth-title {
+        font-size: 70px;
+    }
+
+    .sixth-heading {
+        font-size: 30px;
+    }
+
+    .sixth-description {
+        font-size: 18px;
+    }
+
+    .experience-tag {
+        width: 150px;
+    }
+
+    .sixth-cta-btn {
+        width: 200px;
+        height: 60px;
+    }
+
+    .sixth-cta-btn p {
+        /* font-size: 14px; */
+    }
+
+    .sixth-cta-btn img {
+        height: 40px;
+        width: 40px;
+        right: 10px;
+    }
+
+    .sixth-cta-btn p {
+        right: 15px;
     }
 
 }
