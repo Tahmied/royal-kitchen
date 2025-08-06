@@ -822,9 +822,282 @@ nav {
 }
 
 
-/* section three */
 
-/* need to design again */
+/* third section */
+
+.puls-biznesu-text {
+  font-family: 'ABeeZee';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 200px;
+  leading-trim: both;
+  text-edge: cap;
+  text-align: center;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  background: linear-gradient(180deg, #FFFFFF -23.18%, #9FADBE 105.3%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+}
+
+.third-container {
+  max-width: 1300px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+  position: relative;
+  top: -110px;
+}
+
+.third-text-left {
+    font-family: 'Urbanist';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 70px;
+    leading-trim: both;
+    text-edge: cap;
+    letter-spacing: -0.04em;
+    text-transform: capitalize;
+    color: #FFFFFF;
+}
+
+.third-description {
+    font-family: 'Urbanist';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 22px;
+    leading-trim: both;
+    text-edge: cap;
+    letter-spacing: 0.03em;
+    text-transform: lowercase;
+    color: #FFFFFF;
+}
+
+.third-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+    gap: 1rem;
+    max-width: 400px;
+    position: relative;
+    z-index: 20;
+}
+
+.third-btn {
+    border: none;
+    background-color: #0B141F;
+    display: flex;
+    border-radius: 900px;
+    align-items: center;
+    width: 250px;
+    height: 72px;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.third-btn > p {
+    font-family: 'Urbanist';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    leading-trim: both;
+    text-edge: cap;
+    text-align: center;
+    text-transform: uppercase;
+    color: #9FADBE;
+}
+
+.third-btn img {
+    position: relative;
+    right: -10px;
+}
+
+.third-center {
+  position: relative;
+  z-index: 1;
+}
+
+.third-center img {
+  max-width: 627px;
+  width: 100%;
+}
+
+.shadow-overlay{
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+}
+
+.third-right img {
+  max-width: 376px;
+  position: relative;
+  left: -100px;
+}
+
+@media (max-width:1320px) {
+  .puls-biznesu-text {
+    font-size: 180px;
+  }
+
+  .third-container {
+    top: -80px;
+    width: 90%;
+  }
+
+  .shadow-overlay {
+    max-width: 700px;
+  }
+
+}
+
+@media (max-width:1200px) {
+  .puls-biznesu-text {
+    font-size: 150px;
+  }
+
+  .third-container {
+    top: -60px;
+  }
+
+  .third-text-left {
+    font-size: 50px;
+  }
+
+  .shadow-overlay {
+    max-width: 550px;
+  }
+
+  .third-btn {
+    width: 200px;
+    height: 62px;
+  }
+  
+  .third-btn img {
+    right: -4px;
+    width: 50px;
+    height: 50px;
+  }
+
+  .third-btn > p {
+    font-weight: 400;
+    font-size: 14px;
+  }
+
+  .third-right img {
+    position: relative;
+    left: -80px;
+    max-width: 276px;
+  }
+
+}
+
+@media (max-width:1024px) {
+  .puls-biznesu-text {
+    font-size: 130px;
+  }
+
+  .shadow-overlay {
+    max-width: 500px;
+  }
+
+  .third-description {
+    font-size: 18px;
+  }
+
+}
+
+@media (max-width:900px) {
+  .puls-biznesu-text {
+    font-size: 110px;
+  }
+
+  .third-container {
+    flex-direction: column;
+  }
+
+  .third-left {
+    order: 2;
+  }
+
+  .third-right {
+    display: none;
+  }
+
+  .shadow-overlay {
+    max-width:900px;
+    bottom: 200px;
+  }
+
+}
+
+@media (max-width:768px) {
+  .puls-biznesu-text {
+    font-size: 60px;
+  }
+
+  .third-center {
+    width: 70%;
+  }
+
+  .third-text-left {
+    text-align: center;
+  }
+
+  .third-description {
+    text-align: center;
+  }
+
+  .third-btn {
+    margin: 0 auto;
+  }
+
+  .shadow-overlay {
+    max-width: none;
+    width: 100%;
+    bottom: 237px;
+  }
+
+  .third-btn {
+    width: 250px;
+    height: 72px;
+  }
+
+  .third-btn > p {
+      font-weight: 600;
+      font-size: 16px;
+  }
+
+  .third-btn img {
+      position: relative;
+      right: -10px;
+  }
+
+  .third-container {
+    top: -35px;
+  }
+
+
+
+}
+
+@media (max-width:400px) {
+  .puls-biznesu-text {
+    font-size: 50px;
+  }
+}
+
+@media (max-width:325px) {
+  .puls-biznesu-text {
+    font-size: 45px;
+  }
+}
 
 /* section four */
 
