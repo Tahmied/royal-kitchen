@@ -356,32 +356,6 @@
 
             observer1.observe(section);
         }
-
-        // Second section observer
-        const sectionTwo = document.querySelector('.second-section');
-        let exitTimeout = null;
-
-        if (sectionTwo) {
-            const observer2 = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        clearTimeout(exitTimeout); 
-                        sectionTwo.classList.remove('exiting-two');
-                        sectionTwo.classList.add('active-two');
-                    } else {
-                        sectionTwo.classList.remove('active-two');
-                        sectionTwo.classList.add('exiting-two');
-                        exitTimeout = setTimeout(() => {
-                            sectionTwo.classList.remove('exiting-two');
-                        }, 1200);
-                    }
-                });
-            }, {
-                threshold: 0.4 
-            });
-
-            observer2.observe(sectionTwo);
-        }
     });
 
 
