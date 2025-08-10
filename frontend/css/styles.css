@@ -1420,6 +1420,97 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
     /* max-width: 800px; */
 }
 
+.project-details-page-indicator-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    height: 90px;
+    width: 90px;
+}
+
+.project-details-page-indicator-btn:hover {
+    scale: 1.05;
+    filter: brightness(1.15);
+}
+
+.project-details-page-indicator-btn{
+  position:absolute; top:10px; right:10px;
+  border-radius:50%;
+  display:inline-grid; place-items:center;
+  z-index:9999; overflow: visible; cursor:pointer;
+  animation: pdp-bounce 2.4s infinite cubic-bezier(.25,.8,.25,1);
+}
+
+.project-details-page-indicator-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    height: 90px;
+    width: 90px;
+    border-radius: 50%;
+    display: inline-grid;
+    place-items: center;
+    z-index: 9999;
+    overflow: visible;
+    animation: pdp-bounce 2.4s infinite cubic-bezier(.25,.8,.25,1);
+}
+
+/* Add tooltip */
+.project-details-page-indicator-btn::after {
+    content: "Click to see full project details";
+    position: absolute;
+    right: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(11, 20, 31, 0.9);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    margin-right: 10px;
+}
+
+.project-details-page-indicator-btn:hover::after {
+    opacity: 1;
+}
+
+.project-details-page-indicator-btn:hover::before {
+    opacity: 1;
+}
+
+@keyframes pdp-bounce{
+  0%{ transform: translateY(0); }
+  20%{ transform: translateY(-6px); }
+  40%{ transform: translateY(0); }
+  100%{ transform: translateY(0); }
+}
+
+.project-details-page-indicator-btn .cta-btn-arrow{
+  width:58%; height:58%; display:block; transform-origin:center;
+  animation: pdp-arrow-spin 2.4s infinite;
+  pointer-events:none;
+}
+
+@keyframes pdp-arrow-spin{
+  0%{ transform: rotate(0deg); }
+  20%{ transform: rotate(18deg); }
+  40%{ transform: rotate(0deg); }
+  100%{ transform: rotate(0deg); }
+}
+
+
 .fourth-right {
     display: grid;
     grid-template-columns: 1fr 1fr;
