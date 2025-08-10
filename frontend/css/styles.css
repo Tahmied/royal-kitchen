@@ -196,7 +196,7 @@ nav {
     .hero-cta-btn {
         width: 195px;
         height: 60px;
-        left: 50%;
+        left: 40.5%;
         transform: translateX(-50%);
     }
 
@@ -262,6 +262,7 @@ nav {
      .hero-cta-btn {
         width: 140px;
         height: 40px;
+        left: 40%;
     }
 
     .hero-cta-btn img {
@@ -296,6 +297,7 @@ nav {
      .hero-cta-btn {
         width: 111px;
         height: 32px;
+        left: 39%;
     }
 
     .hero-cta-btn img {
@@ -323,6 +325,9 @@ nav {
 @media (max-width:650px) {
      .left-nav , .right-nav {
         display: none;
+    }
+    nav {
+        justify-content:center;
     }
 }
 
@@ -354,7 +359,7 @@ nav {
     .hero-cta-btn {
         top: -7px;
         scale: 0.9;
-        left: 49%;
+        left: 38.5%;
     }
 }
 
@@ -362,55 +367,10 @@ nav {
     .hero-cta-btn {
         top: -9px;
         scale: 0.8;
-        left: 47.3%;
+        left: 36%;
     }
 }
 
-
-.hero-text,
-.hero-description,
-.hero-image {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: 
-    opacity 0.6s ease-out, 
-    transform 0.6s ease-out;
-}
-
-
-.hero-text       { transition-delay: 0s;   }
-.hero-description{ transition-delay: 0.2s; }
-.hero-cta-btn    { transition-delay: 0.4s; }
-.hero-image      { transition-delay: 0.6s; }
-
-
-.first-section.active .hero-text,
-.first-section.active .hero-description,
-.first-section.active,
-.first-section.active .hero-image {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.first-section.active{
-  animation: ctaPulse 2s ease-in-out infinite 1s;
-}
-
-.hero-cta-btn {
-  opacity: 0;
-  margin-top: 20px;             
-  transition: 
-    opacity 0.6s ease-out, 
-    margin-top 0.6s ease-out;
-}
-
-.hero-cta-btn { transition-delay: 0.4s; }
-
-.first-section.active .hero-cta-btn {
-  opacity: 1;
-  margin-top: 0;                  
-  animation: ctaPulse 2s ease-in-out infinite 1s;
-}
 @keyframes softGlowPulse {
   0% {
     box-shadow: 0 0 0px rgba(222, 235, 250, 0.2);
@@ -423,34 +383,158 @@ nav {
   }
 }
 
-.first-section.active .hero-cta-btn {
+.hero-cta-btn {
   animation: softGlowPulse 2s ease-in-out infinite;
+  transition:
+    transform 0.25s ease,
+    filter 0.25s ease;
 }
 
 .hero-cta-btn:hover {
   transform: scale(1.05);
   filter: brightness(1.15);
-  box-shadow: 0 0 25px rgba(222, 235, 250, 0.7);
-  transition:
-    transform 0.25s ease,
-    filter 0.25s ease,
-    box-shadow 0.25s ease;
 }
 
+/* initial hidden states */
+nav .nav-link,
+nav .nav-img,
+.hero-text,
+.hero-description,
+.hero-image,
+.hero-cta-btn {
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+/* ------ NAVBAR: staggered slide-down fade-in ------ */
+/* keyframe for small slide & fade */
+@keyframes navFadeSlide {
+  0% {
+    transform: translateY(-12px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* apply animation and staggered delays */
+/* left-nav links */
+.left-nav .nav-link:nth-child(1) { animation: navFadeSlide 0.55s cubic-bezier(.22,.9,.35,1) forwards; animation-delay: 0.10s; }
+.left-nav .nav-link:nth-child(2) { animation: navFadeSlide 0.55s cubic-bezier(.22,.9,.35,1) forwards; animation-delay: 0.25s; }
+
+/* middle logo (nav image) */
+.mid-nav .nav-img { animation: navFadeSlide 0.55s cubic-bezier(.22,.9,.35,1) forwards; animation-delay: 0.40s; }
+
+/* right-nav links */
+.right-nav .nav-link:nth-child(1) { animation: navFadeSlide 0.55s cubic-bezier(.22,.9,.35,1) forwards; animation-delay: 0.55s; }
+.right-nav .nav-link:nth-child(2) { animation: navFadeSlide 0.55s cubic-bezier(.22,.9,.35,1) forwards; animation-delay: 0.70s; }
+
+/* small safety so if there are more nav items they all fade after last */
+nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-bezier(.22,.9,.35,1) forwards; animation-delay: 0.85s; }
+
+/* ------ HERO TEXT: slide-up fade-in (then description) ------ */
+@keyframes slideUpFade {
+  0% {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  60% {
+    transform: translateY(-6px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* start hero-text after navbar finish */
+.hero-text {
+  transform: translateY(30px);
+  opacity: 0;
+  animation: slideUpFade 0.85s cubic-bezier(.2,.9,.25,1) forwards;
+  animation-delay: 0.95s; /* adjust if you want it earlier/later */
+}
+
+/* hero description — slightly after hero-text */
+.hero-description {
+  transform: translateY(20px);
+  opacity: 0;
+  animation: slideUpFade 0.72s cubic-bezier(.2,.9,.25,1) forwards;
+  animation-delay: 1.85s; /* delayed so it runs after hero-text */
+}
+
+/* ------ POPUP for hero-image and CTA button ------ */
+@keyframes popIn {
+  0% {
+    transform: scale(0.92) translateY(8px);
+    opacity: 0;
+    filter: blur(1px);
+  }
+  60% {
+    transform: scale(1.04) translateY(-4px);
+    opacity: 1;
+    filter: blur(0);
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+    filter: none;
+  }
+}
+
+/* animate both the image and the CTA — slight stagger between them */
+.hero-image {
+  transform-origin: center;
+  opacity: 0;
+  animation: popIn 0.72s cubic-bezier(.2,.9,.25,1) forwards;
+  animation-delay: 2.45s;
+}
 
 .hero-cta-btn {
-  transition:
-    transform 0.25s ease,
-    filter 0.25s ease,
-    box-shadow 0.25s ease;
+  transform-origin: center;
+  opacity: 0;
+  animation: popIn 0.68s cubic-bezier(.2,.9,.25,1) forwards;
+  animation-delay: 2.65s; /* a tiny offset so image appears then CTA */
 }
 
-.hero-cta-btn:hover {
-  transform: scale(1.05);
-  filter: brightness(1.15);
-  box-shadow: 0 0 25px rgba(222, 235, 250, 0.7);
+/* keep pointer events enabled after animation (in case they were affected) */
+.hero-image,
+.hero-cta-btn {
+  pointer-events: auto;
 }
 
+/* --------- ensure animation happens only once (already done via forwards/1) ---------
+   But to be extra-safe: do not re-run animations on focus or hover
+*/
+.nav-link:focus,
+.nav-link:hover,
+.nav-img:focus,
+.nav-img:hover,
+.hero-cta-btn:hover,
+.hero-cta-btn:focus,
+.hero-text:focus,
+.hero-description:focus {
+  /* no additional animation on hover/focus */
+  animation-play-state: paused;
+}
+
+/* --------- Accessibility: respect prefers-reduced-motion --------- */
+@media (prefers-reduced-motion: reduce) {
+  nav .nav-link,
+  nav .nav-img,
+  .hero-text,
+  .hero-description,
+  .hero-image,
+  .hero-cta-btn {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
 
 /* section two */
 
@@ -832,7 +916,7 @@ nav {
 
 .third-btn img {
     position: relative;
-    right: -10px;
+    right: -20px;
 }
 
 .third-center {
@@ -951,6 +1035,7 @@ nav {
   .shadow-overlay {
     max-width:900px;
     bottom: 200px;
+    width: 100%;
   }
 
 }
@@ -2551,3 +2636,6 @@ footer {
     }
 
 }
+
+
+
