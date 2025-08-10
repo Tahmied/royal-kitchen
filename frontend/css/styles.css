@@ -383,17 +383,11 @@ nav {
   }
 }
 
-.hero-cta-btn {
-  animation: softGlowPulse 2s ease-in-out infinite;
-  transition:
-    transform 0.25s ease,
-    filter 0.25s ease;
+.hero-cta-btn:hover {
+  transform: scale(1.05) !important;
+  filter: brightness(1.15) !important;
 }
 
-.hero-cta-btn:hover {
-  transform: scale(1.05);
-  filter: brightness(1.15);
-}
 
 /* animations for hero section */
 
@@ -498,7 +492,6 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
 .nav-link:hover,
 .nav-img:focus,
 .nav-img:hover,
-.hero-cta-btn:hover,
 .hero-cta-btn:focus,
 .hero-text:focus,
 .hero-description:focus {
@@ -518,6 +511,42 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
     transform: none !important;
   }
 }
+
+.hero-cta-btn {
+  position: absolute; 
+  z-index: 60;        
+  pointer-events: auto;
+  animation:
+    popIn 0.68s cubic-bezier(.2,.9,.25,1) forwards 2.65s,
+    softGlowPulse 2s ease-in-out infinite 3.45s;
+  transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+.hero-cta-btn img {
+  z-index: 61;
+}
+
+.hero-cta-btn:focus {
+  transform: scale(1.05);
+  filter: brightness(1.15);
+  animation-play-state: running !important;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-cta-btn {
+    animation-play-state: running;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-cta-btn {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+
 
 /* section two */
 
@@ -1226,6 +1255,118 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
     font-size: 45px;
   }
 }
+
+/* animations for section there */
+.third-section .puls-biznesu-text,
+.third-section .third-text-left,
+.third-section .third-description,
+.third-section .third-btn,
+.third-section .third-center-img,
+.third-section .third-right img {
+  opacity: 0;
+  will-change: transform, opacity, filter;
+  --enter-delay: 0.35s;
+  --exit-delay: 0s;
+}
+
+.third-section .puls-biznesu-text {
+  transform: translateY(36px) scale(0.995);
+  --enter-delay: 0.06s;
+  transition: transform 0.90s cubic-bezier(.2,.9,.25,1), opacity 0.60s ease;
+  pointer-events: none;
+  user-select: none;
+}
+
+.third-section .third-text-left {
+  transform: translateX(-34px);
+  --enter-delay: 0.18s;
+  transition: transform 0.86s cubic-bezier(.2,.9,.25,1), opacity 0.56s ease;
+}
+
+.third-section .third-description {
+  transform: translateX(-20px);
+  --enter-delay: 0.36s;
+  transition: transform 0.74s cubic-bezier(.2,.9,.25,1), opacity 0.50s ease;
+}
+
+.third-section .third-btn {
+  transform: translateY(18px) scale(0.985);
+  --enter-delay: 0.58s;
+  transition: transform 0.68s cubic-bezier(.22,.9,.32,1), opacity 0.48s ease, box-shadow 0.30s ease;
+}
+
+.third-section .third-center-img {
+  transform: translateY(22px) scale(0.96) rotate(-1.5deg);
+  --enter-delay: 0.72s;
+  transition: transform 0.86s cubic-bezier(.18,.95,.28,1), opacity 0.60s ease, filter 0.50s ease;
+}
+
+.third-section .third-right img {
+  transform: translateX(30px) scale(0.98);
+  --enter-delay: 0.88s;
+  transition: transform 0.82s cubic-bezier(.2,.9,.25,1), opacity 0.58s ease;
+}
+
+.third-section.in-view .puls-biznesu-text,
+.third-section.in-view .third-text-left,
+.third-section.in-view .third-description,
+.third-section.in-view .third-btn,
+.third-section.in-view .third-center-img,
+.third-section.in-view .third-right img {
+  opacity: 1;
+  transform: none;
+}
+
+.third-section.in-view .puls-biznesu-text {
+  transition-delay: var(--enter-delay), var(--enter-delay);
+}
+.third-section.in-view .third-text-left {
+  transition-delay: var(--enter-delay), var(--enter-delay);
+}
+.third-section.in-view .third-description {
+  transition-delay: var(--enter-delay), var(--enter-delay);
+}
+.third-section.in-view .third-btn {
+  transition-delay: var(--enter-delay), var(--enter-delay), var(--enter-delay);
+}
+.third-section.in-view .third-center-img {
+  transition-delay: var(--enter-delay), var(--enter-delay), var(--enter-delay);
+}
+.third-section.in-view .third-right img {
+  transition-delay: var(--enter-delay), var(--enter-delay);
+}
+
+.third-section .third-btn {
+  transition: transform 0.18s ease, filter 0.18s ease, box-shadow 0.18s ease;
+}
+.third-section.in-view .third-btn:hover,
+.third-section.in-view .third-btn:focus {
+  transform: translateY(-4px) scale(1.01);
+  filter: brightness(1.06);
+  box-shadow: 0 8px 30px rgba(11,20,31,0.18);
+}
+
+.third-section .third-btn,
+.third-section .third-center-img,
+.third-section .third-right img {
+  pointer-events: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .third-section .puls-biznesu-text,
+  .third-section .third-text-left,
+  .third-section .third-description,
+  .third-section .third-btn,
+  .third-section .third-center-img,
+  .third-section .third-right img {
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}
+
+
 
 /* section four */
 
