@@ -1435,6 +1435,7 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
 .project-details-page-indicator-btn:hover {
     scale: 1.05;
     filter: brightness(1.15);
+    animation-play-state: paused;
 }
 
 .project-details-page-indicator-btn{
@@ -1449,45 +1450,40 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
     position: absolute;
     top: 10px;
     right: 10px;
-    background-color: transparent;
+    background: rgba(255, 255, 255, 0.9);
     border: none;
     outline: none;
     cursor: pointer;
-    height: 90px;
-    width: 90px;
-    border-radius: 50%;
-    display: inline-grid;
-    place-items: center;
+    height: auto;
+    width: auto;
+    padding: 12px 20px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
     z-index: 9999;
-    overflow: visible;
     animation: pdp-bounce 2.4s infinite cubic-bezier(.25,.8,.25,1);
 }
 
-/* Add tooltip */
-.project-details-page-indicator-btn::after {
-    content: "Click to see full project details";
-    position: absolute;
-    right: 100%;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(11, 20, 31, 0.9);
-    color: white;
-    padding: 8px 12px;
-    border-radius: 6px;
+.project-button-text {
     font-size: 14px;
-    white-space: nowrap;
-    opacity: 0;
+    font-weight: 500;
+    color: #0B141F;
+    position: relative;
+    right: -5px;
+    font-family: "Urbanist", sans-serif;
+}
+
+ .cta-btn-arrow {
+    animation: pdp-arrow-spin 2.4s infinite;
     pointer-events: none;
-    transition: opacity 0.3s ease;
-    margin-right: 10px;
 }
 
-.project-details-page-indicator-btn:hover::after {
-    opacity: 1;
-}
-
-.project-details-page-indicator-btn:hover::before {
-    opacity: 1;
+.project-details-page-indicator-btn>img{
+    height: 40px;
+    width: 40px;
+    position: relative;
+    left: 10px;
 }
 
 @keyframes pdp-bounce{
@@ -1497,8 +1493,11 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
   100%{ transform: translateY(0); }
 }
 
-.project-details-page-indicator-btn .cta-btn-arrow{
-  width:58%; height:58%; display:block; transform-origin:center;
+.project-details-page-indicator-btn {
+  display:flex;
+  justify-content: center;
+  align-items: center; 
+  transform-origin:center;
   animation: pdp-arrow-spin 2.4s infinite;
   pointer-events:none;
 }
@@ -1763,6 +1762,13 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
 
 }
 
+@media (min-width: 768px) and (max-width: 1024px) {
+    .project-details-page-indicator-btn {
+        top: 20px;
+        right: 80px;
+    }
+}
+
 @media (max-width:768px) {
     .fourth-heading {
         font-size: 60px;
@@ -1801,6 +1807,12 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
         
 }
 
+@media (min-width:600px) and (max-width:768px) {
+    #project-cta-btn-arrow {
+        width: min-content;
+    }
+}
+
 @media (max-width:600px) {
     .fourth-right img {
         width: 170px;
@@ -1831,6 +1843,10 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
         font-size: 50px;
     }
 
+    .project-details-page-indicator-btn>img {
+        height: 30px !important;
+        width: 30px !important;
+    }    
 }
 
 @media (max-width:425px) {
