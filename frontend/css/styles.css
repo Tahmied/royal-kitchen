@@ -395,7 +395,8 @@ nav {
   filter: brightness(1.15);
 }
 
-/* initial hidden states */
+/* animations for hero section */
+
 nav .nav-link,
 nav .nav-img,
 .hero-text,
@@ -406,8 +407,7 @@ nav .nav-img,
   will-change: transform, opacity;
 }
 
-/* ------ NAVBAR: staggered slide-down fade-in ------ */
-/* keyframe for small slide & fade */
+
 @keyframes navFadeSlide {
   0% {
     transform: translateY(-12px);
@@ -419,22 +419,16 @@ nav .nav-img,
   }
 }
 
-/* apply animation and staggered delays */
-/* left-nav links */
 .left-nav .nav-link:nth-child(1) { animation: navFadeSlide 0.55s cubic-bezier(.22,.9,.35,1) forwards; animation-delay: 0.10s; }
 .left-nav .nav-link:nth-child(2) { animation: navFadeSlide 0.55s cubic-bezier(.22,.9,.35,1) forwards; animation-delay: 0.25s; }
 
-/* middle logo (nav image) */
 .mid-nav .nav-img { animation: navFadeSlide 0.55s cubic-bezier(.22,.9,.35,1) forwards; animation-delay: 0.40s; }
 
-/* right-nav links */
 .right-nav .nav-link:nth-child(1) { animation: navFadeSlide 0.55s cubic-bezier(.22,.9,.35,1) forwards; animation-delay: 0.55s; }
 .right-nav .nav-link:nth-child(2) { animation: navFadeSlide 0.55s cubic-bezier(.22,.9,.35,1) forwards; animation-delay: 0.70s; }
 
-/* small safety so if there are more nav items they all fade after last */
 nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-bezier(.22,.9,.35,1) forwards; animation-delay: 0.85s; }
 
-/* ------ HERO TEXT: slide-up fade-in (then description) ------ */
 @keyframes slideUpFade {
   0% {
     transform: translateY(30px);
@@ -450,23 +444,20 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
   }
 }
 
-/* start hero-text after navbar finish */
 .hero-text {
   transform: translateY(30px);
   opacity: 0;
   animation: slideUpFade 0.85s cubic-bezier(.2,.9,.25,1) forwards;
-  animation-delay: 0.95s; /* adjust if you want it earlier/later */
+  animation-delay: 0.95s; 
 }
 
-/* hero description — slightly after hero-text */
 .hero-description {
   transform: translateY(20px);
   opacity: 0;
   animation: slideUpFade 0.72s cubic-bezier(.2,.9,.25,1) forwards;
-  animation-delay: 1.85s; /* delayed so it runs after hero-text */
+  animation-delay: 1.85s; 
 }
 
-/* ------ POPUP for hero-image and CTA button ------ */
 @keyframes popIn {
   0% {
     transform: scale(0.92) translateY(8px);
@@ -485,7 +476,6 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
   }
 }
 
-/* animate both the image and the CTA — slight stagger between them */
 .hero-image {
   transform-origin: center;
   opacity: 0;
@@ -497,18 +487,13 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
   transform-origin: center;
   opacity: 0;
   animation: popIn 0.68s cubic-bezier(.2,.9,.25,1) forwards;
-  animation-delay: 2.65s; /* a tiny offset so image appears then CTA */
+  animation-delay: 2.65s;
 }
-
-/* keep pointer events enabled after animation (in case they were affected) */
 .hero-image,
 .hero-cta-btn {
   pointer-events: auto;
 }
 
-/* --------- ensure animation happens only once (already done via forwards/1) ---------
-   But to be extra-safe: do not re-run animations on focus or hover
-*/
 .nav-link:focus,
 .nav-link:hover,
 .nav-img:focus,
@@ -517,11 +502,9 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
 .hero-cta-btn:focus,
 .hero-text:focus,
 .hero-description:focus {
-  /* no additional animation on hover/focus */
   animation-play-state: paused;
 }
 
-/* --------- Accessibility: respect prefers-reduced-motion --------- */
 @media (prefers-reduced-motion: reduce) {
   nav .nav-link,
   nav .nav-img,
@@ -821,6 +804,148 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
   transform: scale(1.05);
   filter: brightness(1.15);
   box-shadow: 0 0 25px rgba(222, 235, 250, 0.7);
+}
+
+/* animations for section two */
+
+.second-section .two-text,
+.second-section .two-description,
+.second-section .two-left .cta-btn,
+.second-section .two-right-img,
+.second-section .under-two-img {
+  opacity: 0;
+  will-change: transform, opacity, filter;
+ 
+  --enter-delay: 0.3s;
+  --exit-delay: 0s;
+}
+
+.second-section .two-text {
+  transform: translateX(-28px);
+  --enter-delay: 0.12s;
+  --exit-delay: 0s;
+}
+
+.second-section .two-description {
+  transform: translateX(-28px);
+  --enter-delay: 0.34s;
+  --exit-delay: 0s;
+}
+
+.second-section .two-left .cta-btn {
+  transform: translateY(18px) scale(0.98);
+  --enter-delay: 0.56s;
+  --exit-delay: 0s;
+}
+
+.second-section .two-right-img {
+  transform: translateX(28px) scale(0.98);
+  --enter-delay: 0.80s;
+  --exit-delay: 0s;
+}
+
+.second-section .under-two-img {
+  transform: translateY(28px) scale(0.985);
+  --enter-delay: 1.02s;
+  --exit-delay: 0s;
+}
+
+
+.second-section .two-text,
+.second-section .two-description {
+  transition-property: transform, opacity;
+  transition-duration: 0.80s, 0.56s;
+  transition-timing-function: cubic-bezier(.2,.9,.25,1), ease;
+  transition-delay: var(--exit-delay), var(--exit-delay);
+}
+
+.second-section .two-left .cta-btn {
+  transition-property: transform, opacity, box-shadow, filter;
+  transition-duration: 0.68s, 0.48s, 0.25s, 0.48s;
+  transition-timing-function: cubic-bezier(.22,.9,.32,1), ease, ease, ease;
+  transition-delay: var(--exit-delay), var(--exit-delay), var(--exit-delay), var(--exit-delay);
+}
+
+.second-section .two-right-img,
+.second-section .under-two-img {
+  transition-property: transform, opacity, filter;
+  transition-duration: 0.86s, 0.56s, 0.56s;
+  transition-timing-function: cubic-bezier(.2,.9,.25,1), ease, ease;
+  transition-delay: var(--exit-delay), var(--exit-delay), var(--exit-delay);
+}
+
+.second-section.in-view .two-text,
+.second-section.in-view .two-description,
+.second-section.in-view .two-left .cta-btn,
+.second-section.in-view .two-right-img,
+.second-section.in-view .under-two-img {
+  opacity: 1;
+  transform: none;
+}
+
+.second-section.in-view .two-text {
+  transition-delay: var(--enter-delay), var(--enter-delay);
+}
+.second-section.in-view .two-description {
+  transition-delay: var(--enter-delay), var(--enter-delay);
+}
+.second-section.in-view .two-left .cta-btn {
+  transition-delay: var(--enter-delay), var(--enter-delay), var(--enter-delay), var(--enter-delay);
+}
+.second-section.in-view .two-right-img,
+.second-section.in-view .under-two-img {
+  transition-delay: var(--enter-delay), var(--enter-delay), var(--enter-delay);
+}
+
+.second-section .two-left .cta-btn {
+
+  animation: none;
+}
+
+.second-section.in-view .two-left .cta-btn {
+  animation:
+
+    glowBtn 2s ease-in-out infinite 1.3s;
+}
+
+.second-section .two-left .cta-btn:focus {
+  outline: 2px solid rgba(160,184,212,0.25);
+  outline-offset: 3px;
+}
+
+.second-section .two-left .cta-btn,
+.second-section .two-right-img,
+.second-section .under-two-img {
+  pointer-events: auto;
+}
+
+@keyframes glowBtn {
+  0% {
+    box-shadow: 0 0 0 rgba(255,255,255,0);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(160,184,212,0.6);
+    transform: scale(1.02);
+  }
+  100% {
+    box-shadow: 0 0 0 rgba(255,255,255,0);
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .second-section .two-text,
+  .second-section .two-description,
+  .second-section .two-left .cta-btn,
+  .second-section .two-right-img,
+  .second-section .under-two-img {
+    transition: none !important;
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
 }
 
 

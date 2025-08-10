@@ -337,6 +337,52 @@
 
 
     <script src="./js/index.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const section = document.querySelector('.second-section');
+    if (!section) return;
+
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      section.classList.add('in-view');
+      return;
+    }
+
+    let removeTimer = null;
+    const REMOVE_DELAY = 120; 
+
+    const ioOptions = {
+      root: null,
+      rootMargin: '0px 0px -12% 0px', 
+      threshold: [0, 0.12, 0.25, 0.5]
+    };
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const isVisible = entry.intersectionRatio >= 0.12;
+
+        if (isVisible) {
+          if (removeTimer) {
+            clearTimeout(removeTimer);
+            removeTimer = null;
+          }
+          section.classList.add('in-view');
+        } else {
+          if (removeTimer) clearTimeout(removeTimer);
+          removeTimer = setTimeout(() => {
+            section.classList.remove('in-view');
+            removeTimer = null;
+          }, REMOVE_DELAY);
+        }
+      });
+    }, ioOptions);
+
+    io.observe(section);
+
+    // Optional: expose functions for debugging in console:
+    // window.__revealSecondSection = () => { section.classList.add('in-view'); }
+    // window.__hideSecondSection = () => { section.classList.remove('in-view'); }
+    });
+    </script>
 
 </body>
 </html>
