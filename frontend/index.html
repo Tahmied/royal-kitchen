@@ -32,7 +32,7 @@
         <div class="underhero">
             <div class="hero-img-container">
                 <img src="images/hero/hero image.png" alt="" class="hero-image">
-                <button class="hero-cta-btn">
+                <button class="hero-cta-btn pcf-open">
                     <p>Consultation</p>
                     <img src="images/hero/button-arrow.svg" alt="">
                 </button>
@@ -348,6 +348,62 @@
                 <img src="images/footer/footer-right-arrow.svg" alt="" class="footer-right-arrow">
             </div>
     </footer>
+
+
+    <!-- contact form -->
+    <div class="pcf-root" aria-hidden="true">
+      <div class="pcf-overlay" id="pcf-overlay" aria-hidden="true">
+          <div class="pcf-modal" role="dialog" aria-modal="true" aria-labelledby="pcf-modalTitle" id="pcf-modal">
+            <div class="pcf-modal-head">
+              <div class="pcf-modal-title">
+                <!-- icon -->
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M21 8V16C21 18 19 20 17 20H7C5 20 3 18 3 16V8" stroke="url(#pcf-g)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
+                  <path d="M7 12L10 14L17 9" stroke="url(#pcf-g)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
+                  <defs><linearGradient id="pcf-g" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#7C3AED"></stop><stop offset="1" stop-color="#06B6D4"></stop></linearGradient></defs>
+                </svg>
+              
+                <div>
+                  <h3 id="pcf-modalTitle">Start a conversation</h3>
+                  <div class="pcf-modal-sub">Tell us a little about your project — we’ll get back within 1 business day.</div>
+                </div>
+              </div>
+            
+              <button class="pcf-close-btn" id="pcf-closeBtn" aria-label="Close contact form">✕</button>
+            </div>
+          
+            <form class="pcf-contact" id="pcf-contactForm" novalidate>
+              <div class="pcf-field">
+                <input type="text" id="pcf-name" name="name" autocomplete="name" required />
+                <label for="pcf-name" class="pcf-floating">Full name</label>
+              </div>
+            
+              <div class="pcf-field">
+                <input type="email" id="pcf-email" name="email" autocomplete="email" required />
+                <label for="pcf-email" class="pcf-floating">Phone Number</label>
+              </div>
+            
+              <div class="pcf-field pcf-full">
+                <input type="text" id="pcf-company" name="company" />
+                <label for="pcf-company" class="pcf-floating">Email address</label>
+              </div>
+            
+              <div class="pcf-field pcf-full">
+                <textarea id="pcf-message" name="message" required></textarea>
+                <label for="pcf-message" class="pcf-floating">Tell us about your project</label>
+                <div class="pcf-hint">A short summary, timeline, and preferred budget helps us reply faster.</div>
+              </div>
+            
+              <div class="pcf-full pcf-actions">
+                <button type="button" class="pcf-secondary" id="pcf-cancelBtn">Cancel</button>
+                <button type="submit" class="pcf-submit" id="pcf-submitBtn">Send message</button>
+              </div>
+            </form>
+          
+            <!-- success container will be inserted dynamically -->
+          </div>
+        </div>
+</div>
 
 
     <script src="./js/index.js"></script>
@@ -678,6 +734,157 @@ document.addEventListener('DOMContentLoaded', function () {
   // Optional: expose helper for testing in console
   // window.__reobserveFourth = observeAll;
 });
+</script>
+<script>
+(function(){
+  // config
+  const TRIGGER_CLASS = 'pcf-open'; // add this class to any CTA to open the form
+
+  // DOM refs
+  const root = document.querySelector('.pcf-root');
+  if(!root) {
+    console.warn('PCF: .pcf-root not found - make sure you inserted the HTML snippet.');
+    return;
+  }
+  const overlay = document.getElementById('pcf-overlay');
+  const modal = document.getElementById('pcf-modal');
+  const closeBtn = document.getElementById('pcf-closeBtn');
+  const cancelBtn = document.getElementById('pcf-cancelBtn');
+  const form = document.getElementById('pcf-contactForm');
+  const submitBtn = document.getElementById('pcf-submitBtn');
+
+  // helper: refresh floating labels
+  function refreshFloating(){
+    root.querySelectorAll('.pcf-field').forEach(f=>{
+      const input = f.querySelector('input, textarea, select');
+      if(!input) return;
+      if(input.value && input.value.trim() !== '') f.classList.add('pcf-has-value'); else f.classList.remove('pcf-has-value');
+    });
+  }
+  document.addEventListener('input', refreshFloating);
+  document.addEventListener('change', refreshFloating);
+  refreshFloating();
+
+  // focus trap (scoped)
+  let lastFocusedBeforeOpen = null;
+  function trapFocus(container){
+    lastFocusedBeforeOpen = document.activeElement;
+    const focusable = Array.from(container.querySelectorAll('a[href],button:not([disabled]),input,select,textarea,[tabindex]:not([tabindex="-1"])')).filter(Boolean);
+    if(!focusable.length) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length-1];
+
+    function handler(e){
+      if(e.key === 'Tab'){
+        if(e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+        else if(!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+      }
+      if(e.key === 'Escape'){ closeModal(); }
+    }
+    container.__pcf_trap = handler;
+    document.addEventListener('keydown', handler);
+  }
+  function releaseFocus(container){
+    if(container && container.__pcf_trap) document.removeEventListener('keydown', container.__pcf_trap);
+  }
+
+  // open/close
+  function openModal(prefill = {}) {
+    overlay.setAttribute('aria-hidden','false');
+    root.setAttribute('aria-hidden','false');
+    // prefill if provided
+    if(prefill.name) form.name.value = prefill.name;
+    if(prefill.email) form.email.value = prefill.email;
+    if(prefill.message) form.message.value = prefill.message;
+    refreshFloating();
+    // focus first input after animation
+    setTimeout(()=> {
+      const nameInput = document.getElementById('pcf-name');
+      if(nameInput) nameInput.focus();
+    }, 140);
+    trapFocus(modal);
+  }
+  function closeModal(){
+    overlay.setAttribute('aria-hidden','true');
+    root.setAttribute('aria-hidden','true');
+    releaseFocus(modal);
+    // reset and restore form (hide success card if any)
+    const successCard = modal.querySelector('.pcf-success');
+    if(successCard) successCard.remove();
+    form.style.display = '';
+    form.reset();
+    refreshFloating();
+    if(lastFocusedBeforeOpen && typeof lastFocusedBeforeOpen.focus === 'function') lastFocusedBeforeOpen.focus();
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Send message';
+  }
+
+  // click handlers for triggers (delegated so you can add buttons later)
+  document.addEventListener('click', function(e){
+    const t = e.target.closest ? e.target.closest('.' + TRIGGER_CLASS) : null;
+    if(!t) return;
+    e.preventDefault();
+    // optional prefill from data attributes
+    const prefill = {
+      name: t.getAttribute('data-pcf-prefill-name') || '',
+      email: t.getAttribute('data-pcf-prefill-email') || '',
+      message: t.getAttribute('data-pcf-prefill-message') || ''
+    };
+    openModal(prefill);
+  });
+
+  // close listeners
+  closeBtn.addEventListener('click', closeModal);
+  cancelBtn.addEventListener('click', closeModal);
+  overlay.addEventListener('click', function(e){ if(e.target === overlay) closeModal(); });
+
+  // form submission (simulate)
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+    const name = (form.name.value || '').trim();
+    const email = (form.email.value || '').trim();
+    const message = (form.message.value || '').trim();
+    if(!name || !email || !message){
+      // shake
+      modal.animate([{transform:'translateX(0)'},{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'translateX(0)'}],{duration:360});
+      return;
+    }
+
+    // disable + spinner
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '';
+    const spinner = document.createElement('span'); spinner.className = 'pcf-spinner'; submitBtn.appendChild(spinner);
+
+    // simulate network
+    await new Promise(r => setTimeout(r, 900 + Math.random()*900));
+
+    // show success: hide form, insert success card
+    form.style.display = 'none';
+    const successCard = document.createElement('div');
+    successCard.className = 'pcf-success pcf-full';
+    successCard.innerHTML = `
+      <div class="pcf-check" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="${getComputedStyle(document.documentElement).getPropertyValue('--pcf-success') || '#22c55e'}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </div>
+      <h3 style="margin:0;">Message sent</h3>
+      <p style="margin:0;color:var(--pcf-muted);text-align:center;max-width:420px">Thanks! We received your message and will reply within 1 business day. If your request is urgent, please include a phone number.</p>
+    `;
+    // append after form
+    form.insertAdjacentElement('afterend', successCard);
+    // focus close for accessibility
+    closeBtn.focus();
+
+    // auto-close after a short delay
+    setTimeout(()=>{
+      successCard.animate([{opacity:1},{opacity:0}],{duration:600,fill:'forwards'}).onfinish = closeModal;
+    }, 1400);
+  });
+
+  // init: ensure overlay hidden
+  overlay.setAttribute('aria-hidden','true');
+  root.setAttribute('aria-hidden','true');
+
+})();
 </script>
 
 </body>
