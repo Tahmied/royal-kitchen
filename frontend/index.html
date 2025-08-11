@@ -531,6 +531,52 @@ document.addEventListener('DOMContentLoaded', function () {
   // window.__hideSixth = () => section.classList.remove('in-view');
 });
 </script>
+<script>
+/*
+  Footer observer: toggles .in-view on enter/leave so footer reveal replays.
+  - Adds .in-view when visible (>=12%), removes when not.
+  - Debounces removal to avoid flicker.
+  - Respects prefers-reduced-motion.
+*/
+document.addEventListener('DOMContentLoaded', function () {
+  const footer = document.querySelector('footer');
+  if (!footer) return;
+
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    footer.classList.add('in-view');
+    return;
+  }
+
+  let removeTimer = null;
+  const REMOVE_DELAY = 110; // ms - tweak to taste
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const isVisible = entry.intersectionRatio >= 0.12;
+      if (isVisible) {
+        if (removeTimer) { clearTimeout(removeTimer); removeTimer = null; }
+        footer.classList.add('in-view');
+      } else {
+        if (removeTimer) clearTimeout(removeTimer);
+        removeTimer = setTimeout(() => {
+          footer.classList.remove('in-view');
+          removeTimer = null;
+        }, REMOVE_DELAY);
+      }
+    });
+  }, {
+    root: null,
+    rootMargin: '0px 0px -12% 0px',
+    threshold: [0, 0.12, 0.25]
+  });
+
+  io.observe(footer);
+
+  // dev helpers (optional)
+  // window.__revealFooter = () => footer.classList.add('in-view');
+  // window.__hideFooter = () => footer.classList.remove('in-view');
+});
+</script>
 
 </body>
 </html>
