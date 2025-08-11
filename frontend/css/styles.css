@@ -2337,6 +2337,101 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
         font-size: 60px;
     }
 }
+/* animation styles for fifth section */
+.fifth-section .feedback-title,
+.fifth-section .fifth-left-img,
+.fifth-section .fifth-feedback,
+.fifth-section .fifth-right-img,
+.fifth-section .feedback-button {
+  opacity: 0;
+  will-change: transform, opacity;
+  --enter-delay: 0.4s;
+  --exit-delay: 0s;
+}
+
+.fifth-section .feedback-title {
+  transform: translateY(36px);
+  --enter-delay: 0.08s;
+  transition: transform 0.88s cubic-bezier(.2,.9,.25,1), opacity 0.56s ease;
+}
+
+.fifth-section .fifth-left-img {
+  transform: translateX(-28px) scale(0.995);
+  --enter-delay: 0.22s;
+  transition: transform 0.84s cubic-bezier(.2,.9,.25,1), opacity 0.56s ease;
+}
+
+.fifth-section .fifth-feedback {
+  transform: translateY(22px) scale(0.995);
+  --enter-delay: 0.42s;
+  transition: transform 0.78s cubic-bezier(.22,.9,.32,1), opacity 0.56s ease, filter 0.5s ease;
+}
+
+.fifth-section .fifth-right-img {
+  transform: translateX(28px) scale(0.99);
+  --enter-delay: 0.62s;
+  transition: transform 0.84s cubic-bezier(.2,.9,.25,1), opacity 0.56s ease;
+}
+
+.fifth-section .feedback-button {
+  transform: translateY(18px) scale(0.99);
+  --enter-delay: 0.82s;
+  transition: transform 0.68s cubic-bezier(.22,.9,.32,1), opacity 0.48s ease, box-shadow 0.25s ease;
+}
+
+.fifth-section.in-view .feedback-title,
+.fifth-section.in-view .fifth-left-img,
+.fifth-section.in-view .fifth-feedback,
+.fifth-section.in-view .fifth-right-img,
+.fifth-section.in-view .feedback-button {
+  opacity: 1;
+  transform: none;
+}
+
+.fifth-section.in-view .feedback-title {
+  transition-delay: var(--enter-delay), var(--enter-delay);
+}
+.fifth-section.in-view .fifth-left-img {
+  transition-delay: var(--enter-delay), var(--enter-delay);
+}
+.fifth-section.in-view .fifth-feedback {
+  transition-delay: var(--enter-delay), var(--enter-delay);
+}
+.fifth-section.in-view .fifth-right-img {
+  transition-delay: var(--enter-delay), var(--enter-delay);
+}
+.fifth-section.in-view .feedback-button {
+  transition-delay: var(--enter-delay), var(--enter-delay);
+}
+
+.fifth-section .feedback-button {
+  cursor: pointer;
+  pointer-events: auto;
+}
+.fifth-section.in-view .feedback-button:hover,
+.fifth-section.in-view .feedback-button:focus {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 12px 34px rgba(11,20,31,0.12);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.fifth-section .fifth-left,
+.fifth-section .fifth-right,
+.fifth-section .fifth-feedback {
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fifth-section .feedback-title,
+  .fifth-section .fifth-left-img,
+  .fifth-section .fifth-feedback,
+  .fifth-section .fifth-right-img,
+  .fifth-section .feedback-button {
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
 
 
 /* sixth section */
