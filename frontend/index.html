@@ -439,24 +439,23 @@
   - Toggles .in-view on enter/leave (replays on re-enter)
   - Debounces removal to avoid flicker
   - Respects prefers-reduced-motion: immediately reveals and doesn't observe
-  - DOES NOT touch or reference .fifth-left-shadow
 */
 document.addEventListener('DOMContentLoaded', function () {
   const section = document.querySelector('.fifth-section');
   if (!section) return;
 
-  // Respect reduced-motion users
+ 
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     section.classList.add('in-view');
     return;
   }
 
   let removeTimer = null;
-  const REMOVE_DELAY = 110; // ms — tweak for more/less forgiving reversal
+  const REMOVE_DELAY = 110; 
 
   const ioOptions = {
     root: null,
-    rootMargin: '0px 0px -12% 0px', // start a bit before the section fully hits bottom
+    rootMargin: '0px 0px -12% 0px',
     threshold: [0, 0.12, 0.25]
   };
 
@@ -481,6 +480,55 @@ document.addEventListener('DOMContentLoaded', function () {
   // Optional dev helpers:
   // window.__revealFifth = () => section.classList.add('in-view');
   // window.__hideFifth = () => section.classList.remove('in-view');
+});
+</script>
+<script>
+/*
+  Sixth-section observer: toggles .in-view on enter/leave so animations replay.
+  - Replays on re-enter, reverses on leave.
+  - Debounces removal to avoid flicker.
+  - Respects prefers-reduced-motion.
+  - Does NOT touch slider / before-after logic or .experience-tag.
+*/
+document.addEventListener('DOMContentLoaded', function () {
+  const section = document.querySelector('.sixth-section');
+  if (!section) return;
+
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    section.classList.add('in-view');
+    return;
+  }
+
+  let removeTimer = null;
+  const REMOVE_DELAY = 100; 
+
+  const ioOptions = {
+    root: null,
+    rootMargin: '0px 0px -12% 0px', 
+    threshold: [0, 0.12, 0.25]
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const isVisible = entry.intersectionRatio >= 0.12;
+      if (isVisible) {
+        if (removeTimer) { clearTimeout(removeTimer); removeTimer = null; }
+        section.classList.add('in-view');
+      } else {
+        if (removeTimer) clearTimeout(removeTimer);
+        removeTimer = setTimeout(() => {
+          section.classList.remove('in-view');
+          removeTimer = null;
+        }, REMOVE_DELAY);
+      }
+    });
+  }, ioOptions);
+
+  observer.observe(section);
+
+  // Optional dev helpers:
+  // window.__revealSixth = () => section.classList.add('in-view');
+  // window.__hideSixth = () => section.classList.remove('in-view');
 });
 </script>
 
