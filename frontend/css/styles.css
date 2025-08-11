@@ -2207,6 +2207,72 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
     }
 }
 
+/* footer animations */
+.fourth-section .fourth-heading,
+.fourth-section .fourth-left,
+.fourth-section .fourth-right {
+  opacity: 0;
+  will-change: transform, opacity;
+  --enter-delay: 0.28s;
+  --exit-delay: 0s;
+}
+
+.fourth-section .fourth-heading {
+  transform: translateY(18px);
+  --enter-delay: 0.06s;
+  transition: transform 0.70s cubic-bezier(.2,.9,.25,1), opacity 0.50s ease;
+}
+
+.fourth-section .fourth-left {
+  transform: translateX(-24px);
+  --enter-delay: 0.22s;
+  transition: transform 0.78s cubic-bezier(.2,.9,.25,1), opacity 0.50s ease;
+
+  pointer-events: auto;
+}
+
+.fourth-section .fourth-right {
+  transform: translateX(24px);
+  --enter-delay: 0.36s;
+  transition: transform 0.78s cubic-bezier(.2,.9,.25,1), opacity 0.50s ease;
+  pointer-events: auto;
+}
+
+.fourth-section.in-view .fourth-heading,
+.fourth-section.in-view .fourth-left,
+.fourth-section.in-view .fourth-right {
+  opacity: 1;
+  transform: none;
+}
+
+.fourth-section.in-view .fourth-heading {
+  transition-delay: var(--enter-delay), var(--enter-delay);
+}
+.fourth-section.in-view .fourth-left {
+  transition-delay: var(--enter-delay), var(--enter-delay);
+}
+.fourth-section.in-view .fourth-right {
+  transition-delay: var(--enter-delay), var(--enter-delay);
+}
+
+.fourth-section .project-pinned-pic-btn,
+.fourth-section .project-details-page-indicator-btn,
+.fourth-section .pinned-project-img,
+.fourth-section .other-project-imgs {
+  pointer-events: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fourth-section .fourth-heading,
+  .fourth-section .fourth-left,
+  .fourth-section .fourth-right {
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
+
+
 /* fifth section - feedback section */
 
 .fifth-section {

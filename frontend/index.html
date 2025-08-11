@@ -200,8 +200,7 @@
     </section>
 
     <section class="fourth-section">
-        <img src="images/section-four/fourth-overlay-shadow.png" alt="" class="fourth-overlay-shadow">
-        <h2 class="fourth-heading">Featured Projects</h2>
+        <img src="images/section-four/fourth-overlay-shadow.png" alt="" class="fourth-overlay-shadow"> <br><br>
         <div class="fourth-container">
              <div class="fourth-left">
                 <img src="images/section-four/project-one-pinned.png" alt="" class="pinned-project-img" id="pinned-project-img-id">
@@ -585,6 +584,99 @@ document.addEventListener('DOMContentLoaded', function () {
   // dev helpers (optional)
   // window.__revealFooter = () => footer.classList.add('in-view');
   // window.__hideFooter = () => footer.classList.remove('in-view');
+});
+</script>
+<script>
+/*
+  Observe all .fourth-section elements and toggle .in-view on enter/leave.
+  - Replays on re-enter, reverses on leave.
+  - Debounces removal slightly to avoid flicker.
+  - Automatically starts observing newly added .fourth-section nodes (MutationObserver).
+  - Respects prefers-reduced-motion (reveals immediately and does not observe).
+*/
+
+document.addEventListener('DOMContentLoaded', function () {
+  const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const REMOVE_DELAY = 100; // ms debounce for removal
+
+  if (prefersReduced) {
+    // reveal all immediately, do not set up observers
+    document.querySelectorAll('.fourth-section').forEach(s => s.classList.add('in-view'));
+    return;
+  }
+
+  const ioOptions = {
+    root: null,
+    rootMargin: '0px 0px -12% 0px',
+    threshold: [0, 0.12, 0.25]
+  };
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const section = entry.target;
+      const visible = entry.intersectionRatio >= 0.12;
+      // store per-section timer to debounce removal
+      if (!section.__removeTimer) section.__removeTimer = null;
+
+      if (visible) {
+        if (section.__removeTimer) {
+          clearTimeout(section.__removeTimer);
+          section.__removeTimer = null;
+        }
+        section.classList.add('in-view');
+      } else {
+        // debounce removal to avoid flicker when quickly scrolling
+        if (section.__removeTimer) clearTimeout(section.__removeTimer);
+        section.__removeTimer = setTimeout(() => {
+          section.classList.remove('in-view');
+          section.__removeTimer = null;
+        }, REMOVE_DELAY);
+      }
+    });
+  }, ioOptions);
+
+  // observe existing fourth-section nodes
+  function observeAll() {
+    document.querySelectorAll('.fourth-section').forEach(section => {
+      // avoid observing same node twice
+      if (!section.__isObserved) {
+        io.observe(section);
+        section.__isObserved = true;
+      }
+    });
+  }
+  observeAll();
+
+  // watch for dynamically added .fourth-section nodes and observe them
+  const mo = new MutationObserver((mutations) => {
+    for (const m of mutations) {
+      if (m.type === 'childList' && m.addedNodes.length) {
+        m.addedNodes.forEach(node => {
+          // if the added node itself is a .fourth-section
+          if (node.nodeType === 1) {
+            if (node.classList && node.classList.contains('fourth-section')) {
+              if (!node.__isObserved) {
+                io.observe(node);
+                node.__isObserved = true;
+              }
+            }
+            // also check if it contains any .fourth-section children
+            node.querySelectorAll && node.querySelectorAll('.fourth-section').forEach(ss => {
+              if (!ss.__isObserved) {
+                io.observe(ss);
+                ss.__isObserved = true;
+              }
+            });
+          }
+        });
+      }
+    }
+  });
+
+  mo.observe(document.body, { childList: true, subtree: true });
+
+  // Optional: expose helper for testing in console
+  // window.__reobserveFourth = observeAll;
 });
 </script>
 
