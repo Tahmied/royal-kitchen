@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Royal Kitchen | Admin Panel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+    <!-- Mobile Toggle Button -->
+    <div class="mobile-toggle">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">
+            <div class="logo-icon">
+                <i class="fas fa-cube"></i>
+            </div>
+            <div class="logo-text">Royal Kitchen</div>
+        </div>
+        
+        <div class="nav-item active">
+            <i class="fas fa-home"></i>
+            <span class="nav-text">Dashboard</span>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-project-diagram"></i>
+            <span class="nav-text">Projects</span>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-comments"></i>
+            <span class="nav-text">Feedback</span>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-user-friends"></i>
+            <span class="nav-text">Leads</span>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-users"></i>
+            <span class="nav-text">Users</span>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-chart-line"></i>
+            <span class="nav-text">Blogs</span>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-cog"></i>
+            <span class="nav-text">Settings</span>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-sign-out-alt"></i>
+            <span class="nav-text">Logout</span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <h1 class="page-title">Dashboard Overview</h1>
+            <div class="header-actions">
+                <div class="notification">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <div class="user-profile">
+                    <div class="user-avatar">JD</div>
+                    <div>
+                        <div class="user-name">John Doe</div>
+                        <div class="user-role">Administrator</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Cards -->
+        <div class="dashboard-cards">
+
+            <div class="card card-leads">
+                <div class="card-header">
+                    <div class="card-title">Leads</div>
+                    <div class="card-icon">
+                        <i class="fas fa-user-friends"></i>
+                    </div>
+                </div>
+                <div class="card-value">156</div>
+                <div class="card-info">
+                    <i class="fas fa-envelope"></i>
+                    <span>24 New Leads</span>
+                </div>
+            </div>
+            
+            <div class="card card-users">
+                <div class="card-header">
+                    <div class="card-title">Users</div>
+                    <div class="card-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+                <div class="card-value">8</div>
+                <div class="card-info">
+                    <i class="fas fa-user-shield"></i>
+                    <span>2 Administrators</span>
+                </div>
+            </div>
+
+            <div class="card card-blogs">
+                <div class="card-header">
+                    <div class="card-title">Total blogs</div>
+                    <div class="card-icon">
+                        <i class="fas fa-project-diagram"></i>
+                    </div>
+                </div>
+                <div class="card-value">42</div>
+                <div class="card-info">
+                    <i class="fas fa-star"></i>
+                    <span>12 New Blogs</span>
+                </div>
+            </div>
+            
+            <div class="card card-feedback">
+                <div class="card-header">
+                    <div class="card-title">Feedback</div>
+                    <div class="card-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                </div>
+                <div class="card-value">28</div>
+                <div class="card-info">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span>5 New Feedback Entries</span>
+                </div>
+            </div>
+            
+        </div>
+
+        <!-- Projects Management -->
+        <div class="management-section">
+            <div class="section-header">
+                <h2 class="section-title">Projects Management</h2>
+                <button class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Add Project
+                </button>
+            </div>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Project</th>
+                            <th>Date Added</th>
+                            <th>Type</th>
+                            <th>Visibility</th>
+                            <th>Order</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 15px;">
+                                    <div class="project-thumb"></div>
+                                    <div>
+                                        <div>E-commerce Platform</div>
+                                        <div style="font-size: 13px; color: var(--gray);">Web Development</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>Mar 12, 2023</td>
+                            <td><span class="status status-viewed">Featured</span></td>
+                            <td>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </td>
+                            <td>1</td>
+                            <td>
+                                <button class="action-btn"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 15px;">
+                                    <div class="project-thumb"></div>
+                                    <div>
+                                        <div>Mobile Banking App</div>
+                                        <div style="font-size: 13px; color: var(--gray);">Mobile App</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>Apr 5, 2023</td>
+                            <td><span class="status status-replied">Featured</span></td>
+                            <td>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </td>
+                            <td>2</td>
+                            <td>
+                                <button class="action-btn"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 15px;">
+                                    <div class="project-thumb"></div>
+                                    <div>
+                                        <div>Corporate Website</div>
+                                        <div style="font-size: 13px; color: var(--gray);">Web Design</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>May 18, 2023</td>
+                            <td><span class="status status-new">Regular</span></td>
+                            <td>
+                                <label class="switch">
+                                    <input type="checkbox">
+                                    <span class="slider"></span>
+                                </label>
+                            </td>
+                            <td>3</td>
+                            <td>
+                                <button class="action-btn"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Feedback Management -->
+        <div class="management-section">
+            <div class="section-header">
+                <h2 class="section-title">Feedback Management</h2>
+                <button class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Add Feedback
+                </button>
+            </div>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Client</th>
+                            <th>Project</th>
+                            <th>Feedback</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 15px;">
+                                    <div class="user-avatar" style="width: 35px; height: 35px; font-size: 14px;">SM</div>
+                                    <div>
+                                        Sarah Mitchell
+                                    </div>
+                                </div>
+                            </td>
+                            <td>E-commerce Platform</td>
+                            <td>Excellent work, delivered on time!</td>
+                            <td>Jun 10, 2023</td>
+                            <td>
+                                <button class="action-btn"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 15px;">
+                                    <div class="user-avatar" style="width: 35px; height: 35px; font-size: 14px;">RJ</div>
+                                    <div>
+                                        Robert Johnson
+                                    </div>
+                                </div>
+                            </td>
+                            <td>Mobile Banking App</td>
+                            <td>The app is very user-friendly and secure</td>
+                            <td>Jun 3, 2023</td>
+                            <td>
+                                <button class="action-btn"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Lead Management -->
+        <div class="management-section">
+            <div class="section-header">
+                <h2 class="section-title">Lead Management</h2>
+                <div>
+                    <button class="btn btn-outline">
+                        <i class="fas fa-download"></i> Export CSV
+                    </button>
+                </div>
+            </div>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Contact</th>
+                            <th>Message</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Tag</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Michael Anderson</td>
+                            <td>m.anderson@email.com</td>
+                            <td>Interested in your web development services...</td>
+                            <td>Today, 09:24 AM</td>
+                            <td><span class="status status-new">New</span></td>
+                            <td><span class="tag tag-important">Important</span></td>
+                            <td>
+                                <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                <button class="action-btn"><i class="fas fa-reply"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Jennifer Lopez</td>
+                            <td>jennifer@lopez.com</td>
+                            <td>We need a mobile app for our restaurant...</td>
+                            <td>Yesterday, 04:15 PM</td>
+                            <td><span class="status status-viewed">Viewed</span></td>
+                            <td><span class="tag tag-normal">Normal</span></td>
+                            <td>
+                                <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                <button class="action-btn"><i class="fas fa-reply"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Thomas Wright</td>
+                            <td>+1 (555) 123-4567</td>
+                            <td>Looking for a redesign of our corporate website...</td>
+                            <td>Jun 15, 2023</td>
+                            <td><span class="status status-replied">Replied</span></td>
+                            <td><span class="tag tag-important">Important</span></td>
+                            <td>
+                                <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                <button class="action-btn"><i class="fas fa-reply"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- User Management -->
+        <div class="management-section">
+            <div class="section-header">
+                <h2 class="section-title">User Management</h2>
+                <button class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Add User
+                </button>
+            </div>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 15px;">
+                                    <div class="user-avatar" style="width: 35px; height: 35px; font-size: 14px;">JD</div>
+                                    <div>
+                                        John Doe
+                                    </div>
+                                </div>
+                            </td>
+                            <td>john.doe@company.com</td>
+                            <td>Administrator</td>
+                            <td><span class="status status-viewed">Active</span></td>
+                            <td>
+                                <button class="action-btn"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 15px;">
+                                    <div class="user-avatar" style="width: 35px; height: 35px; font-size: 14px;">AS</div>
+                                    <div>
+                                        Alice Smith
+                                    </div>
+                                </div>
+                            </td>
+                            <td>alice.smith@company.com</td>
+                            <td>Editor</td>
+                            <td><span class="status status-viewed">Active</span></td>
+                            <td>
+                                <button class="action-btn"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile sidebar toggle
+        document.querySelector('.mobile-toggle').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('active');
+        });
+
+        // Nav item active state
+        const navItems = document.querySelectorAll('.nav-item');
+        navItems.forEach(item => {
+            item.addEventListener('click', function() {
+                navItems.forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Card hover effect enhancement
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Switch toggle animation
+        const switches = document.querySelectorAll('.switch input');
+        switches.forEach(sw => {
+            sw.addEventListener('change', function() {
+                if(this.checked) {
+                    this.parentNode.style.transform = 'scale(1.05)';
+                    setTimeout(() => {
+                        this.parentNode.style.transform = 'scale(1)';
+                    }, 300);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
