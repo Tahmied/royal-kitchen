@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Royal Kitchen | Projects</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+    <!-- Mobile Toggle Button -->
+    <div class="mobile-toggle">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">
+            <div class="logo-icon">
+                <i class="fas fa-cube"></i>
+            </div>
+            <div class="logo-text">Royal Kitchen</div>
+        </div>
+        
+        <div class="nav-item">
+            <i class="fas fa-home"></i>
+            <span class="nav-text">Dashboard</span>
+        </div>
+        <div class="nav-item active">
+            <i class="fas fa-project-diagram"></i>
+            <span class="nav-text">Projects</span>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-comments"></i>
+            <span class="nav-text">Feedback</span>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-user-friends"></i>
+            <span class="nav-text">Leads</span>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-users"></i>
+            <span class="nav-text">Users</span>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-chart-line"></i>
+            <span class="nav-text">Blogs</span>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-cog"></i>
+            <span class="nav-text">Settings</span>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-sign-out-alt"></i>
+            <span class="nav-text">Logout</span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <h1 class="page-title">Dashboard Overview</h1>
+            <div class="header-actions">
+                <div class="notification">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <div class="user-profile">
+                    <div class="user-avatar">JD</div>
+                    <div>
+                        <div class="user-name">John Doe</div>
+                        <div class="user-role">Administrator</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Projects Management -->
+        <div class="management-section">
+            <div class="section-header">
+                <h2 class="section-title">Projects Management</h2>
+                <button class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Add Project
+                </button>
+            </div>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Project</th>
+                            <th>Date Added</th>
+                            <th>Type</th>
+                            <th>Visibility</th>
+                            <th>Order</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 15px;">
+                                    <div class="project-thumb"></div>
+                                    <div>
+                                        <div>E-commerce Platform</div>
+                                        <div style="font-size: 13px; color: var(--gray);">Web Development</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>Mar 12, 2023</td>
+                            <td><span class="status status-viewed">Featured</span></td>
+                            <td>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </td>
+                            <td>1</td>
+                            <td>
+                                <button class="action-btn"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 15px;">
+                                    <div class="project-thumb"></div>
+                                    <div>
+                                        <div>Mobile Banking App</div>
+                                        <div style="font-size: 13px; color: var(--gray);">Mobile App</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>Apr 5, 2023</td>
+                            <td><span class="status status-replied">Featured</span></td>
+                            <td>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </td>
+                            <td>2</td>
+                            <td>
+                                <button class="action-btn"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 15px;">
+                                    <div class="project-thumb"></div>
+                                    <div>
+                                        <div>Corporate Website</div>
+                                        <div style="font-size: 13px; color: var(--gray);">Web Design</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>May 18, 2023</td>
+                            <td><span class="status status-new">Regular</span></td>
+                            <td>
+                                <label class="switch">
+                                    <input type="checkbox">
+                                    <span class="slider"></span>
+                                </label>
+                            </td>
+                            <td>3</td>
+                            <td>
+                                <button class="action-btn"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Mobile sidebar toggle
+        document.querySelector('.mobile-toggle').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('active');
+        });
+
+        // Nav item active state
+        const navItems = document.querySelectorAll('.nav-item');
+        navItems.forEach(item => {
+            item.addEventListener('click', function() {
+                navItems.forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Card hover effect enhancement
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Switch toggle animation
+        const switches = document.querySelectorAll('.switch input');
+        switches.forEach(sw => {
+            sw.addEventListener('change', function() {
+                if(this.checked) {
+                    this.parentNode.style.transform = 'scale(1.05)';
+                    setTimeout(() => {
+                        this.parentNode.style.transform = 'scale(1)';
+                    }, 300);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -207,7 +207,7 @@
      width: 5px;
      height: 100%;
 }
- .card-projects::before {
+ .card-blogs::before {
      background: linear-gradient(to bottom, var(--primary), var(--accent));
 }
  .card-feedback::before {
