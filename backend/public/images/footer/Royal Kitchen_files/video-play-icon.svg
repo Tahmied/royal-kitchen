@@ -1,0 +1,51 @@
+<svg width="187" height="188" viewBox="0 0 187 188" fill="none" xmlns="http://www.w3.org/2000/svg">
+<foreignObject x="-22" y="-21.5" width="231" height="231"><div xmlns="http://www.w3.org/1999/xhtml" style="backdrop-filter:blur(11px);clip-path:url(#bgblur_0_412_27_clip_path);height:100%;width:100%"></div></foreignObject><g data-figma-bg-blur-radius="22">
+<rect y="0.5" width="187" height="187" rx="93.5" fill="white" fill-opacity="0.17"/>
+<foreignObject x="9" y="9.5" width="168" height="168"><div xmlns="http://www.w3.org/1999/xhtml" style="backdrop-filter:blur(11px);clip-path:url(#bgblur_1_412_27_clip_path);height:100%;width:100%"></div></foreignObject><g data-figma-bg-blur-radius="22">
+<rect x="31" y="31.5" width="124" height="124" rx="62" fill="white" fill-opacity="0.37"/>
+<path d="M111.316 89.7821C114.403 91.747 114.403 96.253 111.316 98.2179L88.2141 112.924C84.8855 115.043 80.5291 112.652 80.5291 108.706V79.2942C80.5291 75.3485 84.8855 72.9574 88.2141 75.0763L111.316 89.7821Z" fill="white"/>
+</g>
+</g>
+<defs>
+<clipPath id="bgblur_0_412_27_clip_path" transform="translate(22 21.5)"><rect y="0.5" width="187" height="187" rx="93.5"/>
+</clipPath><clipPath id="bgblur_1_412_27_clip_path" transform="translate(-9 -9.5)"><rect x="31" y="31.5" width="124" height="124" rx="62"/>
+</clipPath></defs>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+</svg>

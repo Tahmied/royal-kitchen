@@ -1,0 +1,862 @@
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Urbanist", sans-serif;
+    background-color: #9FADBE;
+}
+
+/* hero section */
+
+.first-section {
+    background-image: url('/frontend/images/hero/bg.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.first-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 2rem 0 2rem 0;
+    position: relative;
+}
+
+/* navbar */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.nav-link {
+    font-style: normal;
+    font-weight: 800;
+    font-size: 13px;
+    line-height: 28px;
+    leading-trim: both;
+    text-edge: cap;
+    text-align: center;
+    letter-spacing: 0.28em;
+    text-decoration-line: underline;
+    text-transform: uppercase;
+    color: rgba(222, 235, 250, 0.62);
+}
+
+.logo {
+    width: 13.33rem;
+    height: 8.125rem;
+}
+
+.right-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+/* hero section */
+
+.hero {
+    width: 1300px;
+    margin: 3rem auto;
+    height: 55vh;
+}
+
+.hero-text {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 127px;
+    leading-trim: both;
+    text-edge: cap;
+    text-align: center;
+    letter-spacing: -0.02em;
+    text-transform: capitalize;
+    background: linear-gradient(90.87deg, rgba(184, 192, 200, 0) -3.19%, #C0DDFF 29.28%, rgba(160, 184, 212, 0.859813) 65.45%, rgba(184, 192, 200, 0) 102.57%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+}
+
+.hero-description {
+    font-family: 'Urbanist';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 22px;
+    leading-trim: both;
+    text-edge: cap;
+    text-align: center;
+    letter-spacing: 0.03em;
+    text-transform: lowercase;
+    color: rgba(222, 235, 250, 0.62);
+    margin: 1rem auto;
+    width: 80%;
+}
+
+.underhero {
+    position: absolute;
+    top: 500px;
+}
+
+.hero-img-container {
+    max-width: 1000px;
+    position: relative;
+}
+
+.hero-cta-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 235px;
+    height: 72px;
+    background: #9FADBE;
+    border-radius: 900px;
+    position: relative;
+    background-image: url('/frontend/images/hero/button-bg.svg');
+    border: none;
+    outline: none;
+    position: absolute;
+    top:-4px;
+    left: 55%;
+}
+
+.hero-cta-btn p {
+    position: relative;
+    right: 20px;
+    font-weight: 600;
+    font-size: 16px;
+    leading-trim: both;
+    text-edge: cap;
+    text-align: center;
+    text-transform: uppercase;
+    color: #0B141F;
+}
+
+.hero-cta-btn img {
+    position: absolute;
+    right: 5px;
+    width: 59px;
+    height: 59px;
+    background: #DEE3EA;
+    border-radius: 900px;
+}
+
+/* section two */
+
+.second-section {
+    background-color: #0B141F;
+    margin-top: 700px;
+    padding-bottom: 150px;
+    position: relative;
+}
+
+.two-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.two-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+    gap: 1rem;
+    max-width: 600px;
+}
+
+.two-text {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 92px;
+    leading-trim: both;
+    text-edge: cap;
+    text-transform: capitalize;
+    background: linear-gradient(89.46deg, rgba(184, 192, 200, 0) -19.48%, rgba(160, 184, 212, 0.859813) 26.63%, #A0B8D4 111.9%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+}
+
+.two-description {
+    margin: 0 auto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 22px;
+    leading-trim: both;
+    text-edge: cap;
+    letter-spacing: 0.03em;
+    text-transform: lowercase;
+    color: rgba(222, 235, 250, 0.62);
+}
+
+.cta-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 235px;
+    height: 72px;
+    background: #9FADBE;
+    border-radius: 900px;
+    position: relative;
+    background-image: url('/frontend/images/hero/cta-btn-bg.svg');
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.cta-btn p {
+    position: relative;
+    right: 20px;
+    font-weight: 600;
+    font-size: 16px;
+    leading-trim: both;
+    text-edge: cap;
+    text-align: center;
+    text-transform: uppercase;
+    color: #0B141F;
+}
+
+.cta-btn img {
+    position: absolute;
+    right: 5px;
+    width: 59px;
+    height: 59px;
+    background: #DEE3EA;
+    border-radius: 900px;
+}
+
+.two-right {
+    position: relative;
+}
+
+.two-right-img {
+    width: 100%;
+    max-width: 600px;
+    align-self: center;
+}
+
+.space-100 {
+    height: 300px;
+}
+
+.under-two {
+    position: absolute;
+    bottom: -300px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    /* Optional: limit width */
+    width: 95%;
+    max-width: 1100px;
+}
+
+.under-two-img {
+    width: 100%;
+    border-radius: 40px;
+}
+
+
+/* section three */
+
+.third-container {
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+.third-text {
+    font-family: 'Clash Display';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12em;
+    leading-trim: both;
+    text-edge: cap;
+    text-align: center;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+    background: linear-gradient(180deg, #FFFFFF -23.18%, #9FADBE 105.3%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+    margin-bottom: -100px;
+    margin-top: 200px;
+    width: 100%;
+}
+
+.third-main {
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+    height: 1000px;
+    background-image: url('/frontend/images/section-three/three-bg.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+
+.third-text-left {
+    font-family: 'Urbanist';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 70px;
+    leading-trim: both;
+    text-edge: cap;
+    letter-spacing: -0.04em;
+    text-transform: capitalize;
+    color: #FFFFFF;
+}
+
+.third-description {
+    font-family: 'Urbanist';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 22px;
+    leading-trim: both;
+    text-edge: cap;
+    letter-spacing: 0.03em;
+    text-transform: lowercase;
+    color: #FFFFFF;
+}
+
+.third-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+    gap: 1rem;
+    max-width: 400px;
+}
+
+.third-btn {
+    border: none;
+    background-color: #0B141F;
+    display: flex;
+    border-radius: 900px;
+    align-items: center;
+    width: 250px;
+    height: 72px;
+    justify-content: center;
+}
+
+.third-btn > p {
+    font-family: 'Urbanist';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    leading-trim: both;
+    text-edge: cap;
+    text-align: center;
+    text-transform: uppercase;
+    color: #9FADBE;
+}
+
+.third-btn img {
+    position: relative;
+    right: -20px;
+}
+
+.third-right {
+    background-color: #0B141F;
+    /* padding: 0 2rem 0 2rem; */
+    width: 376px;
+    height: 187px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 13px;
+    position: relative;
+    left: -100px;
+}
+
+.third-right img {
+    max-width: 274.35px;
+}
+
+/* section four */
+
+.fourth-section {
+    background-color: #0B141F;
+    position: relative;
+    overflow: hidden;
+}
+
+.fourth-overlay-shadow {
+    position: absolute;
+    left: 50%;
+    top: -10px;
+    transform: translateX(-50%);
+}
+
+
+.fourth-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.fourth-heading {
+    font-family: 'Urbanist';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 90px;
+    leading-trim: both;
+    text-edge: cap;
+    text-align: center;
+    text-transform: capitalize;
+    background: linear-gradient(90deg, #0B141F 0%, #BAC9DD 33.17%, #BAC9DD 60.1%, #0B141F 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+    margin: 2rem;
+}
+
+.fourth-left {
+    /* padding: 1rem; */
+    position: relative;
+}
+
+.fourth-left img {
+    border-radius:25px;
+    /* max-width: 800px; */
+}
+
+.fourth-right {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 1rem;
+}
+
+.fourth-right img{
+    width: 149px;
+    height: 177px;
+    border-radius: 12px;
+}
+
+.fourth-video-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 25px;
+    max-width: 1300px;
+    margin: 5rem auto; 
+    position: relative;
+}
+
+.fourth-video-thumbnail {
+    border-radius: 25px;
+}
+
+.fourth-video-overlay {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+}
+
+.video-overlay-text {
+    font-family: 'Clash Display';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 185px;
+    leading-trim: both;
+    text-edge: cap;
+    text-align: center;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    color: #ffffff79;
+    background-image: url('/frontend/images/section-four/fourth-video-thumbnail.png');
+    background-size: cover;
+    background-position: center;
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+#reverse-project-section {
+    background-color:transparent;
+    padding-top: 3rem;
+}
+
+#reverse-project-container {
+    flex-direction: row-reverse;
+}
+
+.pinned-project-img {
+    width: 985px;
+    height: 566px;
+    clip-path: path("M 0,5 L 5,0 L 980,0 L 985,5 L 985,561 L 980,566 L 335,566 A 25,25 0,0,1 310,541 L 310,475 A 25,25 0,0,0 285,450 L 25,453 A 25,25 0,0,1 0,428 L 0,5 Z");
+}
+
+.project-pinned-pic-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    width: 297px;
+    height: 91px;
+    background: rgba(255, 255, 255, 0.74);
+    border-radius: 25px;
+    position: absolute;
+    bottom: 13px;
+    border: none;
+    outline: none;
+}
+
+.profile-pic {
+    border: 7px solid #E4E8ED;
+    background: #E4E8ED;
+    border-radius: 999px !important;
+    height: 70px;
+    width: 70px;
+}
+
+.house-owner-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 7px;
+    font-family: 'Urbanist';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    leading-trim: both;
+    text-edge: cap;
+    text-transform: capitalize;
+    color: #293B52;
+}
+
+.owner-name {
+    font-family: 'Clash Display';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    leading-trim: both;
+    text-edge: cap;
+    text-transform: uppercase;
+    color: #0B141F;
+}
+
+/* fifth section - feedback section */
+
+.fifth-section {
+    overflow: hidden;
+    padding: 1rem 0 1rem 0;
+}
+
+.feedback-title {
+    font-family: 'Clash Display';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 225px;
+    text-align: center;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+    background: linear-gradient(180deg, #FFFFFF -23.18%, #9FADBE 105.3%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+    margin-top: 2rem;
+}
+
+.fifth-container {
+    max-width: 1300px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-end;
+    margin: 2rem auto;
+}
+
+.fifth-left {
+    position: relative;
+}
+
+.fifth-left-shadow {
+    position: absolute;
+    bottom: -100px;
+    left: 0;
+}
+
+.fifth-left-img {
+    width: 90%;
+    max-width: 424px;
+}
+
+.fifth-feedback {
+    background: #0B141F;
+    border-radius: 18px;
+    background-image: url('/frontend/images/section-five/feedback-box-bgg.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    margin: 1rem;
+    width: 430px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.feedback-name {
+    font-family: 'Urbanist';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 35px;
+    leading-trim: both;
+    text-edge: cap;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    background: linear-gradient(64.04deg, #9FADBE 24.07%, #C8E1FF 55.02%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+    padding: 0 0 0 2rem;
+}
+
+.feedback-text {
+    font-family: 'Urbanist';
+    font-style: italic;
+    font-weight: 500;
+    font-size: 18px;
+    leading-trim: both;
+    text-edge: cap;
+    text-transform: lowercase;
+    color: #BFD3EB;
+    padding: 0 0 2rem 2rem;
+    max-width: 50%;
+}
+
+.feedback-highlight {
+    font-weight: bold;
+    font-style: italic;
+}
+
+.feedback-logo {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width:  90px;
+}
+
+.fifth-right-img {
+    border-radius: 15px;
+}
+
+.feedback-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    width: 217px;
+    height: 58px;
+    background: #FFFFFF;
+    border: 1px solid #FFFFFF;
+    backdrop-filter: blur(17px);
+    border-radius: 900px;
+    margin: 0 auto;
+}
+
+.feedback-btn-text {
+    font-family: 'Urbanist';
+    font-style: normal;
+    font-weight: 900;
+    font-size: 16px;
+    leading-trim: both;
+    text-edge: cap;
+    text-align: center;
+    text-transform: uppercase;
+    background: linear-gradient(270.01deg, #6C8FB9 0.01%, #0B141F 110.78%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+    position: relative;
+    left: 10px;
+}
+
+/* sixth section */
+
+.sixth-section {
+    background-color: #0B141F;
+    padding: 2rem 0 2rem 0;
+}
+
+.sixth-title {
+    font-family: 'Urbanist';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 90px;
+    leading-trim: both;
+    text-edge: cap;
+    text-align: center;
+    text-transform: capitalize;
+    background: linear-gradient(90deg, #0B141F 0%, #BAC9DD 33.17%, #BAC9DD 60.1%, #0B141F 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+    margin-bottom: 2rem;
+}
+
+.sixth-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 3rem;
+}
+
+.sixth-left img {
+    max-width: 760px;
+    border-radius: 22px;
+}
+
+.sixth-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.sixth-heading {
+    font-family: 'Urbanist';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 60px;
+    text-edge: cap;
+    text-transform: capitalize;
+    color: #FFFFFF;
+}
+
+.sixth-description {
+    font-family: 'Urbanist';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 23px;
+    leading-trim: both;
+    text-edge: cap;
+    text-transform: capitalize;
+    color: #FFFFFF;
+}
+
+/* footer */
+
+footer {
+    padding-top: 5rem;
+}
+
+.footer-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    background-image: url('/frontend/images/footer/bg.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 30px;
+    padding: 100px 0 100px 0;
+}
+
+.footer-top-img {
+    max-width: 60%;
+}
+
+.footer-heading {
+    font-family: 'Urbanist';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 60px;
+    text-align: center;
+    letter-spacing: -0.01em;
+    text-transform: capitalize;
+    background: linear-gradient(93.81deg, #FFFFFF 43.56%, #6C8FB9 88.31%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+    width: 80%;
+}
+
+.footer-description {
+    font-family: 'Urbanist';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    leading-trim: both;
+    text-edge: cap;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+
+.footer-cta-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 72px;
+    background: #9FADBE;
+    border-radius: 900px;
+    position: relative;
+    background-image: url('/frontend/images/hero/footer-cta-btn-bg.svg');
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.footer-cta-btn p {
+    position: relative;
+    right: 20px;
+    font-weight: 600;
+    font-size: 16px;
+    leading-trim: both;
+    text-edge: cap;
+    text-align: center;
+    text-transform: uppercase;
+    color: #0B141F;
+}
+
+.footer-cta-btn img {
+    position: absolute;
+    right: 5px;
+    width: 59px;
+    height: 59px;
+    background: #DEE3EA;
+    border-radius: 900px;
+}
+
