@@ -1,3 +1,5 @@
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import mongoose from "mongoose";
 
 const salesSchema = new mongoose.Schema ({
@@ -44,5 +46,34 @@ const salesSchema = new mongoose.Schema ({
 }, {
     timestamps : true
 })
+
+salesSchema.pre('save' , async function (next) {
+    if(this.isModified('password')) {
+       this.password = await bcrypt.hash(this.password , 10)
+    }
+})
+
+salesSchema.methods.isSalesPassCorrect = async function (password) {
+    return bcrypt.compare(password , this.password)
+}
+
+salesSchema.methods.generateAccessTokenSales = async function () {
+    jwt.sign({
+        _id : this._id,
+        email : this.email
+    }, process.env.SALES_ACCESS_TOKEN_KEY , {
+        expiresIn : process.env.SALES_ACCESS_TOKEN_EXPIRY
+    })
+}
+
+
+salesSchema.methods.generateRefreshTokenSales = async function () {
+    jwt.sign({
+        _id : this._id,
+        email : this.email
+    }, process.env.SALES_REFRESH_TOKEN_KEY , {
+        expiresIn : process.env.SALES_REFRESH_TOKEN_EXPIRY
+    })
+}
 
 export const Sales = mongoose.model('Sales' , salesSchema)
