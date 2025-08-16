@@ -1,1 +1,1 @@
-export const DB_NAME = 'royal-kitchen'
+export const DB_NAME = 'royalKitchen'
