@@ -11,7 +11,7 @@ export const registerAdmin = asyncHandler(async (req, res) => {
     throw new ApiError(400, "All input fields are required");
   }
 
-  const profilePic = req.file ? `/uploads/dp/${req.file.filename}` : null;
+  const profilePic = req.file ? `/dp/${req.file.filename}` : null;
 
   try {
     const newAdmin = await Admin.create({

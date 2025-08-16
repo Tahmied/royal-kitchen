@@ -6,7 +6,7 @@ import path from 'path';
 export const mediaUpload = (folderPath) => {
   const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      const uploadPath = path.join('public', 'contents', folderPath);
+      const uploadPath = path.join('public', 'uploads', folderPath);
 
       // Ensure the folder exists, if not, create it
       fs.mkdirSync(uploadPath, { recursive: true });
