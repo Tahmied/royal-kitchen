@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
-const adminSchema = new mongoose.Schema({
-    firstName : {
+const salesSchema = new mongoose.Schema ({
+        firstName : {
         type : String,
         required : true,
         trim : true
@@ -39,10 +39,10 @@ const adminSchema = new mongoose.Schema({
     },
     role : {
         type : String,
-        default : 'Admin'
+        default : "sales"
     }
 }, {
     timestamps : true
 })
 
-export const Admin = mongoose.model('Admin' , adminSchema)
+export const Sales = mongoose.model('Sales' , salesSchema)
