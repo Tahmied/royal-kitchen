@@ -59,7 +59,7 @@ adminSchema.methods.isAdminPassCorrect = async function (password) {
 }
 
 adminSchema.methods.generateAccessTokenAdmin = function () {
-    jwt.sign({
+    return jwt.sign({
         _id : this._id,
         email : this.email
     }, process.env.ADMIN_ACCESS_TOKEN_KEY , {
@@ -68,7 +68,7 @@ adminSchema.methods.generateAccessTokenAdmin = function () {
 }
 
 adminSchema.methods.generateRefreshTokenAdmin = function () {
-  jwt.sign({
+  return jwt.sign({
         _id : this._id,
         email : this.email
     }, process.env.ADMIN_REFRESH_TOKEN_KEY , {

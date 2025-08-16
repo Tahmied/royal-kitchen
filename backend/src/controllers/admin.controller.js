@@ -4,6 +4,33 @@ import { ApiError } from "../utils/apiError.js";
 import { ApiResponse } from '../utils/apiResponse.js';
 import { asyncHandler } from "../utils/asyncHandler.js";
 
+const generateAccessAndRefreshTokenAdmin = async (id) => {
+  try {
+    const admin = await Admin.findById(id);
+    if (!admin) {
+      throw new ApiError(404, "Admin not found");
+    }
+
+    const accessToken = await admin.generateAccessTokenAdmin();
+    const refreshToken = await admin.generateRefreshTokenAdmin();
+
+    if (!accessToken || !refreshToken) {
+      throw new ApiError(500, "Unable to generate tokens");
+    }
+
+    await Admin.findByIdAndUpdate(
+      id,
+      { $set: { refreshToken } },
+      { new: true, validateBeforeSave: false }
+    );
+
+    return { accessToken, refreshToken };
+  } catch (err) {
+    throw new ApiError(500, "Failed to generate tokens", err);
+  }
+};
+
+
 export const registerAdmin = asyncHandler(async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
 
@@ -32,4 +59,41 @@ export const registerAdmin = asyncHandler(async (req, res) => {
     if (req.file) fs.unlinkSync(req.file.path);
     throw new ApiError(500, "Unable to register admin", err);
   }
+});
+
+export const loginAdmin = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    throw new ApiError(400, "All login input fields are required");
+  }
+
+  const admin = await Admin.findOne({ email });
+  if (!admin) {
+    throw new ApiError(404, "No admin account found with that email");
+  }
+
+  const isPassCorrect = await admin.isAdminPassCorrect(password);
+  if (!isPassCorrect) {
+    throw new ApiError(400, "Wrong password");
+  }
+
+  if (!admin.isActive) {
+    throw new ApiError(403, "Account is not active");
+  }
+
+  const { accessToken, refreshToken } = await generateAccessAndRefreshTokenAdmin(admin._id);
+
+  const cookieOptions = {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict"
+  };
+
+  const { password: _, refreshToken: __, ...safeAdmin } = admin.toObject();
+
+  return res
+    .status(200)
+    .cookie("AdminAccessToken", accessToken, cookieOptions)
+    .cookie("AdminRefreshToken", refreshToken, cookieOptions)
+    .json(new ApiResponse(200, safeAdmin, "Admin login successful"));
 });
