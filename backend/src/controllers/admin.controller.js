@@ -30,7 +30,6 @@ const generateAccessAndRefreshTokenAdmin = async (id) => {
   }
 };
 
-
 export const registerAdmin = asyncHandler(async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
 
@@ -63,9 +62,11 @@ export const registerAdmin = asyncHandler(async (req, res) => {
 
 export const loginAdmin = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
+
   if (!email || !password) {
     throw new ApiError(400, "All login input fields are required");
   }
+
 
   const admin = await Admin.findOne({ email });
   if (!admin) {

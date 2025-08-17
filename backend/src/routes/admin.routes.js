@@ -6,5 +6,4 @@ const router = Router()
 
 router.post('/register', mediaUpload('/dp').single('avatar') , registerAdmin)
 router.post('/login' , loginAdmin)
-
 export default router
