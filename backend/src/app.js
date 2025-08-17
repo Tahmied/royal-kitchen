@@ -12,8 +12,10 @@ app.use(cookieParser())
 app.use(express.static('public'))
 
 import adminRoutes from './routes/admin.routes.js'
+import leadRoutes from './routes/lead.routes.js'
 
 app.use('/api/v1/admin' , adminRoutes)
+app.use('/api/v1/leads' , leadRoutes)
 
 app.use(errorHandler);
 export { app }

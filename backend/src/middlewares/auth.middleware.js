@@ -4,8 +4,10 @@ import { ApiError } from "../utils/apiError.js";
 import { ApiResponse } from '../utils/apiResponse.js';
 import { asyncHandler } from "../utils/asyncHandler.js";
 
+// todo
+// check the the logged in user is admin or not
 
-export const auth = asyncHandler(async(req,res,next)=>{
+export const adminAuth = asyncHandler(async(req,res,next)=>{
     try {
         const accessToken = req.cookies?.AdminAccessToken || req.header('Authorization')?.replace('Bearer ', '')
         if(!accessToken){

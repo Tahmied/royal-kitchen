@@ -1,5 +1,6 @@
 import fs from 'fs';
 import { Admin } from '../models/admin.model.js';
+import { Lead } from '../models/leads.model.js';
 import { ApiError } from "../utils/apiError.js";
 import { ApiResponse } from '../utils/apiResponse.js';
 import { asyncHandler } from "../utils/asyncHandler.js";
@@ -29,6 +30,9 @@ const generateAccessAndRefreshTokenAdmin = async (id) => {
     throw new ApiError(500, "Failed to generate tokens", err);
   }
 };
+
+
+// auth controllers
 
 export const registerAdmin = asyncHandler(async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
@@ -136,3 +140,63 @@ export const logout = asyncHandler(async (req, res) => {
     .clearCookie('AdminRefreshToken', cookieOptions)
     .json(new ApiResponse(200, null, 'Admin logged out'));
 });
+
+
+// leads
+
+export const getLeads = asyncHandler (async (req,res)=>{
+
+  const page  = Math.max(1, parseInt(req.query.page, 10)  || 1);
+  const limit = Math.max(1, parseInt(req.query.limit, 10) || 20);
+  const skip  = (page - 1) * limit;
+  const totalLeads = await Lead.countDocuments()
+  const leads = await Lead.find()
+  .sort({createdAt: -1})
+  .skip(skip)
+  .limit(limit)
+  .lean()
+  let response = {
+    page , limit , totalLeads, leads
+  } 
+
+  return res.status(200).json(
+    new ApiResponse(200 , response , 'leads fetched')
+  )
+  
+})
+
+export const editLead = asyncHandler ( async (req,res)=>{
+
+  const {id, name, email, phone, message, status, tag, notes} = req.body
+
+  if(!name && !email && !phone && !message && status && tag && notes){
+    throw new ApiError(400 , 'at least one of the fields should be filled')
+  }
+
+  if(!id){
+    throw new ApiError(400 , 'lead id is required')
+  }
+
+  const lead = await Lead.findById({id})
+  if(!lead){
+    throw new ApiError(404, 'unable to find the lead to edit')
+  }
+
+  if(name !== undefined) lead.name = name
+  if(email !== undefined) lead.email = email.trim()
+  if(phone !== undefined) lead.phone = phone.trim()
+  if(message !== undefined) lead.message = message
+  if(status !== undefined) lead.status = status
+  const validStatus = ['New', 'Called','Trash']
+  if(!validStatus.includes(status)){
+    throw new ApiError(400, `valid status are - ${validStatus.join(', ')}`)
+  }
+  if(tag !== undefined) lead.tag = tag
+  if(notes !== notes) lead.notes = notes
+
+  await lead.save()
+  return res.status(201).json(
+    new ApiResponse(201 , lead , 'lead updated successfully')
+  )
+
+})
