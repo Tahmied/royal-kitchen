@@ -172,8 +172,9 @@ export const getLeads = asyncHandler(async (req, res) => {
 });
 
 export const editLead = asyncHandler(async (req, res) => {
-    const { id } = req.params; 
-    const { name, email, phone, message, status, tag, notes } = req.body;
+    const { id } = req.params;
+    const { name, email, phone, message, status, tag, notes, followUpDate, assignedTo, assignedToModel } = req.body;
+    const userRole = req.user.role; 
 
     if (!id) {
         throw new ApiError(400, 'Lead ID is required');
@@ -187,6 +188,15 @@ export const editLead = asyncHandler(async (req, res) => {
     if (status) updateFields.status = status;
     if (tag) updateFields.tag = tag;
     if (notes) updateFields.notes = notes;
+    
+    if (followUpDate) updateFields.followUpDate = new Date(followUpDate);
+
+    if (userRole === 'Admin') {
+        if (assignedTo) updateFields.assignedTo = assignedTo;
+        if (assignedToModel) updateFields.assignedToModel = assignedToModel;
+    } else if (assignedTo || assignedToModel) {
+        throw new ApiError(403, 'Permission denied. You cannot change lead assignments.');
+    }
 
     if (Object.keys(updateFields).length === 0) {
         throw new ApiError(400, 'At least one field should be provided for update');
@@ -205,4 +215,105 @@ export const editLead = asyncHandler(async (req, res) => {
     return res.status(200).json(
         new ApiResponse(200, updatedLead, 'Lead updated successfully')
     );
+});
+
+export const assignLead = asyncHandler(async (req, res) => {
+    const { id } = req.params; 
+    const { userId, role } = req.body; 
+
+    if (!id || !userId || !role) {
+        throw new ApiError(400, 'Lead ID, user ID, and role are required');
+    }
+
+    if (!['Admin', 'Sales'].includes(role)) {
+        throw new ApiError(400, 'Invalid role provided');
+    }
+
+    const lead = await Lead.findByIdAndUpdate(
+        id,
+        {
+            $set: {
+                assignedTo: userId,
+                assignedToModel: role
+            }
+        },
+        { new: true }
+    );
+
+    if (!lead) {
+        throw new ApiError(404, 'Lead not found');
+    }
+
+    return res.status(200).json(
+        new ApiResponse(200, lead, 'Lead assigned successfully')
+    );
+});
+
+export const deleteLead = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+
+    if (!id) {
+        throw new ApiError(400, 'Lead ID is required for deletion');
+    }
+
+    const deletedLead = await Lead.findByIdAndDelete(id);
+
+    if (!deletedLead) {
+        throw new ApiError(404, 'Lead not found or already deleted');
+    }
+
+    return res.status(200).json(
+        new ApiResponse(200, null, 'Lead deleted successfully')
+    );
+});
+
+export const getFollowUpLeadsAdmin = asyncHandler(async (req, res) => {
+  
+    if (req.user.role !== 'Admin') {
+        throw new ApiError(403, 'Permission denied. Only admins can view all follow-up leads.');
+    }
+
+    const allFollowUpLeads = await Lead.find({
+        followUpDate: { $lte: new Date() }
+    });
+
+    if (!allFollowUpLeads || allFollowUpLeads.length === 0) {
+        return res.status(200).json(
+            new ApiResponse(200, [], 'No follow-up leads found at this time.')
+        );
+    }
+
+    return res.status(200).json(
+        new ApiResponse(200, allFollowUpLeads, 'All follow-up leads fetched successfully')
+    );
+});
+
+export const exportLeads = asyncHandler(async (req, res) => {
+    if (req.user.role !== 'Admin') {
+        throw new ApiError(403, 'Permission denied. Only admins can export data.');
+    }
+
+    const leads = await Lead.find().lean(); 
+
+    const columns = [
+        'ID', 'Name', 'Email', 'Phone', 'Message', 
+        'Status', 'Tag', 'Notes', 'Follow Up Date', 
+        'Created At', 'Updated At'
+    ];
+
+    const data = leads.map(lead => [
+        lead._id, lead.name, lead.email, lead.phone, lead.message,
+        lead.status, lead.tag, lead.notes, lead.followUpDate,
+        lead.createdAt, lead.updatedAt
+    ]);
+
+    stringify(data, { header: true, columns: columns }, (err, csvString) => {
+        if (err) {
+            throw new ApiError(500, 'Failed to generate CSV file');
+        }
+
+        res.setHeader('Content-Type', 'text/csv');
+        res.setHeader('Content-Disposition', 'attachment; filename="leads.csv"');
+        return res.status(200).send(csvString);
+    });
 });

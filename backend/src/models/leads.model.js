@@ -33,7 +33,22 @@ const leadSchema = new mongoose.Schema({
     followUpDate: {
         type: Date,
         default: null
-    }
+    },
+    assignedSalesperson: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Admin',
+        default: null
+    },
+    assignedTo: {
+        type: mongoose.Schema.Types.ObjectId,
+        refPath: 'assignedToModel', 
+        default: null
+    },
+    assignedToModel: { 
+        type: String,
+        enum: ['Admin', 'Sales'], 
+        default: null
+    },
 }, {
     timestamps: true
 });
