@@ -48,8 +48,10 @@ document.getElementById('loginForm').addEventListener('submit' , async function 
                 e.preventDefault()
                 toast.style.display = 'none'
             })
+        } else {
+            window.location.href = '/admin/index.html'
         }
-        window.location.href = '/admin/index.html'
+        
     } catch (err) {
         console.log(`unable to login due to ${err}`)
     } finally {
