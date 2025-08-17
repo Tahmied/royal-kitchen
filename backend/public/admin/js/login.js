@@ -3,8 +3,20 @@ const toastText = document.querySelector('.login-message-text')
 const toastSubText = document.querySelector('.login-sub-text')
 const toastCross = document.querySelector('.cross-icon-toast')
 
-document.addEventListener('DOMContentLoaded' , ()=>{
-    console.log(document.cookie)
+document.addEventListener('DOMContentLoaded' , async ()=>{
+    try {
+        const response = await fetch('/api/v1/admin/checkLogin' , {
+            method : 'GET',
+            credentials : 'include',
+        })
+        const data = await response.json()
+        if(response.ok) {
+            window.location.href = '/admin/index.html'
+        } 
+
+    } catch (err) {
+        console.log(err)
+    }
 })
 
 document.getElementById('loginForm').addEventListener('submit' , async function (e) {
