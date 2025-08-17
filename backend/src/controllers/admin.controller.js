@@ -112,3 +112,27 @@ export const checkAdminLogin = asyncHandler(async (req,res)=>{
         new ApiResponse(200 , {"name" : admin.firstName , "email" : admin.email}, 'admin is logged in')
     )
 })
+
+export const logout = asyncHandler(async (req, res) => {
+  const admin = req.user;
+  if (!admin) {
+    return res.status(401).json(
+      new ApiResponse(401, null, 'Not logged in')
+    );
+  }
+
+  admin.refreshToken = null;
+  await admin.save();
+
+  const cookieOptions = {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+    path: '/'
+  };
+
+  return res.status(200)
+    .clearCookie('AdminAccessToken', cookieOptions)
+    .clearCookie('AdminRefreshToken', cookieOptions)
+    .json(new ApiResponse(200, null, 'Admin logged out'));
+});
