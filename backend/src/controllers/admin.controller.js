@@ -144,59 +144,65 @@ export const logout = asyncHandler(async (req, res) => {
 
 // leads
 
-export const getLeads = asyncHandler (async (req,res)=>{
+export const getLeads = asyncHandler(async (req, res) => {
+    const { page = 1, limit = 20, status, tag, startDate, endDate } = req.query;
 
-  const page  = Math.max(1, parseInt(req.query.page, 10)  || 1);
-  const limit = Math.max(1, parseInt(req.query.limit, 10) || 20);
-  const skip  = (page - 1) * limit;
-  const totalLeads = await Lead.countDocuments()
-  const leads = await Lead.find()
-  .sort({createdAt: -1})
-  .skip(skip)
-  .limit(limit)
-  .lean()
-  let response = {
-    page , limit , totalLeads, leads
-  } 
+    const query = {};
+    if (status) query.status = status;
+    if (tag) query.tag = tag;
+    if (startDate && endDate) {
+        query.createdAt = {
+            $gte: new Date(startDate),
+            $lte: new Date(endDate)
+        };
+    }
 
-  return res.status(200).json(
-    new ApiResponse(200 , response , 'leads fetched')
-  )
-  
-})
+    const totalLeads = await Lead.countDocuments(query);
+    const leads = await Lead.find(query)
+        .sort({ createdAt: -1 })
+        .skip((page - 1) * limit)
+        .limit(limit)
+        .lean();
 
-export const editLead = asyncHandler ( async (req,res)=>{
+    const totalPages = Math.ceil(totalLeads / limit);
 
-  const {id, name, email, phone, message, status, tag, notes} = req.body
+    return res.status(200).json(
+        new ApiResponse(200, { page: Number(page), limit: Number(limit), totalLeads, totalPages, leads }, 'Leads fetched successfully with applied filters')
+    );
+});
 
-  if(!name && !email && !phone && !message && status && tag && notes){
-    throw new ApiError(400 , 'at least one of the fields should be filled')
-  }
+export const editLead = asyncHandler(async (req, res) => {
+    const { id } = req.params; 
+    const { name, email, phone, message, status, tag, notes } = req.body;
 
-  if(!id){
-    throw new ApiError(400 , 'lead id is required')
-  }
+    if (!id) {
+        throw new ApiError(400, 'Lead ID is required');
+    }
 
-  const lead = await Lead.findById({id})
-  if(!lead){
-    throw new ApiError(404, 'unable to find the lead to edit')
-  }
+    const updateFields = {};
+    if (name) updateFields.name = name;
+    if (email) updateFields.email = email.trim();
+    if (phone) updateFields.phone = phone.trim();
+    if (message) updateFields.message = message;
+    if (status) updateFields.status = status;
+    if (tag) updateFields.tag = tag;
+    if (notes) updateFields.notes = notes;
 
-  if(name !== undefined) lead.name = name
-  if(email !== undefined) lead.email = email.trim()
-  if(phone !== undefined) lead.phone = phone.trim()
-  if(message !== undefined) lead.message = message
-  if(status !== undefined) lead.status = status
-  const validStatus = ['New', 'Called','Trash']
-  if(!validStatus.includes(status)){
-    throw new ApiError(400, `valid status are - ${validStatus.join(', ')}`)
-  }
-  if(tag !== undefined) lead.tag = tag
-  if(notes !== notes) lead.notes = notes
+    if (Object.keys(updateFields).length === 0) {
+        throw new ApiError(400, 'At least one field should be provided for update');
+    }
 
-  await lead.save()
-  return res.status(201).json(
-    new ApiResponse(201 , lead , 'lead updated successfully')
-  )
+    const updatedLead = await Lead.findByIdAndUpdate(
+        id,
+        { $set: updateFields },
+        { new: true, runValidators: true }
+    );
 
-})
+    if (!updatedLead) {
+        throw new ApiError(404, 'Unable to find the lead to edit');
+    }
+
+    return res.status(200).json(
+        new ApiResponse(200, updatedLead, 'Lead updated successfully')
+    );
+});
