@@ -3,6 +3,10 @@ const toastText = document.querySelector('.login-message-text')
 const toastSubText = document.querySelector('.login-sub-text')
 const toastCross = document.querySelector('.cross-icon-toast')
 
+document.addEventListener('DOMContentLoaded' , ()=>{
+    console.log(document.cookie)
+})
+
 document.getElementById('loginForm').addEventListener('submit' , async function (e) {
     e.preventDefault()
 

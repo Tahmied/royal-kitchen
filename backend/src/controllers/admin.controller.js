@@ -98,3 +98,17 @@ export const loginAdmin = asyncHandler(async (req, res) => {
     .cookie("AdminRefreshToken", refreshToken, cookieOptions)
     .json(new ApiResponse(200, safeAdmin, "Admin login successful"));
 });
+
+export const checkAdminLogin = asyncHandler(async (req,res)=>{
+
+    const admin = req.user
+    
+    if(!admin){
+        return res.status(401).json(new ApiResponse(401, null, 'admin not found'))
+    }
+
+
+    return res.status(200).json(
+        new ApiResponse(200 , {"name" : admin.firstName , "email" : admin.email}, 'admin is logged in')
+    )
+})
