@@ -32,7 +32,7 @@
  .sidebar {
      width: var(--sidebar-width);
      background: linear-gradient(180deg, var(--dark), var(--darker));
-     height: 100vh;
+     height: 100%;
      position: fixed;
      top: 0;
      left: 0;
@@ -511,6 +511,7 @@
          flex-direction: column;
          align-items: flex-start;
          gap: 20px;
+         margin-top: 3rem;
     }
      .header-actions {
          width: 100%;

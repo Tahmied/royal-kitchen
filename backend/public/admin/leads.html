@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Royal Kitchen | Leads</title>
+    <title> Royal Kitchen | Leads </title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/leads-styles.css">
+    <link rel="stylesheet" href="./css/leads-componants-styles.css">
 </head>
 <body>
     <!-- Mobile Toggle Button -->
@@ -60,153 +61,317 @@
     <!-- Main Content -->
     <div class="main-content">
         <!-- Header -->
-        <div class="header">
-            <h1 class="page-title">Leads</h1>
-            <div class="header-actions">
-                <div class="notification">
-                    <i class="fas fa-bell"></i>
-                </div>
-                <div class="user-profile">
-                    <div class="user-avatar">JD</div>
-                    <div>
-                        <div class="user-name">John Doe</div>
-                        <div class="user-role">Administrator</div>
+        
+
+        <!-- Main Content -->
+        <div class="main-contents-content">
+
+            <div class="leads-head-section">
+                <div class="header-content">
+                    <div class="header-left">
+                        <h1 class="header-title">
+                            <i class="fas fa-users"></i>
+                            Lead Management
+                        </h1>
+                    </div>
+                    <div class="header-right">
+                        <button class="btn btn-primary" id="addLeadBtn">
+                            <i class="fas fa-plus"></i>
+                            Add Lead
+                        </button>
+                        <button class="btn btn-secondary" id="exportBtn">
+                            <i class="fas fa-download"></i>
+                            Export CSV
+                        </button>
                     </div>
                 </div>
             </div>
-        </div>
+            <!-- Filters Section -->
+            <section class="filters-section">
+                <div class="filters-container">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="Search leads..." autocomplete="off">
+                    </div>
 
-        <!-- Lead Management -->
-        <div class="management-section">
-            <div class="section-header">
-                <h2 class="section-title">Lead Management</h2>
-                <div>
-                    <button class="btn btn-outline">
-                        <i class="fas fa-download"></i> Export CSV
+                    <div class="filter-group">
+                        <select id="statusFilter" class="filter-select">
+                            <option value="">All Statuses</option>
+                            <option value="new">New</option>
+                            <option value="contacted">Contacted</option>
+                            <option value="in-progress">In Progress</option>
+                            <option value="closed">Closed</option>
+                            <option value="trash">Trash</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <select id="tagFilter" class="filter-select">
+                            <option value="">All Priorities</option>
+                            <option value="important">Important</option>
+                            <option value="less-important">Less Important</option>
+                            <option value="urgent">Urgent</option>
+                            <option value="follow-up">Follow-up</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label class="filter-label">Created Date:</label>
+                        <input type="date" id="dateFromFilter" class="filter-input" placeholder="Created from">
+                        <span class="filter-separator">to</span>
+                        <input type="date" id="dateToFilter" class="filter-input" placeholder="Created to">
+                    </div>
+
+                    <div class="filter-group">
+                        <label class="filter-label">Follow-up Date:</label>
+                        <input type="date" id="followUpFromFilter" class="filter-input" placeholder="Follow-up from">
+                        <span class="filter-separator">to</span>
+                        <input type="date" id="followUpToFilter" class="filter-input" placeholder="Follow-up to">
+                    </div>
+
+                    <button class="btn btn-outline" id="clearFiltersBtn">
+                        <i class="fas fa-times"></i>
+                        Clear
                     </button>
                 </div>
-            </div>
-            
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Contact</th>
-                            <th>Message</th>
-                            <th>Date</th>
-                            <th>Status</th>
-                            <th>Tag</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Michael Anderson</td>
-                            <td>m.anderson@email.com</td>
-                            <td>Interested in your web development services...</td>
-                            <td>Today, 09:24 AM</td>
-                            <td><span class="status status-new">New</span></td>
-                            <td><span class="tag tag-important">Important</span></td>
-                            <td>
-                                <button class="action-btn"><i class="fas fa-eye"></i></button>
-                                <button class="action-btn"><i class="fas fa-reply"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Jennifer Lopez</td>
-                            <td>jennifer@lopez.com</td>
-                            <td>We need a mobile app for our restaurant...</td>
-                            <td>Yesterday, 04:15 PM</td>
-                            <td><span class="status status-viewed">Viewed</span></td>
-                            <td><span class="tag tag-normal">Normal</span></td>
-                            <td>
-                                <button class="action-btn"><i class="fas fa-eye"></i></button>
-                                <button class="action-btn"><i class="fas fa-reply"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Thomas Wright</td>
-                            <td>+1 (555) 123-4567</td>
-                            <td>Looking for a redesign of our corporate website...</td>
-                            <td>Jun 15, 2023</td>
-                            <td><span class="status status-replied">Replied</span></td>
-                            <td><span class="tag tag-important">Important</span></td>
-                            <td>
-                                <button class="action-btn"><i class="fas fa-eye"></i></button>
-                                <button class="action-btn"><i class="fas fa-reply"></i></button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            </section>
+
+            <!-- Bulk Actions -->
+            <section class="bulk-actions" id="bulkActions" style="display: none;">
+                <div class="bulk-actions-content">
+                    <span class="bulk-selected-count" id="selectedCount">0 selected</span>
+                    <div class="bulk-buttons">
+                        <select id="bulkStatusSelect" class="bulk-select">
+                            <option value="">Change Status</option>
+                            <option value="new">New</option>
+                            <option value="contacted">Contacted</option>
+                            <option value="in-progress">In Progress</option>
+                            <option value="closed">Closed</option>
+                            <option value="trash">Trash</option>
+                        </select>
+                        <select id="bulkAssignSelect" class="bulk-select">
+                            <option value="">Assign To</option>
+                            <option value="john-doe">John Doe</option>
+                            <option value="jane-smith">Jane Smith</option>
+                            <option value="mike-johnson">Mike Johnson</option>
+                            <option value="sarah-wilson">Sarah Wilson</option>
+                        </select>
+                        <select id="bulkPrioritySelect" class="bulk-select">
+                            <option value="">Change Priority</option>
+                            <option value="important">Important</option>
+                            <option value="less-important">Less Important</option>
+                            <option value="urgent">Urgent</option>
+                            <option value="follow-up">Follow-up</option>
+                        </select>
+                        <button class="btn btn-danger btn-sm" id="bulkDeleteBtn">
+                            <i class="fas fa-trash"></i>
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Leads Table -->
+            <section class="leads-section">
+                <div class="table-container">
+                    <table class="leads-table" id="leadsTable">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input type="checkbox" id="selectAllCheckbox" class="checkbox">
+                                </th>
+                                <th>Name</th>
+                                <th>Contact</th>
+                                <th>Status</th>
+                                <th>Priority</th>
+                                <th>Assigned To</th>
+                                <th>Follow-up</th>
+                                <th>Created</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leadsTableBody">
+                            <!-- Leads will be populated here -->
+                        </tbody>
+                    </table>
+
+                    <!-- Empty State -->
+                    <div class="empty-state" id="emptyState" style="display: none;">
+                        <i class="fas fa-users"></i>
+                        <h3>No leads found</h3>
+                        <p>Start by adding your first lead or adjust your search filters.</p>
+                        <button class="btn btn-primary" id="addFirstLeadBtn">
+                            <i class="fas fa-plus"></i>
+                            Add Your First Lead
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Pagination Section -->
+                <div class="pagination-section" id="paginationSection">
+                    <div class="pagination-info">
+                        <span id="paginationInfo">Showing 1-20 of 100 leads</span>
+                    </div>
+                    <div class="pagination-controls">
+                        <div class="page-size-control">
+                            <label for="pageSizeSelect">Show:</label>
+                            <select id="pageSizeSelect" class="page-size-select">
+                                <option value="10">10</option>
+                                <option value="20" selected>20</option>
+                                <option value="30">30</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                                <option value="custom">Custom</option>
+                            </select>
+                            <input type="number" id="customPageSize" class="custom-page-size" 
+                                   placeholder="Enter number" min="1" max="1000" style="display: none;">
+                        </div>
+                        <div class="pagination-buttons">
+                            <button class="btn btn-outline btn-sm" id="firstPageBtn" disabled>
+                                <i class="fas fa-angle-double-left"></i>
+                            </button>
+                            <button class="btn btn-outline btn-sm" id="prevPageBtn" disabled>
+                                <i class="fas fa-angle-left"></i>
+                            </button>
+                            <span class="page-numbers" id="pageNumbers"></span>
+                            <button class="btn btn-outline btn-sm" id="nextPageBtn">
+                                <i class="fas fa-angle-right"></i>
+                            </button>
+                            <button class="btn btn-outline btn-sm" id="lastPageBtn">
+                                <i class="fas fa-angle-double-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Add/Edit Lead Modal -->
+        <div class="modal" id="leadModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="modalTitle">Add New Lead</h2>
+                    <button class="modal-close" id="closeModalBtn">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <form id="leadForm" class="modal-body">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="leadName">Full Name *</label>
+                            <input type="text" id="leadName" name="name" required autocomplete="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="leadEmail">Email *</label>
+                            <input type="email" id="leadEmail" name="email" required autocomplete="email">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="leadPhone">Phone</label>
+                            <input type="tel" id="leadPhone" name="phone" autocomplete="tel">
+                        </div>
+                        <div class="form-group">
+                            <label for="leadCompany">Company</label>
+                            <input type="text" id="leadCompany" name="company" autocomplete="organization">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="leadStatus">Status</label>
+                            <select id="leadStatus" name="status">
+                                <option value="new">New</option>
+                                <option value="contacted">Contacted</option>
+                                <option value="in-progress">In Progress</option>
+                                <option value="closed">Closed</option>
+                                <option value="trash">Trash</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="leadTag">Priority</label>
+                            <select id="leadTag" name="tag">
+                                <option value="important">Important</option>
+                                <option value="less-important">Less Important</option>
+                                <option value="urgent">Urgent</option>
+                                <option value="follow-up">Follow-up</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="leadAssigned">Assign To</label>
+                        <select id="leadAssigned" name="assignedTo">
+                            <option value="">Unassigned</option>
+                            <option value="john-doe">John Doe</option>
+                            <option value="jane-smith">Jane Smith</option>
+                            <option value="mike-johnson">Mike Johnson</option>
+                            <option value="sarah-wilson">Sarah Wilson</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="leadMessage">Initial Message</label>
+                        <textarea id="leadMessage" name="message" rows="3" placeholder="Lead's initial inquiry or message..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="leadFollowUp">Follow-up Date</label>
+                        <input type="date" id="leadFollowUp" name="followUpDate">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="leadNotes">Notes</label>
+                        <textarea id="leadNotes" name="notes" rows="3" placeholder="Internal notes about this lead..."></textarea>
+                    </div>
+                </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" id="cancelModalBtn">Cancel</button>
+                    <button type="submit" form="leadForm" class="btn btn-primary" id="saveLeadBtn">Save Lead</button>
+                </div>
             </div>
         </div>
 
-        <div class="management-section">
-            <div class="section-header">
-                <h2 class="section-title">Todays Followup leads</h2>
-                <div>
-                    <button class="btn btn-outline">
-                        <i class="fas fa-download"></i> Export CSV
+        <!-- View Lead Details Modal -->
+        <div class="modal" id="viewLeadModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Lead Details</h2>
+                    <button class="modal-close" id="closeViewModalBtn">
+                        <i class="fas fa-times"></i>
                     </button>
                 </div>
-            </div>
-            
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Contact</th>
-                            <th>Message</th>
-                            <th>Date</th>
-                            <th>Status</th>
-                            <th>Tag</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Michael Anderson</td>
-                            <td>m.anderson@email.com</td>
-                            <td>Interested in your web development services...</td>
-                            <td>Today, 09:24 AM</td>
-                            <td><span class="status status-new">New</span></td>
-                            <td><span class="tag tag-important">Important</span></td>
-                            <td>
-                                <button class="action-btn"><i class="fas fa-eye"></i></button>
-                                <button class="action-btn"><i class="fas fa-reply"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Jennifer Lopez</td>
-                            <td>jennifer@lopez.com</td>
-                            <td>We need a mobile app for our restaurant...</td>
-                            <td>Yesterday, 04:15 PM</td>
-                            <td><span class="status status-viewed">Viewed</span></td>
-                            <td><span class="tag tag-normal">Normal</span></td>
-                            <td>
-                                <button class="action-btn"><i class="fas fa-eye"></i></button>
-                                <button class="action-btn"><i class="fas fa-reply"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Thomas Wright</td>
-                            <td>+1 (555) 123-4567</td>
-                            <td>Looking for a redesign of our corporate website...</td>
-                            <td>Jun 15, 2023</td>
-                            <td><span class="status status-replied">Replied</span></td>
-                            <td><span class="tag tag-important">Important</span></td>
-                            <td>
-                                <button class="action-btn"><i class="fas fa-eye"></i></button>
-                                <button class="action-btn"><i class="fas fa-reply"></i></button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="modal-body">
+                    <div class="lead-details" id="leadDetailsContent">
+                        <!-- Lead details will be populated here -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" id="closeViewLeadBtn">Close</button>
+                    <button type="button" class="btn btn-primary" id="editFromViewBtn">Edit Lead</button>
+                </div>
             </div>
         </div>
-        
+
+        <!-- Delete Confirmation Modal -->
+        <div class="modal" id="deleteModal">
+            <div class="modal-content modal-sm">
+                <div class="modal-header">
+                    <h2>Confirm Delete</h2>
+                    <button class="modal-close" id="closeDeleteModalBtn">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="deleteMessage">Are you sure you want to delete this lead? This action cannot be undone.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" id="cancelDeleteBtn">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -249,5 +414,8 @@
             });
         });
     </script>
+    <script src="js/utils.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>
