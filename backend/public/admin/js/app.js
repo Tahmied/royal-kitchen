@@ -269,43 +269,33 @@ class LeadManagementApp {
 
     async handleSearch(searchTerm) {
         this.searchTerm = (searchTerm || '').trim().toLowerCase();
+        this.currentFilters.search = this.searchTerm; // Store search in currentFilters
         this.currentPage = 1;
         try {
-            await this.dataManager.loadLeads({
-                ...this.currentFilters,
-                search: this.searchTerm,
-                page: this.currentPage,
-                limit: this.pageSize
-            });
+            // Just call loadLeads, it will use the updated currentFilters
+            await this.dataManager.loadLeads({ ...this.currentFilters, page: 1 });
         } catch (err) {
             showNotification('Error', err.message || 'Search failed', 'error');
         }
     }
 
-
-    async handleFilterChange(filterType, value) {
-        if (value) {
-            if (filterType === 'dateFrom' || filterType === 'dateTo') {
-                // backend expects startDate / endDate names
-                if (filterType === 'dateFrom') this.currentFilters.startDate = value;
-                if (filterType === 'dateTo') this.currentFilters.endDate = value;
-            } else {
-                this.currentFilters[filterType] = value;
-            }
-        } else {
-            // remove filter
-            if (filterType === 'dateFrom') delete this.currentFilters.startDate;
-            else if (filterType === 'dateTo') delete this.currentFilters.endDate;
-            else delete this.currentFilters[filterType];
-        }
-
-        this.currentPage = 1;
-        try {
-            await this.dataManager.loadLeads({ ...this.currentFilters, page: this.currentPage, limit: this.pageSize });
-        } catch (err) {
-            showNotification('Error', err.message || 'Filter failed', 'error');
-        }
+async handleFilterChange(filterType, value) {
+    // Update the currentFilters state object
+    if (value) {
+        this.currentFilters[filterType] = value;
+    } else {
+        delete this.currentFilters[filterType];
     }
+
+    this.currentPage = 1;
+    try {
+        // Trigger a reload from the dataManager with the combined filters
+        await this.dataManager.loadLeads({ ...this.currentFilters, page: 1 });
+    } catch (err) {
+        showNotification('Error', err.message || 'Filter failed', 'error');
+    }
+}
+
 
     clearFilters() {
         this.currentFilters = {};
@@ -663,37 +653,40 @@ class LeadManagementApp {
         }, 300);
     }
 
-    async editLead(leadId) {
-        let lead = this.dataManager.leads.find(l => l._id === leadId);
+async editLead(leadId) {
+    let lead = this.dataManager.leads.find(l => l._id === leadId);
 
-        if (!lead) {
-            try {
-                lead = await this.dataManager.getLeadById(leadId);
-            } catch (err) {
-                showNotification('Error', 'Lead not found', 'error');
-                return;
-            }
+    if (!lead) {
+        try {
+            lead = await this.dataManager.getLeadById(leadId);
+        } catch (err) {
+            showNotification('Error', 'Lead not found', 'error');
+            return;
         }
-
-        this.currentEditingLead = lead;
-        document.getElementById('modalTitle').textContent = 'Edit Lead';
-        document.getElementById('saveLeadBtn').textContent = 'Update Lead';
-
-        // Populate form
-        document.getElementById('leadName').value = lead.name;
-        document.getElementById('leadEmail').value = lead.email;
-        document.getElementById('leadPhone').value = lead.phone || '';
-        document.getElementById('leadCompany').value = lead.company || '';
-        document.getElementById('leadStatus').value = lead.status;
-        document.getElementById('leadTag').value = lead.tag;
-        document.getElementById('leadAssigned').value = lead.assignedTo || '';
-        document.getElementById('leadMessage').value = lead.message || '';
-        document.getElementById('leadNotes').value = lead.notes || '';
-        document.getElementById('leadFollowUp').value = lead.followUpDate || '';
-
-        this.clearFormErrors();
-        showModal('leadModal');
     }
+
+    this.currentEditingLead = lead;
+    document.getElementById('modalTitle').textContent = 'Edit Lead';
+    document.getElementById('saveLeadBtn').textContent = 'Update Lead';
+
+    // Populate form
+    document.getElementById('leadName').value = lead.name;
+    document.getElementById('leadEmail').value = lead.email;
+    document.getElementById('leadPhone').value = lead.phone || '';
+    document.getElementById('leadCompany').value = lead.company || '';
+    
+    // FIXES: Ensure values match HTML and have a fallback for null/undefined
+    document.getElementById('leadStatus').value = (lead.status || '').toLowerCase();
+    document.getElementById('leadTag').value = (lead.tag || '').toLowerCase();
+    document.getElementById('leadAssigned').value = lead.assignedTo || '';
+
+    document.getElementById('leadMessage').value = lead.message || '';
+    document.getElementById('leadNotes').value = lead.notes || '';
+    document.getElementById('leadFollowUp').value = lead.followUpDate || '';
+
+    this.clearFormErrors();
+    showModal('leadModal');
+}
 
     hideLeadModal() {
         hideModal('leadModal');

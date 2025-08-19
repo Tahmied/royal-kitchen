@@ -123,3 +123,5 @@ public/uploads/dp/*
 
 public/uploads/salesDp/*
 !public/uploads/salesDp/.gitkeep
+/.ds_store
+/.DS_STORE

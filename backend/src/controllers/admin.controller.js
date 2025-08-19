@@ -146,16 +146,33 @@ export const logout = asyncHandler(async (req, res) => {
 // leads
 
 export const getLeads = asyncHandler(async (req, res) => {
-    const { page = 1, limit = 20, status, tag, startDate, endDate } = req.query;
+    const { page = 1, limit = 20, status, tag, startDate, endDate, search } = req.query;
 
     const query = {};
+
     if (status) query.status = status;
     if (tag) query.tag = tag;
-    if (startDate && endDate) {
-        query.createdAt = {
-            $gte: new Date(startDate),
-            $lte: new Date(endDate)
-        };
+
+    if (search) {
+        const searchRegex = new RegExp(search, 'i'); 
+        query.$or = [
+            { name: { $regex: searchRegex } },
+            { email: { $regex: searchRegex } },
+            { phone: { $regex: searchRegex } },
+            { company: { $regex: searchRegex } },
+            { message: { $regex: searchRegex } },
+            { notes: { $regex: searchRegex } }
+        ];
+    }
+    
+    if (startDate || endDate) {
+        query.createdAt = {};
+        if (startDate) {
+            query.createdAt.$gte = new Date(startDate);
+        }
+        if (endDate) {
+            query.createdAt.$lte = new Date(endDate);
+        }
     }
 
     const totalLeads = await Lead.countDocuments(query);
@@ -391,5 +408,23 @@ export const bulkDeleteLeads = asyncHandler(async (req, res) => {
 
     return res.status(200).json(
         new ApiResponse(200, { deletedCount: result.deletedCount }, `Successfully deleted ${result.deletedCount} lead(s).`)
+    );
+});
+
+export const getSalespersons = asyncHandler(async (req, res) => {
+    if (req.user.role !== 'Admin') {
+        throw new ApiError(403, 'Permission denied. Only admins can view salespersons.');
+    }
+    
+    const salespersons = await Sales.find().select('-password -refreshToken -__v');
+
+    if (!salespersons || salespersons.length === 0) {
+        return res.status(200).json(
+            new ApiResponse(200, [], 'No salespersons found.')
+        );
+    }
+
+    return res.status(200).json(
+        new ApiResponse(200, salespersons, 'Salespersons fetched successfully.')
     );
 });
