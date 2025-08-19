@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import mongoose from "mongoose";
 
 const salesSchema = new mongoose.Schema ({
-        firstName : {
+    firstName : {
         type : String,
         required : true,
         trim : true

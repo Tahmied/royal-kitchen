@@ -157,3 +157,58 @@ export const getFollowUpLeads = asyncHandler(async (req, res) => {
         new ApiResponse(200, leads, 'Follow-up leads fetched successfully')
     );
 });
+
+export const getAssignedLeads = asyncHandler(async (req, res) => {
+    const salespersonId = req.user._id;
+
+    const assignedLeads = await Lead.find({
+        assignedTo: salespersonId,
+        assignedToModel: 'Sales'
+    }).sort({ createdAt: -1 });
+
+    if (!assignedLeads || assignedLeads.length === 0) {
+        return res.status(200).json(
+            new ApiResponse(200, [], 'You have no assigned leads.')
+        );
+    }
+
+    return res.status(200).json(
+        new ApiResponse(200, assignedLeads, 'Assigned leads fetched successfully.')
+    );
+});
+
+export const updateLead = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const { status, tag, notes, followUpDate } = req.body;
+    const salespersonId = req.user._id;
+
+    if (!id) {
+        throw new ApiError(400, 'Lead ID is required.');
+    }
+
+    const updateFields = {};
+    if (status) updateFields.status = status;
+    if (tag) updateFields.tag = tag;
+    if (notes) updateFields.notes = notes;
+    if (followUpDate) updateFields.followUpDate = new Date(followUpDate);
+
+    if (Object.keys(updateFields).length === 0) {
+        throw new ApiError(400, 'At least one field (status, tag, notes, or followUpDate) is required for update.');
+    }
+
+    // Find the lead and ensure it's assigned to the current salesperson before updating
+    const updatedLead = await Lead.findOneAndUpdate(
+        { _id: id, assignedTo: salespersonId, assignedToModel: 'Sales' },
+        { $set: updateFields },
+        { new: true, runValidators: true }
+    );
+
+    if (!updatedLead) {
+        throw new ApiError(404, 'Lead not found or you are not authorized to update this lead.');
+    }
+
+    return res.status(200).json(
+        new ApiResponse(200, updatedLead, 'Lead updated successfully.')
+    );
+});
+
