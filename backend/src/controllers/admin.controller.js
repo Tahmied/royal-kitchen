@@ -219,34 +219,38 @@ export const editLead = asyncHandler(async (req, res) => {
 });
 
 export const assignLead = asyncHandler(async (req, res) => {
-    const { id } = req.params; 
-    const { userId, role } = req.body; 
+    const { leadIds, userId, role } = req.body;
 
-    if (!id || !userId || !role) {
-        throw new ApiError(400, 'Lead ID, user ID, and role are required');
+    if (!leadIds || !Array.isArray(leadIds) || leadIds.length === 0 || !userId || !role) {
+        throw new ApiError(400, 'An array of Lead IDs, a User ID, and a role are all required.');
     }
 
     if (!['Admin', 'Sales'].includes(role)) {
-        throw new ApiError(400, 'Invalid role provided');
+        throw new ApiError(400, 'Invalid role provided.');
     }
 
-    const lead = await Lead.findByIdAndUpdate(
-        id,
+    const result = await Lead.updateMany(
+        { _id: { $in: leadIds } }, 
         {
             $set: {
                 assignedTo: userId,
                 assignedToModel: role
             }
-        },
-        { new: true }
+        }
     );
 
-    if (!lead) {
-        throw new ApiError(404, 'Lead not found');
+    if (result.modifiedCount === 0) {
+        return res.status(404).json(
+            new ApiResponse(404, null, 'No leads were found to be updated.')
+        );
     }
 
     return res.status(200).json(
-        new ApiResponse(200, lead, 'Lead assigned successfully')
+        new ApiResponse(
+            200,
+            { modifiedCount: result.modifiedCount },
+            `Successfully assigned ${result.modifiedCount} lead(s).`
+        )
     );
 });
 

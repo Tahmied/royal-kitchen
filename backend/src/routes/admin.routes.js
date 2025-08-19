@@ -16,7 +16,7 @@ router.get('/logout' , adminAuth, logout)
 router.get('/getLeads' ,adminAuth , getLeads )
 router.put('/editLead/:id' , adminAuth , editLead )
 router.delete('/deleteLead/:id', adminAuth, deleteLead); 
-router.post('/assignLead/:id', adminAuth, assignLead); 
+router.post('/assignLeads', adminAuth, assignLead);
 router.get('/followup', adminAuth, getFollowUpLeads); 
 router.get('/exportLeads', adminAuth, exportLeads); 
 
