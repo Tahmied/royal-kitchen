@@ -322,3 +322,74 @@ export const exportLeads = asyncHandler(async (req, res) => {
         return res.status(200).send(csvString);
     });
 });
+
+export const getLeadById = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+
+    if (!id) {
+        throw new ApiError(400, 'Lead ID is required');
+    }
+
+    const lead = await Lead.findById(id);
+
+    if (!lead) {
+        throw new ApiError(404, 'Lead not found.');
+    }
+
+    return res.status(200).json(
+        new ApiResponse(200, lead, 'Lead fetched successfully.')
+    );
+});
+
+export const bulkUpdateLeads = asyncHandler(async (req, res) => {
+    const { leadIds, updates } = req.body;
+
+    if (!leadIds || !Array.isArray(leadIds) || leadIds.length === 0 || !updates) {
+        throw new ApiError(400, 'An array of lead IDs and update fields are required.');
+    }
+    
+    const allowedUpdates = {};
+    if (updates.status) allowedUpdates.status = updates.status;
+    if (updates.tag) allowedUpdates.tag = updates.tag;
+    if (updates.notes) allowedUpdates.notes = updates.notes;
+    if (updates.followUpDate) allowedUpdates.followUpDate = new Date(updates.followUpDate);
+
+    if (Object.keys(allowedUpdates).length === 0) {
+        throw new ApiError(400, 'No valid update fields provided.');
+    }
+
+    const result = await Lead.updateMany(
+        { _id: { $in: leadIds } },
+        { $set: allowedUpdates }
+    );
+
+    return res.status(200).json(
+        new ApiResponse(
+            200,
+            { modifiedCount: result.modifiedCount },
+            `Successfully updated ${result.modifiedCount} lead(s).`
+        )
+    );
+});
+
+export const bulkDeleteLeads = asyncHandler(async (req, res) => {
+    const { leadIds } = req.body;
+
+    if (!leadIds || !Array.isArray(leadIds) || leadIds.length === 0) {
+        throw new ApiError(400, 'An array of lead IDs is required for bulk deletion.');
+    }
+
+    const result = await Lead.deleteMany({
+        _id: { $in: leadIds }
+    });
+
+    if (result.deletedCount === 0) {
+        return res.status(404).json(
+            new ApiResponse(404, null, 'No leads found to delete.')
+        );
+    }
+
+    return res.status(200).json(
+        new ApiResponse(200, { deletedCount: result.deletedCount }, `Successfully deleted ${result.deletedCount} lead(s).`)
+    );
+});
