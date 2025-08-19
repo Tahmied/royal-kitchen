@@ -146,15 +146,29 @@ export const logout = asyncHandler(async (req, res) => {
 // leads
 
 export const getLeads = asyncHandler(async (req, res) => {
-    const { page = 1, limit = 20, status, tag, startDate, endDate, search } = req.query;
+    // 1. Get all query parameters, including the new date filters
+    const { 
+        page = 1, 
+        limit = 20, 
+        status, 
+        tag, 
+        startDate, 
+        endDate, 
+        search, 
+        followUpFrom, 
+        followUpTo 
+    } = req.query;
 
+    // 2. Build the query object
     const query = {};
 
+    // Filter by status and tag
     if (status) query.status = status;
     if (tag) query.tag = tag;
 
+    // Add multi-field search functionality
     if (search) {
-        const searchRegex = new RegExp(search, 'i'); 
+        const searchRegex = new RegExp(search, 'i');
         query.$or = [
             { name: { $regex: searchRegex } },
             { email: { $regex: searchRegex } },
@@ -165,6 +179,7 @@ export const getLeads = asyncHandler(async (req, res) => {
         ];
     }
     
+    // Filter by Creation Date
     if (startDate || endDate) {
         query.createdAt = {};
         if (startDate) {
@@ -174,7 +189,19 @@ export const getLeads = asyncHandler(async (req, res) => {
             query.createdAt.$lte = new Date(endDate);
         }
     }
+    
+    // **NEW**: Filter by Follow-up Date
+    if (followUpFrom || followUpTo) {
+        query.followUpDate = {};
+        if (followUpFrom) {
+            query.followUpDate.$gte = new Date(followUpFrom);
+        }
+        if (followUpTo) {
+            query.followUpDate.$lte = new Date(followUpTo);
+        }
+    }
 
+    // 3. Execute the database queries
     const totalLeads = await Lead.countDocuments(query);
     const leads = await Lead.find(query)
         .sort({ createdAt: -1 })
@@ -184,8 +211,13 @@ export const getLeads = asyncHandler(async (req, res) => {
 
     const totalPages = Math.ceil(totalLeads / limit);
 
+    // 4. Return the final response
     return res.status(200).json(
-        new ApiResponse(200, { page: Number(page), limit: Number(limit), totalLeads, totalPages, leads }, 'Leads fetched successfully with applied filters')
+        new ApiResponse(
+            200, 
+            { page: Number(page), limit: Number(limit), totalLeads, totalPages, leads }, 
+            'Leads fetched successfully with applied filters'
+        )
     );
 });
 
