@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { Admin } from "../models/admin.model.js";
+import { Sales } from '../models/sales.model.js';
 import { ApiError } from "../utils/apiError.js";
 import { ApiResponse } from '../utils/apiResponse.js';
 import { asyncHandler } from "../utils/asyncHandler.js";
@@ -56,7 +57,7 @@ export const salesAuth = asyncHandler(async(req,res,next)=>{
             return res.status(401).json(new ApiResponse(401, null, 'Salesperson not found'));
         }
 
-        if (salesperson.role !== 'Sales') {
+        if (salesperson.role !== 'sales') {
             throw new ApiError(403, 'Permission denied. User is not a salesperson.');
         }
 

@@ -120,3 +120,6 @@ dist
 
 public/uploads/dp/*
 !public/uploads/dp/.gitkeep
+
+public/uploads/salesDp/*
+!public/uploads/salesDp/.gitkeep
