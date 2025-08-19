@@ -51,6 +51,7 @@ salesSchema.pre('save' , async function (next) {
     if(this.isModified('password')) {
        this.password = await bcrypt.hash(this.password , 10)
     }
+    next()
 })
 
 salesSchema.methods.isSalesPassCorrect = async function (password) {
@@ -58,7 +59,7 @@ salesSchema.methods.isSalesPassCorrect = async function (password) {
 }
 
 salesSchema.methods.generateAccessTokenSales = function () {
-    jwt.sign({
+    return jwt.sign({
         _id : this._id,
         email : this.email
     }, process.env.SALES_ACCESS_TOKEN_KEY , {
@@ -68,7 +69,7 @@ salesSchema.methods.generateAccessTokenSales = function () {
 
 
 salesSchema.methods.generateRefreshTokenSales = function () {
-    jwt.sign({
+    return jwt.sign({
         _id : this._id,
         email : this.email
     }, process.env.SALES_REFRESH_TOKEN_KEY , {

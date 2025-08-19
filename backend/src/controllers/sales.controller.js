@@ -1,3 +1,4 @@
+import fs from 'fs';
 import { Lead } from '../models/leads.model.js';
 import { Sales } from '../models/sales.model.js';
 import { ApiError } from "../utils/apiError.js";
@@ -11,8 +12,8 @@ const generateAccessAndRefreshTokenSales = async (id) => {
       throw new ApiError(404, "salesperson not found");
     }
 
-    const accessToken = await salesPerson.generateAccessTokenAdmin();
-    const refreshToken = await salesPerson.generateRefreshTokenAdmin();
+    const accessToken = await salesPerson.generateAccessTokenSales();
+    const refreshToken = await salesPerson.generateRefreshTokenSales();
 
     if (!accessToken || !refreshToken) {
       throw new ApiError(500, "Unable to generate tokens");
@@ -26,7 +27,7 @@ const generateAccessAndRefreshTokenSales = async (id) => {
 
     return { accessToken, refreshToken };
   } catch (err) {
-    throw new ApiError(500, "Failed to generate tokens", err);
+    throw new ApiError(500, `Failed to generate tokens ${err}`);
   }
 };
 
@@ -53,10 +54,10 @@ export const registerSalesPerson = asyncHandler(async (req, res) => {
     const { password: _, ...safeSalesPerson } = newSalesPerson.toObject();
 
     res.status(201).json(
-      new ApiResponse(201, safeSalesPerson, "New admin registered successfully")
+      new ApiResponse(201, safeSalesPerson, "New sales person registered successfully")
     );
   } catch (err) {
-    console.error(`Unable to register admin due to ${err}`);
+    console.error(`Unable to register sales person due to ${err}`);
     if (req.file) fs.unlinkSync(req.file.path);
     throw new ApiError(500, "Unable to register sales person", err);
   }
@@ -72,10 +73,10 @@ export const loginSalesPerson = asyncHandler(async (req, res) => {
 
   const salesPerson = await Sales.findOne({ email });
   if (!salesPerson) {
-    throw new ApiError(404, "No admin account found with that email");
+    throw new ApiError(404, "No sales account found with that email");
   }
 
-  const isPassCorrect = await salesPerson.isAdminPassCorrect(password);
+  const isPassCorrect = await salesPerson.isSalesPassCorrect(password);
   if (!isPassCorrect) {
     throw new ApiError(400, "Wrong password");
   }
@@ -98,7 +99,7 @@ export const loginSalesPerson = asyncHandler(async (req, res) => {
     .status(200)
     .cookie("SalesAccessToken", accessToken, cookieOptions)
     .cookie("SalesRefreshToken", refreshToken, cookieOptions)
-    .json(new ApiResponse(200, safeSalesPerson, "Admin login successful"));
+    .json(new ApiResponse(200, safeSalesPerson, "Sales Person login successful"));
 });
 
 export const checkSalesPersonLogin = asyncHandler(async (req,res)=>{
@@ -136,7 +137,7 @@ export const logout = asyncHandler(async (req, res) => {
   return res.status(200)
     .clearCookie('SalesAccessToken', cookieOptions)
     .clearCookie('SalesRefreshToken', cookieOptions)
-    .json(new ApiResponse(200, null, 'Admin logged out'));
+    .json(new ApiResponse(200, null, 'Sales person logged out'));
 });
 
 // lead management

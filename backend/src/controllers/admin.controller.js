@@ -28,7 +28,7 @@ const generateAccessAndRefreshTokenAdmin = async (id) => {
 
     return { accessToken, refreshToken };
   } catch (err) {
-    throw new ApiError(500, "Failed to generate tokens", err);
+    throw new ApiError(500, `Failed to generate tokens ${err}`);
   }
 };
 
