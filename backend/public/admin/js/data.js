@@ -35,22 +35,22 @@ class LeadDataManager {
      * filters: { page, limit, status, tag, startDate, endDate }
      */
    async loadLeads(filters = {}) {
-        // merge filters & persist pageSettings locally
-        this.currentFilters = { ...this.currentFilters, ...filters };
-        this.page = Number(this.currentFilters.page || this.page);
-        this.limit = Number(this.currentFilters.limit || this.limit);
+    this.currentFilters = filters;
+    this.page = Number(this.currentFilters.page || 1);
+    this.limit = Number(this.currentFilters.limit || 20);
 
-        // Build params expected by backend
-        const params = {
-            page: this.page,
-            limit: this.limit,
-            status: this.currentFilters.status || '',
-            tag: this.currentFilters.tag || '',
-            startDate: this.currentFilters.startDate || '',
-            endDate: this.currentFilters.endDate || '',
-            // ADD THIS LINE
-            search: this.currentFilters.search || '' 
-        };
+    // Build params for the API call from the currentFilters state
+    const params = {
+        page: this.page,
+        limit: this.limit,
+        status: this.currentFilters.status || '',
+        tag: this.currentFilters.tag || '',
+        startDate: this.currentFilters.dateFrom || '', // map frontend name to backend name
+        endDate: this.currentFilters.dateTo || '',     // map frontend name to backend name
+        followUpFrom: this.currentFilters.followUpFrom || '',
+        followUpTo: this.currentFilters.followUpTo || '',
+        search: this.currentFilters.search || ''
+    };
 
         try {
             setLoading(true);

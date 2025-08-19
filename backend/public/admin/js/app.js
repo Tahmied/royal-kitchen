@@ -296,22 +296,31 @@ async handleFilterChange(filterType, value) {
     }
 }
 
+async clearFilters() {
+    // 1. Clear the state objects
+    this.currentFilters = {};
+    this.searchTerm = '';
+    this.currentPage = 1;
 
-    clearFilters() {
-        this.currentFilters = {};
+    // 2. Reset all the input fields in the UI
+    document.getElementById('searchInput').value = '';
+    document.getElementById('statusFilter').value = '';
+    document.getElementById('tagFilter').value = '';
+    document.getElementById('dateFromFilter').value = '';
+    document.getElementById('dateToFilter').value = '';
+    document.getElementById('followUpFromFilter').value = '';
+    document.getElementById('followUpToFilter').value = '';
 
-        // Reset form controls
-        document.getElementById('searchInput').value = '';
-        document.getElementById('statusFilter').value = '';
-        document.getElementById('tagFilter').value = '';
-        document.getElementById('dateFromFilter').value = '';
-        document.getElementById('dateToFilter').value = '';
-        document.getElementById('followUpFromFilter').value = '';
-        document.getElementById('followUpToFilter').value = '';
-
-        this.currentPage = 1;
-        this.renderLeads();
+    // 3. Fetch the fresh, unfiltered data from the server
+    try {
+        await this.dataManager.loadLeads({ 
+            page: this.currentPage, 
+            limit: this.pageSize 
+        });
+    } catch (err) {
+        showNotification('Error', err.message || 'Failed to clear filters', 'error');
     }
+}
 
 
     handleSelectAll(checked) {
