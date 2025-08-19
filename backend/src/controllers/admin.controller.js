@@ -2,6 +2,7 @@ import { stringify } from 'csv-stringify';
 import fs from 'fs';
 import { Admin } from '../models/admin.model.js';
 import { Lead } from '../models/leads.model.js';
+import { Sales } from '../models/sales.model.js';
 import { ApiError } from "../utils/apiError.js";
 import { ApiResponse } from '../utils/apiResponse.js';
 import { asyncHandler } from "../utils/asyncHandler.js";
@@ -447,7 +448,7 @@ export const getSalespersons = asyncHandler(async (req, res) => {
     if (req.user.role !== 'Admin') {
         throw new ApiError(403, 'Permission denied. Only admins can view salespersons.');
     }
-    
+
     const salespersons = await Sales.find().select('-password -refreshToken -__v');
 
     if (!salespersons || salespersons.length === 0) {
