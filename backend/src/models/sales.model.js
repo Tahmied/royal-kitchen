@@ -57,7 +57,7 @@ salesSchema.methods.isSalesPassCorrect = async function (password) {
     return bcrypt.compare(password , this.password)
 }
 
-salesSchema.methods.generateAccessTokenSales = async function () {
+salesSchema.methods.generateAccessTokenSales = function () {
     jwt.sign({
         _id : this._id,
         email : this.email
@@ -67,7 +67,7 @@ salesSchema.methods.generateAccessTokenSales = async function () {
 }
 
 
-salesSchema.methods.generateRefreshTokenSales = async function () {
+salesSchema.methods.generateRefreshTokenSales = function () {
     jwt.sign({
         _id : this._id,
         email : this.email
