@@ -262,11 +262,11 @@ function getAssignedUserName(userId) {
  */
 function getStatusInfo(status) {
     const statusMap = {
-        'new': { label: 'New', icon: 'fas fa-star' },
-        'contacted': { label: 'Contacted', icon: 'fas fa-phone' },
-        'in-progress': { label: 'In Progress', icon: 'fas fa-clock' },
-        'closed': { label: 'Closed', icon: 'fas fa-check' },
-        'trash': { label: 'Trash', icon: 'fas fa-trash' }
+        'New': { label: 'New', icon: 'fas fa-star' },
+        'Contacted': { label: 'Contacted', icon: 'fas fa-phone' },
+        'In-progress': { label: 'In Progress', icon: 'fas fa-clock' },
+        'Closed': { label: 'Closed', icon: 'fas fa-check' },
+        'Trash': { label: 'Trash', icon: 'fas fa-trash' }
     };
     return statusMap[status] || { label: status, icon: 'fas fa-question' };
 }

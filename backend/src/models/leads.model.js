@@ -14,13 +14,16 @@ const leadSchema = new mongoose.Schema({
         type: String,
         trim: true
     },
+    company : {
+        type : String
+    },
     message: {
         type: String,
     },
     status: {
         type: String,
         default: 'New',
-        enum: ['New', 'Contacted', 'in-progress', 'Closed', 'Trash'] 
+        enum: ['New', 'Contacted', 'In-progress', 'Closed', 'Trash', 'closed', 'new', 'contacted', 'in-progress', 'trash'] 
     },
     tag: {
         type: String,
