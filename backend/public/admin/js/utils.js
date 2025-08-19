@@ -1,11 +1,3 @@
-// Utility Functions for Lead Management App
-
-/**
- * Generate a unique ID
- */
-function generateId() {
-    return Date.now().toString(36) + Math.random().toString(36).substr(2);
-}
 
 /**
  * Format date to readable string
@@ -65,6 +57,87 @@ function isValidEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
 }
+
+async function apiRequest(path, { method = 'GET', body = null, params = null, signal = null } = {}) {
+    // build URL with query params
+    const url = new URL(path, window.location.origin);
+    if (params && typeof params === 'object') {
+        Object.keys(params).forEach(k => {
+            const v = params[k];
+            if (v !== undefined && v !== null && v !== '') url.searchParams.append(k, v);
+        });
+    }
+
+    const headers = { 'Accept': 'application/json' };
+    // if sending JSON body
+    if (body && !(body instanceof FormData)) headers['Content-Type'] = 'application/json';
+
+    const fetchOptions = {
+        method,
+        headers,
+        signal
+    };
+
+    if (body) {
+        fetchOptions.body = body instanceof FormData ? body : JSON.stringify(body);
+    }
+
+    const res = await fetch(url.toString(), fetchOptions);
+
+    // If response is CSV / blob (for export), return blob
+    const contentType = res.headers.get('content-type') || '';
+    if (res.ok && contentType.includes('text/csv')) {
+        const blob = await res.blob();
+        return { __blob: true, blob };
+    }
+
+    // otherwise parse json
+    let json;
+    try {
+        json = await res.json();
+    } catch (e) {
+        if (!res.ok) throw new Error(res.statusText || 'Network error');
+        return null;
+    }
+
+    // Your ApiResponse wrapper -> { status, data, message }
+    if (!res.ok || (json && json.status && json.status >= 400)) {
+        // prefer server-provided message
+        const message = (json && json.message) ? json.message : res.statusText || 'API Error';
+        throw new Error(message);
+    }
+
+    // return unwrapped data
+    return json.data !== undefined ? json.data : json;
+}
+
+
+/**
+ * Download a blob (CSV) returned by apiRequest
+ */
+function downloadBlob(blob, filename = 'download.csv') {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+}
+
+/**
+ * Simple loading state toggler — adjust UI to suit.
+ * Add CSS for .loading to show spinner/overlay if you want.
+ */
+function setLoading(isLoading = true) {
+    if (isLoading) {
+        document.body.classList.add('loading');
+    } else {
+        document.body.classList.remove('loading');
+    }
+}
+
 
 /**
  * Validate phone number format
@@ -170,59 +243,6 @@ function hideModal(modalId) {
     }
 }
 
-/**
- * Export data to CSV
- */
-function exportToCSV(data, filename = 'leads.csv') {
-    const csvContent = convertToCSV(data);
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement('a');
-    
-    if (link.download !== undefined) {
-        const url = URL.createObjectURL(blob);
-        link.setAttribute('href', url);
-        link.setAttribute('download', filename);
-        link.style.visibility = 'hidden';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    }
-}
-
-/**
- * Convert data to CSV format
- */
-function convertToCSV(data) {
-    const headers = ['Name', 'Email', 'Phone', 'Company', 'Status', 'Priority', 'Assigned To', 'Follow-up Date', 'Created', 'Message', 'Notes'];
-    const csvRows = [headers.join(',')];
-
-    data.forEach(lead => {
-        const row = [
-            `"${escapeCSV(lead.name)}"`,
-            `"${escapeCSV(lead.email)}"`,
-            `"${escapeCSV(lead.phone || '')}"`,
-            `"${escapeCSV(lead.company || '')}"`,
-            `"${escapeCSV(lead.status)}"`,
-            `"${escapeCSV(lead.tag)}"`,
-            `"${escapeCSV(getAssignedUserName(lead.assignedTo))}"`,
-            `"${escapeCSV(lead.followUpDate || 'Not set')}"`,
-            `"${escapeCSV(formatDate(lead.createdAt))}"`,
-            `"${escapeCSV(lead.message || '')}"`,
-            `"${escapeCSV(lead.notes || '')}"`
-        ];
-        csvRows.push(row.join(','));
-    });
-
-    return csvRows.join('\n');
-}
-
-/**
- * Escape CSV special characters
- */
-function escapeCSV(text) {
-    if (!text) return '';
-    return String(text).replace(/"/g, '""');
-}
 
 /**
  * Get assigned user display name
@@ -297,106 +317,6 @@ function formatFollowUpDate(followUpDate) {
 }
 
 /**
- * Filter leads based on criteria
- */
-function filterLeads(leads, filters) {
-    if (!leads || !Array.isArray(leads)) {
-        return [];
-    }
-    return leads.filter(lead => {
-        // Search filter
-        if (filters.search) {
-            const searchTerm = filters.search.toLowerCase();
-            const searchFields = [
-                lead.name,
-                lead.email,
-                lead.phone,
-                lead.company,
-                lead.message,
-                lead.notes
-            ].filter(Boolean).join(' ').toLowerCase();
-            
-            if (!searchFields.includes(searchTerm)) {
-                return false;
-            }
-        }
-
-        // Status filter
-        if (filters.status && lead.status !== filters.status) {
-            return false;
-        }
-
-        // Tag filter
-        if (filters.tag && lead.tag !== filters.tag) {
-            return false;
-        }
-
-        // Date range filter (created date)
-        if (filters.dateFrom || filters.dateTo) {
-            const leadDate = new Date(lead.createdAt);
-            const fromDate = filters.dateFrom ? new Date(filters.dateFrom) : null;
-            const toDate = filters.dateTo ? new Date(filters.dateTo + 'T23:59:59') : null;
-
-            if (fromDate && leadDate < fromDate) {
-                return false;
-            }
-            if (toDate && leadDate > toDate) {
-                return false;
-            }
-        }
-
-        // Follow-up date range filter
-        if (filters.followUpFrom || filters.followUpTo) {
-            if (!lead.followUpDate) return false; // Exclude leads without follow-up dates
-            
-            const followUpDate = new Date(lead.followUpDate);
-            const fromDate = filters.followUpFrom ? new Date(filters.followUpFrom) : null;
-            const toDate = filters.followUpTo ? new Date(filters.followUpTo + 'T23:59:59') : null;
-
-            if (fromDate && followUpDate < fromDate) {
-                return false;
-            }
-            if (toDate && followUpDate > toDate) {
-                return false;
-            }
-        }
-
-        return true;
-    });
-}
-
-/**
- * Sort leads by specified field
- */
-function sortLeads(leads, sortBy = 'createdAt', sortOrder = 'desc') {
-    if (!leads || !Array.isArray(leads)) {
-        return [];
-    }
-    return [...leads].sort((a, b) => {
-        let aVal = a[sortBy];
-        let bVal = b[sortBy];
-
-        // Handle date sorting
-        if (sortBy === 'createdAt') {
-            aVal = new Date(aVal);
-            bVal = new Date(bVal);
-        }
-
-        // Handle string sorting
-        if (typeof aVal === 'string') {
-            aVal = aVal.toLowerCase();
-            bVal = bVal.toLowerCase();
-        }
-
-        if (sortOrder === 'asc') {
-            return aVal > bVal ? 1 : aVal < bVal ? -1 : 0;
-        } else {
-            return aVal < bVal ? 1 : aVal > bVal ? -1 : 0;
-        }
-    });
-}
-
-/**
  * Animate element
  */
 function animateElement(element, animation = 'fadeIn') {
@@ -405,48 +325,3 @@ function animateElement(element, animation = 'fadeIn') {
         element.style.animation = '';
     }, { once: true });
 }
-
-/**
- * Confirm action with user
- */
-function confirmAction(message, callback) {
-    // This could be enhanced with a custom modal, but for now using browser confirm
-    if (confirm(message)) {
-        callback();
-    }
-}
-
-/**
- * Local Storage helpers
- */
-const Storage = {
-    get(key, defaultValue = null) {
-        try {
-            const item = localStorage.getItem(key);
-            return item ? JSON.parse(item) : defaultValue;
-        } catch (error) {
-            console.error('Error reading from localStorage:', error);
-            return defaultValue;
-        }
-    },
-
-    set(key, value) {
-        try {
-            localStorage.setItem(key, JSON.stringify(value));
-            return true;
-        } catch (error) {
-            console.error('Error writing to localStorage:', error);
-            return false;
-        }
-    },
-
-    remove(key) {
-        try {
-            localStorage.removeItem(key);
-            return true;
-        } catch (error) {
-            console.error('Error removing from localStorage:', error);
-            return false;
-        }
-    }
-};

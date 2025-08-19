@@ -1,39 +1,33 @@
 // Main Application Logic for Lead Management App
 
 class LeadManagementApp {
-    constructor() {
-        this.dataManager = new LeadDataManager();
-        this.currentFilters = {};
-        this.selectedLeads = new Set();
-        this.currentEditingLead = null;
-        this.currentPage = 1;
-        this.pageSize = 20;
-        this.totalPages = 1;
-        this.currentViewingLead = null;
-        
-        this.init();
-    }
+constructor() {
+    this.dataManager = new LeadDataManager();
+    this.currentFilters = {};
+    this.selectedLeads = new Set();
+    this.currentEditingLead = null;
+    this.currentPage = 1;
+    this.pageSize = 20;
+    this.totalPages = 1;
+    this.currentViewingLead = null;
+    
+    this.init();
+}
 
-    /**
-     * Initialize the application
-     */
-    init() {
-        try {
-            this.bindEvents();
+async init() {
+    try {
+        this.bindEvents();
+        await this.dataManager.loadLeads({ page: this.currentPage, limit: this.pageSize });
+        this.dataManager.subscribe(() => {
             this.renderLeads();
-            this.setupFilters();
-            
-            // Subscribe to data changes
-            this.dataManager.subscribe(() => {
-                this.renderLeads();
-            });
-        } catch (error) {
-            console.error('App initialization error:', error);
-            // Clear localStorage and try again
-            localStorage.removeItem('leadManagementData');
-            location.reload();
-        }
+        });
+        this.renderLeads();
+    } catch (error) {
+        console.error('App initialization error:', error);
+        showNotification('Error', error.message || 'Failed to load leads', 'error');
     }
+}
+
 
     /**
      * Bind all event listeners
@@ -142,50 +136,69 @@ class LeadManagementApp {
     /**
      * Render leads table with pagination
      */
-    renderLeads() {
-        const filteredLeads = this.dataManager.getFilteredLeads(this.currentFilters);
-        this.calculatePagination(filteredLeads.length);
-        
-        const startIndex = (this.currentPage - 1) * this.pageSize;
-        const endIndex = startIndex + this.pageSize;
-        const pageLeads = filteredLeads.slice(startIndex, endIndex);
-        
-        const tableBody = document.getElementById('leadsTableBody');
-        const emptyState = document.getElementById('emptyState');
-        const paginationSection = document.getElementById('paginationSection');
-        
-        // Clear existing content
-        tableBody.innerHTML = '';
-        
-        if (filteredLeads.length === 0) {
-            document.querySelector('.leads-table').style.display = 'none';
-            emptyState.style.display = 'block';
-            paginationSection.style.display = 'none';
-            this.updateBulkActionsVisibility();
-            return;
-        }
-        
-        document.querySelector('.leads-table').style.display = 'table';
-        emptyState.style.display = 'none';
-        paginationSection.style.display = 'flex';
-        
-        pageLeads.forEach(lead => {
-            const row = this.createLeadRow(lead);
-            tableBody.appendChild(row);
+renderLeads() {
+    // use server-provided page leads (paginated by backend)
+    const leads = Array.isArray(this.dataManager.leads) ? this.dataManager.leads.slice() : [];
+    const totalLeads = this.dataManager.totalLeads || 0;
+
+    // pagination state from dataManager
+    this.totalPages = this.dataManager.totalPages || Math.ceil(totalLeads / this.pageSize) || 1;
+    this.currentPage = this.dataManager.page || this.currentPage;
+
+    const tableBody = document.getElementById('leadsTableBody');
+    const emptyState = document.getElementById('emptyState');
+    const paginationSection = document.getElementById('paginationSection');
+
+    tableBody.innerHTML = '';
+
+    // If a searchTerm exists, do an in-memory filter on the current page
+    let displayLeads = leads;
+    if (this.searchTerm) {
+        const term = this.searchTerm;
+        displayLeads = leads.filter(lead => {
+            const fields = [
+                lead.name, lead.email, lead.phone, lead.company,
+                lead.message, lead.notes
+            ].filter(Boolean).join(' ').toLowerCase();
+            return fields.includes(term);
         });
-        
-        this.updatePaginationInfo(filteredLeads.length, startIndex, endIndex);
-        this.updatePaginationButtons();
-        this.updateSelectAllCheckbox();
-        this.updateBulkActionsVisibility();
     }
+
+    if (!displayLeads || displayLeads.length === 0) {
+        document.querySelector('.leads-table').style.display = 'none';
+        emptyState.style.display = 'block';
+        paginationSection.style.display = 'none';
+        this.updateBulkActionsVisibility();
+        return;
+    }
+
+    document.querySelector('.leads-table').style.display = 'table';
+    emptyState.style.display = 'none';
+    paginationSection.style.display = 'flex';
+
+    displayLeads.forEach(lead => {
+        const row = this.createLeadRow(lead);
+        tableBody.appendChild(row);
+    });
+
+    // Compute indexes for current page (start index is based on currentPage & pageSize)
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    const endIndex = startIndex + displayLeads.length; // number shown on the page (after in-memory filter)
+
+    this.updatePaginationInfo(totalLeads, startIndex, endIndex);
+    this.updatePaginationButtons();
+    this.updateSelectAllCheckbox();
+    this.updateBulkActionsVisibility();
+}
+
+
 
     /**
      * Create a table row for a lead
      */
     createLeadRow(lead) {
         const row = document.createElement('tr');
-        row.dataset.leadId = lead.id;
+        row.dataset.leadId = lead._id;
         
         const statusInfo = getStatusInfo(lead.status);
         const priorityInfo = getPriorityInfo(lead.tag);
@@ -194,8 +207,8 @@ class LeadManagementApp {
         
         row.innerHTML = `
             <td>
-                <input type="checkbox" class="checkbox lead-checkbox" value="${lead.id}" 
-                       ${this.selectedLeads.has(lead.id) ? 'checked' : ''}>
+                <input type="checkbox" class="checkbox lead-checkbox" value="${lead._id}" 
+                       ${this.selectedLeads.has(lead._id) ? 'checked' : ''}>
             </td>
             <td>
                 <div class="contact-info">
@@ -241,15 +254,15 @@ class LeadManagementApp {
             <td>${formatDate(lead.createdAt)}</td>
             <td>
                 <div class="actions">
-                    <button class="action-btn view" onclick="app.viewLead('${lead.id}')" 
+                    <button class="action-btn view" onclick="app.viewLead('${lead._id}')" 
                             data-tooltip="View Details">
                         <i class="fas fa-eye"></i>
                     </button>
-                    <button class="action-btn edit" onclick="app.editLead('${lead.id}')" 
+                    <button class="action-btn edit" onclick="app.editLead('${lead._id}')" 
                             data-tooltip="Edit Lead">
                         <i class="fas fa-edit"></i>
                     </button>
-                    <button class="action-btn delete" onclick="app.deleteLead('${lead.id}')" 
+                    <button class="action-btn delete" onclick="app.deleteLead('${lead._id}')" 
                             data-tooltip="Delete Lead">
                         <i class="fas fa-trash"></i>
                     </button>
@@ -261,9 +274,9 @@ class LeadManagementApp {
         const checkbox = row.querySelector('.lead-checkbox');
         checkbox.addEventListener('change', (e) => {
             if (e.target.checked) {
-                this.selectedLeads.add(lead.id);
+                this.selectedLeads.add(lead._id);
             } else {
-                this.selectedLeads.delete(lead.id);
+                this.selectedLeads.delete(lead._id);
             }
             this.updateSelectAllCheckbox();
             this.updateBulkActionsVisibility();
@@ -275,22 +288,48 @@ class LeadManagementApp {
     /**
      * Handle search
      */
-    handleSearch(searchTerm) {
-        this.currentFilters.search = searchTerm.trim();
-        this.renderLeads();
+async handleSearch(searchTerm) {
+    this.searchTerm = (searchTerm || '').trim().toLowerCase();
+    this.currentPage = 1; // Reset to page 1 for new search results
+    try {
+        // Pass the search term as a filter to the backend
+        await this.dataManager.loadLeads({ 
+            ...this.currentFilters, 
+            search: this.searchTerm, 
+            page: this.currentPage, 
+            limit: this.pageSize 
+        });
+    } catch (err) {
+        showNotification('Error', err.message || 'Search failed', 'error');
     }
+}
 
     /**
      * Handle filter changes
      */
-    handleFilterChange(filterType, value) {
-        if (value) {
-            this.currentFilters[filterType] = value;
+async handleFilterChange(filterType, value) {
+    if (value) {
+        if (filterType === 'dateFrom' || filterType === 'dateTo') {
+            // backend expects startDate / endDate names
+            if (filterType === 'dateFrom') this.currentFilters.startDate = value;
+            if (filterType === 'dateTo') this.currentFilters.endDate = value;
         } else {
-            delete this.currentFilters[filterType];
+            this.currentFilters[filterType] = value;
         }
-        this.renderLeads();
+    } else {
+        // remove filter
+        if (filterType === 'dateFrom') delete this.currentFilters.startDate;
+        else if (filterType === 'dateTo') delete this.currentFilters.endDate;
+        else delete this.currentFilters[filterType];
     }
+
+    this.currentPage = 1;
+    try {
+        await this.dataManager.loadLeads({ ...this.currentFilters, page: this.currentPage, limit: this.pageSize });
+    } catch (err) {
+        showNotification('Error', err.message || 'Filter failed', 'error');
+    }
+}
 
     /**
      * Clear all filters
@@ -367,58 +406,55 @@ class LeadManagementApp {
     /**
      * Handle bulk status change
      */
-    handleBulkStatusChange(status) {
+    async handleBulkStatusChange(status) {
         if (!status || this.selectedLeads.size === 0) return;
         
         try {
-            this.dataManager.updateMultipleLeads([...this.selectedLeads], { status });
+            await this.dataManager.bulkUpdateLeads([...this.selectedLeads], { status });
             showNotification('Success', `Updated ${this.selectedLeads.size} leads to ${status}`, 'success');
-            
-            // Reset bulk controls
-            document.getElementById('bulkStatusSelect').value = '';
-            this.selectedLeads.clear();
         } catch (error) {
-            showNotification('Error', error.message, 'error');
+                showNotification('Error', error.message, 'error');
         }
+
     }
 
     /**
      * Handle bulk assignment change
      */
-    handleBulkAssignChange(assignedTo) {
-        if (this.selectedLeads.size === 0) return;
+async handleBulkAssignChange(assignedTo) { // Add async here
+    if (!assignedTo || this.selectedLeads.size === 0) return; // Add check for `assignedTo`
+    
+    try {
+        await this.dataManager.bulkUpdateLeads([...this.selectedLeads], { assignedTo }); // Correct async method
+        const assigneeName = getAssignedUserName(assignedTo);
+        showNotification('Success', `Assigned ${this.selectedLeads.size} leads to ${assigneeName}`, 'success');
         
-        try {
-            this.dataManager.updateMultipleLeads([...this.selectedLeads], { assignedTo });
-            const assigneeName = assignedTo ? getAssignedUserName(assignedTo) : 'Unassigned';
-            showNotification('Success', `Assigned ${this.selectedLeads.size} leads to ${assigneeName}`, 'success');
-            
-            // Reset bulk controls
-            document.getElementById('bulkAssignSelect').value = '';
-            this.selectedLeads.clear();
-        } catch (error) {
-            showNotification('Error', error.message, 'error');
-        }
+        // Reset bulk controls and selections after a successful API call
+        document.getElementById('bulkAssignSelect').value = '';
+        this.selectedLeads.clear();
+    } catch (error) {
+        showNotification('Error', error.message, 'error');
     }
+}
 
     /**
      * Handle bulk priority change
      */
-    handleBulkPriorityChange(priority) {
-        if (!priority || this.selectedLeads.size === 0) return;
+async handleBulkPriorityChange(priority) {
+    if (!priority || this.selectedLeads.size === 0) return;
+    
+    try {
+        await this.dataManager.bulkUpdateLeads([...this.selectedLeads], { tag: priority });
+        const priorityInfo = getPriorityInfo(priority);
+        showNotification('Success', `Updated ${this.selectedLeads.size} leads to ${priorityInfo.label}`, 'success');
         
-        try {
-            this.dataManager.updateMultipleLeads([...this.selectedLeads], { tag: priority });
-            const priorityInfo = getPriorityInfo(priority);
-            showNotification('Success', `Updated ${this.selectedLeads.size} leads to ${priorityInfo.label}`, 'success');
-            
-            // Reset bulk controls
-            document.getElementById('bulkPrioritySelect').value = '';
-            this.selectedLeads.clear();
-        } catch (error) {
-            showNotification('Error', error.message, 'error');
-        }
+        // Reset bulk controls and clear selections
+        document.getElementById('bulkPrioritySelect').value = '';
+        this.selectedLeads.clear();
+    } catch (error) {
+        showNotification('Error', error.message, 'error');
     }
+}
 
     /**
      * Calculate pagination
@@ -479,56 +515,77 @@ class LeadManagementApp {
     /**
      * Go to specific page
      */
-    goToPage(page) {
-        if (page < 1 || page > this.totalPages) return;
-        this.currentPage = page;
-        this.selectedLeads.clear(); // Clear selections when changing pages
-        this.renderLeads();
+async goToPage(page) {
+    if (page < 1 || page > this.totalPages) return;
+    this.currentPage = page;
+    this.selectedLeads.clear(); // Clear selections when changing pages
+    try {
+        await this.dataManager.loadLeads({ ...this.currentFilters, page: this.currentPage, limit: this.pageSize });
+    } catch (err) {
+        showNotification('Error', err.message || 'Failed to change page', 'error');
     }
+}
+
 
     /**
      * Handle page size change
      */
-    handlePageSizeChange(value) {
-        const customInput = document.getElementById('customPageSize');
-        
-        if (value === 'custom') {
-            customInput.style.display = 'block';
-            customInput.focus();
-        } else {
-            customInput.style.display = 'none';
-            this.pageSize = parseInt(value);
-            this.currentPage = 1;
-            this.renderLeads();
+async handlePageSizeChange(value) {
+    const customInput = document.getElementById('customPageSize');
+    
+    if (value === 'custom') {
+        customInput.style.display = 'block';
+        customInput.focus();
+    } else {
+        customInput.style.display = 'none';
+        this.pageSize = parseInt(value);
+        this.currentPage = 1;
+        try {
+            await this.dataManager.loadLeads({ ...this.currentFilters, page: this.currentPage, limit: this.pageSize });
+        } catch (err) {
+            showNotification('Error', err.message || 'Failed to change page size', 'error');
         }
     }
+}
+
 
     /**
      * Handle custom page size
      */
-    handleCustomPageSize(value) {
-        const size = parseInt(value);
-        if (size > 0 && size <= 1000) {
-            this.pageSize = size;
-            this.currentPage = 1;
-            this.renderLeads();
+async handleCustomPageSize(value) {
+    const size = parseInt(value);
+    if (size > 0 && size <= 1000) {
+        this.pageSize = size;
+        this.currentPage = 1;
+        try {
+            await this.dataManager.loadLeads({ ...this.currentFilters, page: this.currentPage, limit: this.pageSize });
+        } catch (err) {
+            showNotification('Error', err.message || 'Failed to change page size', 'error');
         }
     }
+}
+
 
     /**
      * View lead details
      */
-    viewLead(leadId) {
-        const lead = this.dataManager.getLeadById(leadId);
-        if (!lead) {
-            showNotification('Error', 'Lead not found', 'error');
+async viewLead(leadId) {
+    let lead = this.dataManager.leads.find(l => l._id === leadId);
+
+    // If not found in current page, get from backend
+    if (!lead) {
+        try {
+            lead = await this.dataManager.getLeadById(leadId);
+        } catch (err) {
+            showNotification('Error', err.message || 'Lead not found', 'error');
             return;
         }
-        
-        this.currentViewingLead = lead;
-        this.populateViewModal(lead);
-        showModal('viewLeadModal');
     }
+    
+    this.currentViewingLead = lead;
+    this.populateViewModal(lead);
+    showModal('viewLeadModal');
+}
 
     /**
      * Populate view modal with lead details
@@ -640,27 +697,28 @@ class LeadManagementApp {
     editFromView() {
         if (this.currentViewingLead) {
             this.hideViewModal();
-            this.editLead(this.currentViewingLead.id);
+            this.editLead(this.currentViewingLead._id);
         }
     }
 
     /**
      * Handle bulk delete
      */
-    handleBulkDelete() {
-        if (this.selectedLeads.size === 0) return;
-        
-        const message = `Are you sure you want to delete ${this.selectedLeads.size} selected leads? This action cannot be undone.`;
-        this.showDeleteModal(message, () => {
-            try {
-                this.dataManager.deleteLeads([...this.selectedLeads]);
-                showNotification('Success', `Deleted ${this.selectedLeads.size} leads`, 'success');
-                this.selectedLeads.clear();
-            } catch (error) {
-                showNotification('Error', error.message, 'error');
-            }
-        });
-    }
+async handleBulkDelete() {
+    if (this.selectedLeads.size === 0) return;
+    
+    const message = `Are you sure you want to delete ${this.selectedLeads.size} selected leads? This action cannot be undone.`;
+    
+    this.showDeleteModal(message, async () => {
+        try {
+            await this.dataManager.deleteLeads([...this.selectedLeads]);
+            showNotification('Success', `Deleted ${this.selectedLeads.size} leads`, 'success');
+            this.selectedLeads.clear();
+        } catch (error) {
+            showNotification('Error', error.message, 'error');
+        }
+    });
+}
 
     /**
      * Show add lead modal
@@ -685,32 +743,37 @@ class LeadManagementApp {
     /**
      * Edit lead
      */
-    editLead(leadId) {
-        const lead = this.dataManager.getLeadById(leadId);
-        if (!lead) {
+async editLead(leadId) {
+    let lead = this.dataManager.leads.find(l => l._id === leadId);
+
+    if (!lead) {
+        try {
+            lead = await this.dataManager.getLeadById(leadId);
+        } catch (err) {
             showNotification('Error', 'Lead not found', 'error');
             return;
         }
-        
-        this.currentEditingLead = lead;
-        document.getElementById('modalTitle').textContent = 'Edit Lead';
-        document.getElementById('saveLeadBtn').textContent = 'Update Lead';
-        
-        // Populate form
-        document.getElementById('leadName').value = lead.name;
-        document.getElementById('leadEmail').value = lead.email;
-        document.getElementById('leadPhone').value = lead.phone || '';
-        document.getElementById('leadCompany').value = lead.company || '';
-        document.getElementById('leadStatus').value = lead.status;
-        document.getElementById('leadTag').value = lead.tag;
-        document.getElementById('leadAssigned').value = lead.assignedTo || '';
-        document.getElementById('leadMessage').value = lead.message || '';
-        document.getElementById('leadNotes').value = lead.notes || '';
-        document.getElementById('leadFollowUp').value = lead.followUpDate || '';
-        
-        this.clearFormErrors();
-        showModal('leadModal');
     }
+    
+    this.currentEditingLead = lead;
+    document.getElementById('modalTitle').textContent = 'Edit Lead';
+    document.getElementById('saveLeadBtn').textContent = 'Update Lead';
+    
+    // Populate form
+    document.getElementById('leadName').value = lead.name;
+    document.getElementById('leadEmail').value = lead.email;
+    document.getElementById('leadPhone').value = lead.phone || '';
+    document.getElementById('leadCompany').value = lead.company || '';
+    document.getElementById('leadStatus').value = lead.status;
+    document.getElementById('leadTag').value = lead.tag;
+    document.getElementById('leadAssigned').value = lead.assignedTo || '';
+    document.getElementById('leadMessage').value = lead.message || '';
+    document.getElementById('leadNotes').value = lead.notes || '';
+    document.getElementById('leadFollowUp').value = lead.followUpDate || '';
+    
+    this.clearFormErrors();
+    showModal('leadModal');
+}
 
     /**
      * Hide lead modal
@@ -724,41 +787,41 @@ class LeadManagementApp {
     /**
      * Handle lead form submission
      */
-    handleLeadFormSubmit(e) {
-        e.preventDefault();
-        
-        const formData = new FormData(e.target);
-        const leadData = {
-            name: formData.get('name'),
-            email: formData.get('email'),
-            phone: formData.get('phone'),
-            company: formData.get('company'),
-            status: formData.get('status'),
-            tag: formData.get('tag'),
-            assignedTo: formData.get('assignedTo'),
-            message: formData.get('message'),
-            notes: formData.get('notes'),
-            followUpDate: formData.get('followUpDate')
-        };
-        
-        this.clearFormErrors();
-        
-        try {
-            if (this.currentEditingLead) {
-                // Update existing lead
-                this.dataManager.updateLead(this.currentEditingLead.id, leadData);
-                showNotification('Success', 'Lead updated successfully', 'success');
-            } else {
-                // Add new lead
-                this.dataManager.addLead(leadData);
-                showNotification('Success', 'Lead added successfully', 'success');
-            }
-            
-            this.hideLeadModal();
-        } catch (error) {
-            this.displayFormError(error.message);
+ async handleLeadFormSubmit(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(e.target);
+    const leadData = {
+        name: formData.get('name'),
+        email: formData.get('email'),
+        phone: formData.get('phone'),
+        company: formData.get('company'),
+        status: formData.get('status'),
+        tag: formData.get('tag'),
+        assignedTo: formData.get('assignedTo'),
+        message: formData.get('message'),
+        notes: formData.get('notes'),
+        followUpDate: formData.get('followUpDate')
+    };
+    
+    this.clearFormErrors();
+    
+    try {
+        if (this.currentEditingLead) {
+            // Update existing lead
+            await this.dataManager.updateLead(this.currentEditingLead._id, leadData);
+            showNotification('Success', 'Lead updated successfully', 'success');
+        } else {
+            // Add new lead
+            await this.dataManager.addLead(leadData);
+            showNotification('Success', 'Lead added successfully', 'success');
         }
+        
+        this.hideLeadModal();
+    } catch (error) {
+        this.displayFormError(error.message);
     }
+}
 
     /**
      * Display form validation error
@@ -806,23 +869,28 @@ class LeadManagementApp {
     /**
      * Delete lead
      */
-    deleteLead(leadId) {
-        const lead = this.dataManager.getLeadById(leadId);
-        if (!lead) {
-            showNotification('Error', 'Lead not found', 'error');
+async deleteLead(leadId) {
+    let lead = this.dataManager.leads.find(l => l._id === leadId);
+    if (!lead) {
+        try {
+            lead = await this.dataManager.getLeadById(leadId);
+        } catch (err) {
+            showNotification('Error', err.message || 'Lead not found', 'error');
             return;
         }
-        
-        const message = `Are you sure you want to delete "${lead.name}"? This action cannot be undone.`;
-        this.showDeleteModal(message, () => {
-            try {
-                this.dataManager.deleteLead(leadId);
-                showNotification('Success', 'Lead deleted successfully', 'success');
-            } catch (error) {
-                showNotification('Error', error.message, 'error');
-            }
-        });
     }
+    
+    const message = `Are you sure you want to delete "${lead.name}"? This action cannot be undone.`;
+    
+    this.showDeleteModal(message, async () => {
+        try {
+            await this.dataManager.deleteLead(leadId);
+            showNotification('Success', 'Lead deleted successfully', 'success');
+        } catch (error) {
+            showNotification('Error', error.message, 'error');
+        }
+    });
+}
 
     /**
      * Show delete confirmation modal
@@ -854,25 +922,28 @@ class LeadManagementApp {
     /**
      * Export leads to CSV
      */
-    exportLeads() {
-        try {
-            const leadsToExport = this.dataManager.exportLeads(this.currentFilters);
-            
-            if (leadsToExport.length === 0) {
-                showNotification('Warning', 'No leads to export with current filters', 'warning');
-                return;
-            }
-            
-            const timestamp = new Date().toISOString().split('T')[0];
-            const filename = `leads-export-${timestamp}.csv`;
-            
-            exportToCSV(leadsToExport, filename);
-            showNotification('Success', `Exported ${leadsToExport.length} leads to ${filename}`, 'success');
-        } catch (error) {
-            showNotification('Error', 'Failed to export leads', 'error');
-            console.error('Export error:', error);
+async exportLeads() {
+    try {
+        // Ask dataManager to fetch CSV blob
+        const blobOrData = await this.dataManager.exportLeads({ ...this.currentFilters });
+        if (blobOrData instanceof Blob || (blobOrData && blobOrData.blob)) {
+            const blob = blobOrData instanceof Blob ? blobOrData : blobOrData.blob;
+            const filename = `leads-export-${new Date().toISOString().split('T')[0]}.csv`;
+            downloadBlob(blob, filename);
+            showNotification('Success', 'Export started', 'success');
+        } else {
+            // server returned ApiResponse.data string — you can handle accordingly
+            // Attempt to download string as CSV
+            const csvString = typeof blobOrData === 'string' ? blobOrData : JSON.stringify(blobOrData);
+            const blob = new Blob([csvString], { type: 'text/csv' });
+            const filename = `leads-export-${new Date().toISOString().split('T')[0]}.csv`;
+            downloadBlob(blob, filename);
+            showNotification('Success', 'Export started', 'success');
         }
+    } catch (err) {
+        showNotification('Error', err.message || 'Failed to export leads', 'error');
     }
+}
 }
 
 // Initialize the application when DOM is loaded
