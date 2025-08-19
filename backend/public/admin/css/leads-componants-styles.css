@@ -766,3 +766,119 @@
         height: 40px;
     }
 }
+
+/* ===================== */
+/* TOAST NOTIFICATION */
+/* ===================== */
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #252836;
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  padding: 16px;
+  max-width: 350px;
+  z-index: 1100;
+  transform: translateX(120%);
+  transition: transform 0.4s ease;
+  border-left: 4px solid var(--primary);
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.notification.show {
+  transform: translateX(0);
+}
+
+.notification.success {
+  border-left-color: var(--success);
+}
+
+.notification.error {
+  border-left-color: var(--danger);
+}
+
+.notification.warning {
+  border-left-color: var(--warning);
+}
+
+.notification.info {
+  border-left-color: var(--info);
+}
+
+.notification-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.notification-content {
+  flex: 1;
+}
+
+.notification-title {
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 6px;
+  color: #f8f9fa;
+}
+
+.notification-message {
+  color: #d1d5db;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.notification-close {
+  background: none;
+  border: none;
+  color: #9ca3af;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 0;
+  margin: 0;
+  transition: color 0.2s;
+}
+
+.notification-close:hover {
+  color: #f8f9fa;
+}
+
+/* Responsive Toast Notifications */
+@media (max-width: 768px) {
+  .notification {
+    max-width: 300px;
+    right: 15px;
+    left: 15px;
+    top: 15px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .notification {
+    max-width: calc(100% - 30px);
+    padding: 14px;
+  }
+  
+  .notification-title {
+    font-size: 15px;
+  }
+  
+  .notification-message {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 360px) {
+  .notification {
+    top: 10px;
+    padding: 12px;
+  }
+  
+  .notification-icon {
+    font-size: 18px;
+  }
+}
