@@ -15,7 +15,9 @@ export const submitLead = asyncHandler(async (req, res) => {
             name,
             email,
             phone,
-            message
+            message,
+            company : 'not enetered',
+            status : 'new',
         });
 
         // Email notification logic can be added here
