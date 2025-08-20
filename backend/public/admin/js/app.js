@@ -420,20 +420,20 @@ async clearFilters() {
         }
     }
 
-    async handleBulkStatusChange(status) {
-        if (!status || this.selectedLeads.size === 0) return;
+async handleBulkStatusChange(status) {
+    if (!status || this.selectedLeads.size === 0) return;
 
-        try {
-            await this.dataManager.bulkUpdateLeads([...this.selectedLeads], { status });
-            showNotification('Success', `Updated ${this.selectedLeads.size} leads to ${status}`, 'success');
+    try {
+        await this.dataManager.bulkUpdateLeads([...this.selectedLeads], { status });
+        showNotification('Success', `Updated ${this.selectedLeads.size} leads to ${status}`, 'success');
 
-            document.getElementById('bulkStatusSelect').value = '';
-            this.selectedLeads.clear();
-        } catch (error) {
-            showNotification('Error', error.message, 'error');
-        }
-
+        // Reset the dropdown but keep selections
+        document.getElementById('bulkStatusSelect').value = '';
+        // Don't clear selections - let user decide when to unselect
+    } catch (error) {
+        showNotification('Error', error.message, 'error');
     }
+}
 
 
 
@@ -445,29 +445,32 @@ async handleBulkAssignChange(userId) {
         const assigneeName = this.getSalespersonName(userId);
         showNotification('Success', `Assigned ${this.selectedLeads.size} leads to ${assigneeName}`, 'success');
 
+        // Reset the dropdown but keep selections
         document.getElementById('bulkAssignSelect').value = '';
-        this.selectedLeads.clear();
+        // Don't clear selections - let user decide when to unselect
     } catch (error) {
         showNotification('Error', error.message, 'error');
     }
 }
 
 
-    async handleBulkPriorityChange(priority) {
-        if (!priority || this.selectedLeads.size === 0) return;
 
-        try {
-            await this.dataManager.bulkUpdateLeads([...this.selectedLeads], { tag: priority });
-            const priorityInfo = getPriorityInfo(priority);
-            showNotification('Success', `Updated ${this.selectedLeads.size} leads to ${priorityInfo.label}`, 'success');
+async handleBulkPriorityChange(priority) {
+    if (!priority || this.selectedLeads.size === 0) return;
 
-            // Reset bulk controls and clear selections
-            document.getElementById('bulkPrioritySelect').value = '';
-            this.selectedLeads.clear();
-        } catch (error) {
-            showNotification('Error', error.message, 'error');
-        }
+    try {
+        await this.dataManager.bulkUpdateLeads([...this.selectedLeads], { tag: priority });
+        const priorityInfo = getPriorityInfo(priority);
+        showNotification('Success', `Updated ${this.selectedLeads.size} leads to ${priorityInfo.label}`, 'success');
+
+        // Reset the dropdown but keep selections
+        document.getElementById('bulkPrioritySelect').value = '';
+        // Don't clear selections - let user decide when to unselect
+    } catch (error) {
+        showNotification('Error', error.message, 'error');
     }
+}
+
 
     calculatePagination(totalItems) {
         this.totalPages = Math.ceil(totalItems / this.pageSize) || 1;
@@ -681,21 +684,23 @@ async handleBulkAssignChange(userId) {
         }
     }
 
-    async handleBulkDelete() {
-        if (this.selectedLeads.size === 0) return;
+async handleBulkDelete() {
+    if (this.selectedLeads.size === 0) return;
 
-        const message = `Are you sure you want to delete ${this.selectedLeads.size} selected leads? This action cannot be undone.`;
+    const message = `Are you sure you want to delete ${this.selectedLeads.size} selected leads? This action cannot be undone.`;
 
-        this.showDeleteModal(message, async () => {
-            try {
-                await this.dataManager.deleteLeads([...this.selectedLeads]);
-                showNotification('Success', `Deleted ${this.selectedLeads.size} leads`, 'success');
-                this.selectedLeads.clear();
-            } catch (error) {
-                showNotification('Error', error.message, 'error');
-            }
-        });
-    }
+    this.showDeleteModal(message, async () => {
+        try {
+            await this.dataManager.deleteLeads([...this.selectedLeads]);
+            showNotification('Success', `Deleted ${this.selectedLeads.size} leads`, 'success');
+            // Clear selections only after delete since the leads no longer exist
+            this.selectedLeads.clear();
+        } catch (error) {
+            showNotification('Error', error.message, 'error');
+        }
+    });
+}
+
 
     showAddLeadModal() {
         this.currentEditingLead = null;
