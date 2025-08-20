@@ -12,19 +12,29 @@ class LeadManagementApp {
         this.init();
     }
 
-    async init() {
-        try {
-            this.bindEvents();
-            await this.dataManager.loadLeads({ page: this.currentPage, limit: this.pageSize });
-            this.dataManager.subscribe(() => {
-                this.renderLeads();
-            });
+ async init() {
+    try {
+        this.bindEvents();
+        
+        // Load both leads and salespersons
+        await Promise.all([
+            this.dataManager.loadLeads({ page: this.currentPage, limit: this.pageSize }),
+            this.dataManager.loadSalespersons()
+        ]);
+        
+        this.dataManager.subscribe(() => {
             this.renderLeads();
-        } catch (error) {
-            console.error('App initialization error:', error);
-            showNotification('Error', error.message || 'Failed to load leads', 'error');
-        }
+        });
+        
+        // Populate salesperson dropdowns
+        this.populateSalespersonDropdowns();
+        this.renderLeads();
+    } catch (error) {
+        console.error('App initialization error:', error);
+        showNotification('Error', error.message || 'Failed to load data', 'error');
     }
+}
+
 
     bindEvents() {
         // Header buttons
@@ -176,6 +186,49 @@ class LeadManagementApp {
         this.updateBulkActionsVisibility();
     }
 
+    populateSalespersonDropdowns() {
+    const salespersons = this.dataManager.salespersons || [];
+    
+    // Update bulk assign dropdown
+    const bulkAssignSelect = document.getElementById('bulkAssignSelect');
+    // Clear existing options except the first one
+    while (bulkAssignSelect.children.length > 1) {
+        bulkAssignSelect.removeChild(bulkAssignSelect.lastChild);
+    }
+    
+    // Update form dropdown in modal
+    const leadAssignedSelect = document.getElementById('leadAssigned');
+    // Clear existing options except the first one
+    while (leadAssignedSelect.children.length > 1) {
+        leadAssignedSelect.removeChild(leadAssignedSelect.lastChild);
+    }
+    
+    // Add salesperson options to both dropdowns
+    salespersons.forEach(person => {
+        const displayName = `${person.firstName} ${person.lastName}`;
+        
+        // Add to bulk assign dropdown
+        const bulkOption = document.createElement('option');
+        bulkOption.value = person._id;
+        bulkOption.textContent = displayName;
+        bulkAssignSelect.appendChild(bulkOption);
+        
+        // Add to form dropdown
+        const formOption = document.createElement('option');
+        formOption.value = person._id;
+        formOption.textContent = displayName;
+        leadAssignedSelect.appendChild(formOption);
+    });
+}
+
+getSalespersonName(userId) {
+    if (!userId) return 'Unassigned';
+    const salesperson = this.dataManager.salespersons?.find(p => p._id === userId);
+    return salesperson ? `${salesperson.firstName} ${salesperson.lastName}` : 'Unknown User';
+}
+
+
+
 
     createLeadRow(lead) {
         const row = document.createElement('tr');
@@ -183,7 +236,7 @@ class LeadManagementApp {
 
         const statusInfo = getStatusInfo(lead.status);
         const priorityInfo = getPriorityInfo(lead.tag);
-        const assignedUserName = getAssignedUserName(lead.assignedTo);
+        const assignedUserName = lead.assignedSalesperson ? this.getSalespersonName(lead.assignedSalesperson) : 'Unassigned';
         const followUpInfo = formatFollowUpDate(lead.followUpDate);
 
         row.innerHTML = `
@@ -217,7 +270,7 @@ class LeadManagementApp {
             </td>
             <td>
                 <div class="assigned-user">
-                    ${lead.assignedTo ? `
+                    ${lead.assignedSalesperson ? `
                         <i class="fas fa-user"></i>
                         ${assignedUserName}
                     ` : `
@@ -385,21 +438,21 @@ async clearFilters() {
 
 
 
-    async handleBulkAssignChange(assignedTo) {
-        if (!assignedTo || this.selectedLeads.size === 0) return;
+async handleBulkAssignChange(userId) {
+    if (!userId || this.selectedLeads.size === 0) return;
 
-        try {
-            await this.dataManager.bulkUpdateLeads([...this.selectedLeads], { assignedTo });
-            const assigneeName = getAssignedUserName(assignedTo);
-            showNotification('Success', `Assigned ${this.selectedLeads.size} leads to ${assigneeName}`, 'success');
+    try {
+        await this.dataManager.assignLeads([...this.selectedLeads], userId);
+        const assigneeName = this.getSalespersonName(userId);
+        showNotification('Success', `Assigned ${this.selectedLeads.size} leads to ${assigneeName}`, 'success');
 
-            // Reset bulk controls and selections after a successful API call
-            document.getElementById('bulkAssignSelect').value = '';
-            this.selectedLeads.clear();
-        } catch (error) {
-            showNotification('Error', error.message, 'error');
-        }
+        document.getElementById('bulkAssignSelect').value = '';
+        this.selectedLeads.clear();
+    } catch (error) {
+        showNotification('Error', error.message, 'error');
     }
+}
+
 
     async handleBulkPriorityChange(priority) {
         if (!priority || this.selectedLeads.size === 0) return;
@@ -528,7 +581,7 @@ async clearFilters() {
         const content = document.getElementById('leadDetailsContent');
         const statusInfo = getStatusInfo(lead.status);
         const priorityInfo = getPriorityInfo(lead.tag);
-        const assignedUserName = getAssignedUserName(lead.assignedTo);
+        const assignedUserName = lead.assignedSalesperson ? this.getSalespersonName(lead.assignedSalesperson) : 'Unassigned';
         const followUpInfo = formatFollowUpDate(lead.followUpDate);
 
         content.innerHTML = `
@@ -577,7 +630,7 @@ async clearFilters() {
                     </div>
                     <div class="detail-item">
                         <div class="detail-label">Assigned To</div>
-                        <div class="detail-value ${!lead.assignedTo ? 'empty' : ''}">${assignedUserName}</div>
+                        <div class="detail-value ${!lead.assignedSalesperson ? 'empty' : ''}">${assignedUserName}</div>
                     </div>
                     <div class="detail-item">
                         <div class="detail-label">Follow-up Date</div>
@@ -687,7 +740,7 @@ async editLead(leadId) {
     // FIXES: Ensure values match HTML and have a fallback for null/undefined
     document.getElementById('leadStatus').value = (lead.status || '').toLowerCase();
     document.getElementById('leadTag').value = (lead.tag || '').toLowerCase();
-    document.getElementById('leadAssigned').value = lead.assignedTo || '';
+    document.getElementById('leadAssigned').value = lead.assignedSalesperson || '';
 
     document.getElementById('leadMessage').value = lead.message || '';
     document.getElementById('leadNotes').value = lead.notes || '';

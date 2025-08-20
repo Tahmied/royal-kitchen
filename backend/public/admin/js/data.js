@@ -106,6 +106,19 @@ async addLead(leadData) {
     }
 }
 
+async loadSalespersons() {
+    try {
+        const data = await apiRequest('/api/v1/admin/getSalespersons', { method: 'GET' });
+        this.salespersons = Array.isArray(data) ? data : [];
+        return this.salespersons;
+    } catch (err) {
+        console.error('Failed to load salespersons:', err);
+        this.salespersons = [];
+        return [];
+    }
+}
+
+
 
     // Update lead
     async updateLead(id, updates) {
@@ -137,20 +150,23 @@ async addLead(leadData) {
     }
 
     // Bulk assign (calls assignLeads)
-    async assignLeads(leadIds = [], userId, role) {
-        if (!Array.isArray(leadIds) || leadIds.length === 0) throw new Error('leadIds required');
-        try {
-            setLoading(true);
-            const data = await apiRequest('/api/v1/admin/assignLeads', {
-                method: 'POST',
-                body: { leadIds, userId, role }
-            });
-            await this.loadLeads({ page: this.page, limit: this.limit });
-            return data;
-        } finally {
-            setLoading(false);
-        }
+async assignLeads(leadIds = [], userId) {
+    if (!Array.isArray(leadIds) || leadIds.length === 0) throw new Error('leadIds required');
+    if (!userId) throw new Error('userId required');
+    
+    try {
+        setLoading(true);
+        const data = await apiRequest('/api/v1/admin/assignLeads', {
+            method: 'POST',
+            body: { leadIds, userId: [userId], role: 'Sales' }
+        });
+        await this.loadLeads({ page: this.page, limit: this.limit });
+        return data;
+    } finally {
+        setLoading(false);
     }
+}
+
 
     // Bulk update
    async bulkUpdateLeads(leadIds = [], updates = {}) {

@@ -248,14 +248,19 @@ function hideModal(modalId) {
  * Get assigned user display name
  */
 function getAssignedUserName(userId) {
-    const users = {
-        'john-doe': 'John Doe',
-        'jane-smith': 'Jane Smith',
-        'mike-johnson': 'Mike Johnson',
-        'sarah-wilson': 'Sarah Wilson'
-    };
-    return users[userId] || 'Unassigned';
+    if (!userId) return 'Unassigned';
+    
+    // Try to get from loaded salespersons data
+    if (window.app && window.app.dataManager && window.app.dataManager.salespersons) {
+        const salesperson = window.app.dataManager.salespersons.find(p => p._id === userId);
+        if (salesperson) {
+            return `${salesperson.firstName} ${salesperson.lastName}`;
+        }
+    }
+    
+    return 'Unknown User';
 }
+
 
 /**
  * Get status display properties
