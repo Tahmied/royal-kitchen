@@ -236,7 +236,7 @@ getSalespersonName(userId) {
 
         const statusInfo = getStatusInfo(lead.status);
         const priorityInfo = getPriorityInfo(lead.tag);
-        const assignedUserName = lead.assignedSalesperson ? this.getSalespersonName(lead.assignedSalesperson) : 'Unassigned';
+        const assignedUserName = lead.assignedTo ? this.getSalespersonName(lead.assignedTo) : 'Unassigned';
         const followUpInfo = formatFollowUpDate(lead.followUpDate);
 
         row.innerHTML = `
@@ -268,17 +268,16 @@ getSalespersonName(userId) {
                     ${priorityInfo.label}
                 </span>
             </td>
-            <td>
+           <td>
                 <div class="assigned-user">
-                    ${lead.assignedSalesperson ? `
-                        <i class="fas fa-user"></i>
-                        ${assignedUserName}
-                    ` : `
-                        <i class="fas fa-user-times"></i>
-                        Unassigned
-                    `}
+                        ${lead.assignedTo ? `
+                            <i class="fas fa-user"></i>
+                            ${assignedUserName}
+                        ` : `
+                            <i class="fas fa-user-times"></i>
+                            Unassigned
+                        `}
                 </div>
-            </td>
             <td>
                 <div class="follow-up-date ${followUpInfo.class}">
                     <i class="${followUpInfo.icon}"></i>
@@ -581,7 +580,7 @@ async handleBulkAssignChange(userId) {
         const content = document.getElementById('leadDetailsContent');
         const statusInfo = getStatusInfo(lead.status);
         const priorityInfo = getPriorityInfo(lead.tag);
-        const assignedUserName = lead.assignedSalesperson ? this.getSalespersonName(lead.assignedSalesperson) : 'Unassigned';
+        const assignedUserName = lead.assignedTo ? this.getSalespersonName(lead.assignedTo) : 'Unassigned';
         const followUpInfo = formatFollowUpDate(lead.followUpDate);
 
         content.innerHTML = `
@@ -630,7 +629,7 @@ async handleBulkAssignChange(userId) {
                     </div>
                     <div class="detail-item">
                         <div class="detail-label">Assigned To</div>
-                        <div class="detail-value ${!lead.assignedSalesperson ? 'empty' : ''}">${assignedUserName}</div>
+                        <div class="detail-value ${!lead.assignedTo ? 'empty' : ''}">${assignedUserName}</div>
                     </div>
                     <div class="detail-item">
                         <div class="detail-label">Follow-up Date</div>
@@ -740,7 +739,7 @@ async editLead(leadId) {
     // FIXES: Ensure values match HTML and have a fallback for null/undefined
     document.getElementById('leadStatus').value = (lead.status || '').toLowerCase();
     document.getElementById('leadTag').value = (lead.tag || '').toLowerCase();
-    document.getElementById('leadAssigned').value = lead.assignedSalesperson || '';
+    document.getElementById('leadAssigned').value = lead.assignedTo || '';
 
     document.getElementById('leadMessage').value = lead.message || '';
     document.getElementById('leadNotes').value = lead.notes || '';
