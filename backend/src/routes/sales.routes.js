@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { checkSalesPersonLogin, getAssignedLeads, getFollowUpLeads, loginSalesPerson, logout, registerSalesPerson, updateLead } from "../controllers/sales.controller.js";
+import { checkSalesPersonLogin, getAssignedLeads, getFollowUpLeads, getLeadById, loginSalesPerson, logout, registerSalesPerson, updateLead } from "../controllers/sales.controller.js";
 import { salesAuth } from "../middlewares/auth.middleware.js";
 import { mediaUpload } from "../middlewares/multer.middleware.js";
 const router = Router()
@@ -14,6 +14,7 @@ router.get('/logout' , salesAuth, logout)
 router.get('/leads', salesAuth, getAssignedLeads);
 router.get('/leads/followup', salesAuth, getFollowUpLeads);
 router.put('/leads/:id', salesAuth, updateLead);
+router.get('/getLeadDetails' , salesAuth, getLeadById)
 
 
 

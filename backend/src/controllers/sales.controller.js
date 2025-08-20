@@ -143,37 +143,92 @@ export const logout = asyncHandler(async (req, res) => {
 // lead management
 
 export const getFollowUpLeads = asyncHandler(async (req, res) => {
+    const { page = 1, limit = 20 } = req.query;
     const user = req.user;
-    if(!user){
-        throw new ApiError(400 , 'unable to find the sales person')
-    }
 
-    const leads = await Lead.find({
+    const query = {
         assignedTo: user._id,
-        followUpDate: { $lte: new Date() } 
-    });
+        assignedToModel: 'Sales',
+        followUpDate: { $lte: new Date() }
+    };
+    
+    const totalLeads = await Lead.countDocuments(query);
+    const leads = await Lead.find(query)
+        .sort({ followUpDate: 1 }) // Sort by earliest follow-up date first
+        .skip((page - 1) * limit)
+        .limit(limit);
+
+    const totalPages = Math.ceil(totalLeads / limit);
 
     return res.status(200).json(
-        new ApiResponse(200, leads, 'Follow-up leads fetched successfully')
+        new ApiResponse(200, { page: Number(page), limit: Number(limit), totalLeads, totalPages, leads }, 'Follow-up leads fetched successfully')
     );
 });
 
 export const getAssignedLeads = asyncHandler(async (req, res) => {
+    const { 
+        page = 1, 
+        limit = 20, 
+        status, 
+        tag, 
+        startDate, 
+        endDate, 
+        search, 
+        followUpFrom, 
+        followUpTo 
+    } = req.query;
     const salespersonId = req.user._id;
 
-    const assignedLeads = await Lead.find({
+    // 1. Build the query object
+    const query = {
         assignedTo: salespersonId,
         assignedToModel: 'Sales'
-    }).sort({ createdAt: -1 });
+    };
 
-    if (!assignedLeads || assignedLeads.length === 0) {
-        return res.status(200).json(
-            new ApiResponse(200, [], 'You have no assigned leads.')
-        );
+    // Filter by status and tag
+    if (status) query.status = status;
+    if (tag) query.tag = tag;
+
+    // Add multi-field search functionality
+    if (search) {
+        const searchRegex = new RegExp(search, 'i');
+        query.$or = [
+            { name: { $regex: searchRegex } },
+            { email: { $regex: searchRegex } },
+            { phone: { $regex: searchRegex } },
+            { company: { $regex: searchRegex } },
+            { message: { $regex: searchRegex } },
+            { notes: { $regex: searchRegex } }
+        ];
+    }
+    
+    // Filter by Creation Date
+    if (startDate || endDate) {
+        query.createdAt = {};
+        if (startDate) query.createdAt.$gte = new Date(startDate);
+        if (endDate) query.createdAt.$lte = new Date(endDate);
+    }
+    
+    // Filter by Follow-up Date
+    if (followUpFrom || followUpTo) {
+        query.followUpDate = {};
+        if (followUpFrom) query.followUpDate.$gte = new Date(followUpFrom);
+        if (followUpTo) query.followUpDate.$lte = new Date(followUpTo);
     }
 
+    // 2. Execute the database queries
+    const totalLeads = await Lead.countDocuments(query);
+    const leads = await Lead.find(query)
+        .sort({ createdAt: -1 })
+        .skip((page - 1) * limit)
+        .limit(limit)
+        .lean();
+
+    const totalPages = Math.ceil(totalLeads / limit);
+
+    // 3. Return the response
     return res.status(200).json(
-        new ApiResponse(200, assignedLeads, 'Assigned leads fetched successfully.')
+        new ApiResponse(200, { page: Number(page), limit: Number(limit), totalLeads, totalPages, leads }, 'Assigned leads fetched successfully with applied filters')
     );
 });
 
@@ -212,3 +267,26 @@ export const updateLead = asyncHandler(async (req, res) => {
     );
 });
 
+export const getLeadById = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const salespersonId = req.user._id;
+
+    if (!id) {
+        throw new ApiError(400, 'Lead ID is required.');
+    }
+
+    // Find the lead and ensure it's assigned to the current salesperson
+    const lead = await Lead.findOne({
+        _id: id,
+        assignedTo: salespersonId,
+        assignedToModel: 'Sales'
+    }).lean();
+
+    if (!lead) {
+        throw new ApiError(404, 'Lead not found or you are not authorized to view it.');
+    }
+
+    return res.status(200).json(
+        new ApiResponse(200, lead, 'Lead details fetched successfully.')
+    );
+});
