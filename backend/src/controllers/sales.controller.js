@@ -290,3 +290,37 @@ export const getLeadById = asyncHandler(async (req, res) => {
         new ApiResponse(200, lead, 'Lead details fetched successfully.')
     );
 });
+
+export const getLeadsSummary = asyncHandler(async (req, res) => {
+    const salespersonId = req.user._id;
+
+    // 1. Count the total number of assigned leads
+    const totalLeads = await Lead.countDocuments({
+        assignedTo: salespersonId,
+        assignedToModel: 'Sales'
+    });
+
+    // 2. Count the number of new leads
+    const newLeads = await Lead.countDocuments({
+        assignedTo: salespersonId,
+        assignedToModel: 'Sales',
+        status: 'New'
+    });
+
+    // 3. Count the number of leads with a follow-up date
+    const followUpLeads = await Lead.countDocuments({
+        assignedTo: salespersonId,
+        assignedToModel: 'Sales',
+        followUpDate: { $exists: true, $ne: null }
+    });
+
+    const summary = {
+        totalAssignedLeads: totalLeads,
+        newLeads: newLeads,
+        followUpLeads: followUpLeads
+    };
+
+    return res.status(200).json(
+        new ApiResponse(200, summary, 'Leads summary fetched successfully.')
+    );
+});
