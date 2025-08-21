@@ -14,7 +14,7 @@ router.get('/logout' , salesAuth, logout)
 router.get('/leads', salesAuth, getAssignedLeads);
 router.get('/leads/followup', salesAuth, getFollowUpLeads);
 router.put('/leads/:id', salesAuth, updateLead);
-router.get('/getLeadDetails' , salesAuth, getLeadById)
+router.get('/getLeadDetails/:id' , salesAuth, getLeadById)
 router.get('/summary', salesAuth, getLeadsSummary);
 
 
