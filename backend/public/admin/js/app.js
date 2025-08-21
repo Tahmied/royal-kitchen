@@ -199,7 +199,7 @@ class LeadManagementApp {
     // Update form dropdown in modal
     const leadAssignedSelect = document.getElementById('leadAssigned');
     // Clear existing options except the first one
-    while (leadAssignedSelect.children.length > 1) {
+    while (leadAssignedSelect.children.length) {
         leadAssignedSelect.removeChild(leadAssignedSelect.lastChild);
     }
     
