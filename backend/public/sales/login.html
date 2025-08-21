@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Login Form</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #8B5CF6;
+            --primary-dark: #7C3AED;
+            --secondary: #EC4899;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --info: #06B6D4;
+            --danger: #EF4444;
+            --dark-bg: #0F172A;
+            --dark-card: #1E293B;
+            --dark-border: #334155;
+            --dark-text: #E2E8F0;
+            --dark-muted: #94A3B8;
+            --light: #F9FAFB;
+            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #1E293B 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: var(--dark-text);
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 420px;
+        }
+
+        .login-card {
+            background: var(--dark-card);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            padding: 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(139, 92, 246, 0.1), rgba(236, 72, 153, 0.1));
+            transform: rotate(-45deg);
+            z-index: -1;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo i {
+            font-size: 42px;
+            color: var(--primary);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+        }
+
+        .logo h1 {
+            font-weight: 600;
+            font-size: 28px;
+            letter-spacing: 0.5px;
+        }
+
+        .logo p {
+            color: var(--dark-muted);
+            margin-top: 8px;
+            font-size: 14px;
+        }
+
+        .input-group {
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--dark-muted);
+            font-weight: 500;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--dark-border);
+            border-radius: 10px;
+            color: var(--dark-text);
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+        }
+
+        .input-group i {
+            position: absolute;
+            right: 16px;
+            top: 42px;
+            color: var(--dark-muted);
+        }
+
+        .options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            font-size: 14px;
+        }
+
+        .remember {
+            display: flex;
+            align-items: center;
+        }
+
+        .remember input {
+            margin-right: 8px;
+            accent-color: var(--primary);
+        }
+
+        .forgot {
+            color: var(--primary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .forgot:hover {
+            color: var(--secondary);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 6px rgba(139, 92, 246, 0.2);
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(139, 92, 246, 0.3);
+        }
+
+        .divider {
+            text-align: center;
+            position: relative;
+            margin: 30px 0;
+            color: var(--dark-muted);
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            height: 1px;
+            width: 42%;
+            background: var(--dark-border);
+        }
+
+        .divider::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            height: 1px;
+            width: 42%;
+            background: var(--dark-border);
+        }
+
+        .social-login {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .social-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--dark-border);
+            color: var(--dark-text);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .social-btn:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .signup {
+            text-align: center;
+            font-size: 14px;
+            color: var(--dark-muted);
+        }
+
+        .signup a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .signup a:hover {
+            color: var(--secondary);
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            background: var(--dark-card);
+            border-left: 4px solid var(--primary);
+            border-radius: 6px;
+            box-shadow: var(--card-shadow);
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 30px 20px;
+            }
+            
+            .options {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="logo">
+                <img src="./logo/short-logo.png" alt="">
+                <h1>Welcome Back</h1>
+                <p>Sign in to your account to continue</p>
+            </div>
+            
+            <form id="loginForm">
+                <div class="input-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                    <i class="fas fa-envelope"></i>
+                </div>
+                
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                    <i class="fas fa-lock"></i>
+                </div>
+                
+                <button type="submit" class="login-btn">Sign In</button>
+            </form>
+
+            
+            <div class="signup">
+                <br>
+                Don't have an account? <a href="#">Sign up now</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i> Login successful! Redirecting...
+    </div>
+
+<script>
+document.getElementById('loginForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value.trim();
+
+    if (!email || !password) {
+        showNotification("Please enter both email and password", "error");
+        return;
+    }
+
+    try {
+        const response = await fetch("/api/v1/sales/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: "include", // IMPORTANT: ensures cookies (SalesAccessToken + SalesRefreshToken) are saved
+            body: JSON.stringify({ email, password })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message || "Login failed");
+        }
+
+        // ✅ Success
+        showNotification("Login successful! Redirecting...", "success");
+
+        // optional: store salesperson info in localStorage (not tokens!)
+        localStorage.setItem("salesUser", JSON.stringify(data.data));
+
+        setTimeout(() => {
+            window.location.href = "/sales/index.html";
+        }, 1500);
+
+    } catch (error) {
+        console.error("Login error:", error);
+        showNotification(error.message || "Something went wrong", "error");
+    }
+});
+
+// helper for notifications
+function showNotification(message, type = "success") {
+    const notification = document.getElementById('notification');
+    notification.innerHTML = 
+        (type === "success" 
+            ? '<i class="fas fa-check-circle"></i> ' 
+            : '<i class="fas fa-exclamation-circle"></i> ') 
+        + message;
+
+    notification.className = `notification show ${type}`;
+
+    setTimeout(() => {
+        notification.classList.remove("show");
+    }, 3000);
+}
+</script>
+
+</body>
+</html>
