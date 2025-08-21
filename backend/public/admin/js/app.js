@@ -760,41 +760,71 @@ async editLead(leadId) {
         this.clearFormErrors();
     }
 
-    async handleLeadFormSubmit(e) {
-        e.preventDefault();
+async handleLeadFormSubmit(e) {
+    e.preventDefault();
 
-        const formData = new FormData(e.target);
-        const leadData = {
-            name: formData.get('name'),
-            email: formData.get('email'),
-            phone: formData.get('phone'),
-            company: formData.get('company'),
-            status: formData.get('status'),
-            tag: formData.get('tag'),
-            assignedTo: formData.get('assignedTo'),
-            message: formData.get('message'),
-            notes: formData.get('notes'),
-            followUpDate: formData.get('followUpDate')
-        };
+    const form = e.target;
+    const formData = new FormData(form);
 
-        this.clearFormErrors();
+    // Create a new leadData object to avoid modifying the form data directly
+    const leadData = {};
+    for (const [key, value] of formData.entries()) {
+        leadData[key] = value;
+    }
 
-        try {
-            if (this.currentEditingLead) {
-                // Update existing lead
-                await this.dataManager.updateLead(this.currentEditingLead._id, leadData);
-                showNotification('Success', 'Lead updated successfully', 'success');
-            } else {
-                // Add new lead
-                await this.dataManager.addLead(leadData);
-                showNotification('Success', 'Lead added successfully', 'success');
+    // Defensive client-side validation for critical fields
+    if (!leadData.name || !isValidEmail(leadData.email)) {
+        this.displayFormError('Name and a valid email are required.');
+        return;
+    }
+
+    this.clearFormErrors();
+
+    try {
+        if (this.currentEditingLead) {
+            // Get original lead for comparison
+            const originalLead = this.currentEditingLead;
+            const updates = { ...leadData };
+
+            // Check if 'assignedTo' has changed
+            const assignedToChanged = originalLead.assignedTo !== updates.assignedTo;
+
+            // Remove assignedTo from the general update object to use the specific endpoint
+            delete updates.assignedTo;
+            
+            // Perform the general lead update
+            await this.dataManager.updateLead(originalLead._id, updates);
+
+            // Handle assignment/unassignment in a separate step
+            if (assignedToChanged) {
+                const newAssignedId = leadData.assignedTo || null;
+                if (newAssignedId) {
+                    // Assign the lead using the specific API
+                    await this.dataManager.assignLeads([originalLead._id], newAssignedId);
+                } else {
+                    // Unassign the lead by setting assignedTo to null in a general update
+                    await this.dataManager.updateLead(originalLead._id, { assignedTo: null });
+                }
             }
 
-            this.hideLeadModal();
-        } catch (error) {
-            this.displayFormError(error.message);
+            showNotification('Success', 'Lead updated successfully', 'success');
+
+        } else {
+            // Add new lead (no changes needed for this path)
+            await this.dataManager.addLead(leadData);
+            showNotification('Success', 'Lead added successfully', 'success');
         }
+
+        this.hideLeadModal();
+    } catch (error) {
+        // Display user-friendly error from the API
+        this.displayFormError(error.message || 'An unexpected error occurred.');
+    } finally {
+        // Ensure form is re-enabled if you add a temporary disabling state
+        form.querySelector('button[type="submit"]').disabled = false;
     }
+}
+
 
     displayFormError(message) {
         showNotification('Validation Error', message, 'error');
