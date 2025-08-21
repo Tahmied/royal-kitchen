@@ -186,7 +186,7 @@ async function openEditModal(id) {
             <div class="form-group">
                 <label>Status</label>
                 <select id="edit-status">
-                    ${["New","Contacted","In Progress","Closed","Trash"].map(s => 
+                    ${["New","Contacted","In-Progress","Closed","Trash"].map(s => 
                         `<option ${data.status === s ? "selected" : ""}>${s}</option>`).join("")}
                 </select>
             </div>
@@ -216,6 +216,7 @@ function closeEditModal() {
 async function saveChanges() {
     const modal = document.getElementById("edit-modal");
     const id = modal.dataset.leadId;
+
 
     const body = {
         status: document.getElementById("edit-status").value.toLowerCase(),
