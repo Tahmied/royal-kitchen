@@ -468,41 +468,60 @@ export const getSalespersons = asyncHandler(async (req, res) => {
 export const updateSalesperson = asyncHandler(async (req, res) => {
     const { id } = req.params;
     const { firstName, lastName, email, isActive, password } = req.body;
+    const newDpPath = req.file ? `/dp/${req.file.filename}` : null;
 
     if (!id) {
+        if (req.file) {
+            fs.unlinkSync(req.file.path);
+        }
         throw new ApiError(400, "Salesperson ID is required for updating.");
     }
 
-    // 1. Find the salesperson document
     const salesperson = await Sales.findById(id);
 
     if (!salesperson) {
+        if (req.file) {
+            fs.unlinkSync(req.file.path);
+        }
         throw new ApiError(404, "Salesperson not found.");
     }
 
-    // 2. Update fields if they are provided in the request body
+    // 1. Update basic fields
     if (firstName) salesperson.firstName = firstName;
     if (lastName) salesperson.lastName = lastName;
     if (isActive !== undefined) salesperson.isActive = isActive;
 
-    // Handle email update and check for duplicates
+    // 2. Handle email update and check for duplicates
     if (email && email !== salesperson.email) {
         const existingSalesperson = await Sales.findOne({ email });
-        if (existingSalesperson) {
+        if (existingSalesperson && existingSalesperson._id.toString() !== id) {
+            if (req.file) {
+                fs.unlinkSync(req.file.path);
+            }
             throw new ApiError(409, "Email already in use by another salesperson.");
         }
         salesperson.email = email;
     }
 
-    // 3. Update password. The pre('save') hook will handle hashing
     if (password) {
         salesperson.password = password;
     }
 
-    // 4. Save the updated document. This will trigger the pre('save') hook
+    // 4. Handle profile picture update
+    if (newDpPath) {
+        if (salesperson.dpLocalPath) {
+            try {
+                fs.unlinkSync(`.${salesperson.dpLocalPath}`);
+            } catch (error) {
+                console.warn(`Could not delete old DP at .${salesperson.dpLocalPath}`);
+            }
+        }
+        salesperson.dpLocalPath = newDpPath;
+    }
+
+    // 5. Save the updated document, triggering the pre('save') hook
     const updatedSalesperson = await salesperson.save();
 
-    // 5. Return the updated document without sensitive information
     const { password: _, refreshToken: __, ...safeSalesperson } = updatedSalesperson.toObject();
 
     return res.status(200).json(

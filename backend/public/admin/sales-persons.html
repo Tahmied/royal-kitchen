@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/sales-persons.css">
 </head>
 <body>
     <!-- Mobile Toggle Button -->
@@ -91,7 +92,6 @@
                         <tr>
                             <th>User</th>
                             <th>Email</th>
-                            <th>Role</th>
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>
@@ -107,7 +107,6 @@
                                 </div>
                             </td>
                             <td>john.doe@company.com</td>
-                            <td>Administrator</td>
                             <td><span class="status status-viewed">Active</span></td>
                             <td>
                                 <button class="action-btn"><i class="fas fa-edit"></i></button>
@@ -124,7 +123,6 @@
                                 </div>
                             </td>
                             <td>alice.smith@company.com</td>
-                            <td>Editor</td>
                             <td><span class="status status-viewed">Active</span></td>
                             <td>
                                 <button class="action-btn"><i class="fas fa-edit"></i></button>
@@ -137,45 +135,367 @@
         </div>
     </div>
 
-    <script>
-        // Mobile sidebar toggle
-        document.querySelector('.mobile-toggle').addEventListener('click', function() {
-            document.querySelector('.sidebar').classList.toggle('active');
-        });
+    <!-- Edit User Modal -->
+<div class="modal" id="editUserModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Edit User</h2>
+            <span class="close">&times;</span>
+        </div>
+        <div class="modal-body">
+            <form id="editUserForm">
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" name="firstName" required>
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" id="lastName" name="lastName" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                </div>
+                <div class="form-group">
+                    <label for="status">Status</label>
+                    <select id="status" name="status" required>
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password (leave blank to keep current)</label>
+                    <input type="password" id="password" name="password">
+                </div>
+                <div class="form-group">
+                    <label for="profilePic">Profile Picture</label>
+                    <input type="file" id="profilePic" name="profilePic" accept="image/*">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline" id="cancelEdit">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
-        // Nav item active state
-        const navItems = document.querySelectorAll('.nav-item');
-        navItems.forEach(item => {
-            item.addEventListener('click', function() {
-                navItems.forEach(i => i.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
+<!-- Delete Confirmation Modal -->
+<div class="modal" id="deleteUserModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Confirm Deletion</h2>
+            <span class="close">&times;</span>
+        </div>
+        <div class="modal-body">
+            <p>Are you sure you want to delete <span id="userToDelete"></span>? This action cannot be undone.</p>
+            <div class="form-actions">
+                <button type="button" class="btn btn-outline" id="cancelDelete">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDelete">Delete User</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-        // Card hover effect enhancement
-        const cards = document.querySelectorAll('.card');
-        cards.forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-8px)';
-            });
+<!-- Add User Modal -->
+<div class="modal" id="addUserModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Add New User</h2>
+            <span class="close" data-dismiss="addUserModal">&times;</span>
+        </div>
+        <div class="modal-body">
+            <form id="addUserForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="newFirstName">First Name</label>
+                        <input type="text" id="newFirstName" name="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newLastName">Last Name</label>
+                        <input type="text" id="newLastName" name="lastName" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="newEmail">Email</label>
+                    <input type="email" id="newEmail" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="newPassword">Password</label>
+                    <input type="password" id="newPassword" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="newProfilePic">Profile Picture</label>
+                    <input type="file" id="newProfilePic" name="profilePic" accept="image/*">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline" data-dismiss="addUserModal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add User</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Mobile sidebar toggle
+    document.querySelector('.mobile-toggle').addEventListener('click', function() {
+        document.querySelector('.sidebar').classList.toggle('active');
+    });
+
+    // Nav item active state
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(item => {
+        item.addEventListener('click', function() {
+            navItems.forEach(i => i.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+
+    // Card hover effect enhancement
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-8px)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+        });
+    });
+
+    // Switch toggle animation
+    const switches = document.querySelectorAll('.switch input');
+    switches.forEach(sw => {
+        sw.addEventListener('change', function() {
+            if(this.checked) {
+                this.parentNode.style.transform = 'scale(1.05)';
+                setTimeout(() => {
+                    this.parentNode.style.transform = 'scale(1)';
+                }, 300);
+            }
+        });
+    });
+
+    // Modal functionality
+    const editUserModal = document.getElementById('editUserModal');
+    const deleteUserModal = document.getElementById('deleteUserModal');
+    const addUserModal = document.getElementById('addUserModal');
+    
+    // Edit buttons event listeners
+    document.querySelectorAll('.action-btn .fa-edit').forEach(btn => {
+        btn.closest('.action-btn').addEventListener('click', openEditModal);
+    });
+    
+    // Delete buttons event listeners
+    document.querySelectorAll('.action-btn .fa-trash').forEach(btn => {
+        btn.closest('.action-btn').addEventListener('click', openDeleteModal);
+    });
+    
+    // Add user button event listener
+    document.querySelector('.btn-primary').addEventListener('click', function() {
+        // Check if this is the Add User button (not other primary buttons)
+        if (this.querySelector('.fa-plus')) {
+            addUserForm.reset();
+            avatarPreview.innerHTML = '<span>Preview</span>';
+            addUserModal.classList.add('show');
+        }
+    });
+
+    // Close buttons for all modals
+    document.querySelectorAll('.close, [data-dismiss]').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const modalId = this.getAttribute('data-dismiss');
+            if (modalId) {
+                document.getElementById(modalId).classList.remove('show');
+            } else {
+                // Close all modals if no specific modal specified
+                editUserModal.classList.remove('show');
+                deleteUserModal.classList.remove('show');
+                addUserModal.classList.remove('show');
+            }
+        });
+    });
+
+    // Specific cancel buttons
+    document.getElementById('cancelEdit').addEventListener('click', function() {
+        editUserModal.classList.remove('show');
+    });
+    
+    document.getElementById('cancelDelete').addEventListener('click', function() {
+        deleteUserModal.classList.remove('show');
+    });
+
+    // Confirm delete action
+    document.getElementById('confirmDelete').addEventListener('click', function() {
+        if (deleteUserModal.userToDelete) {
+            // In a real application, you would send a request to the server here
+            deleteUserModal.userToDelete.remove();
+            deleteUserModal.classList.remove('show');
             
-            card.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0)';
-            });
-        });
+            // Show success message (you could implement a toast notification)
+            alert('User deleted successfully');
+        }
+    });
 
-        // Switch toggle animation
-        const switches = document.querySelectorAll('.switch input');
-        switches.forEach(sw => {
-            sw.addEventListener('change', function() {
-                if(this.checked) {
-                    this.parentNode.style.transform = 'scale(1.05)';
-                    setTimeout(() => {
-                        this.parentNode.style.transform = 'scale(1)';
-                    }, 300);
-                }
-            });
-        });
-    </script>
+    // Handle edit form submission
+    document.getElementById('editUserForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // In a real application, you would send this data to the server
+        const firstName = document.getElementById('firstName').value;
+        const lastName = document.getElementById('lastName').value;
+        const email = document.getElementById('email').value;
+        const status = document.getElementById('status').value;
+        
+        // Update the table row
+        if (editUserModal.currentUser) {
+            const nameCell = editUserModal.currentUser.querySelector('td:first-child div:last-child');
+            nameCell.textContent = `${firstName} ${lastName}`;
+            
+            editUserModal.currentUser.cells[1].textContent = email;
+            editUserModal.currentUser.cells[2].textContent = role;
+            
+            // Update status with proper styling
+            const statusSpan = editUserModal.currentUser.querySelector('.status');
+            statusSpan.textContent = status;
+            statusSpan.className = 'status ' + (status === 'Active' ? 'status-viewed' : 'status-new');
+            
+            // Close modal
+            editUserModal.classList.remove('show');
+            
+            // Show success message
+            alert('User updated successfully');
+        }
+    });
+
+    // Add User Modal functionality
+    const addUserForm = document.getElementById('addUserForm');
+    const profilePicInput = document.getElementById('newProfilePic');
+    const avatarPreview = document.createElement('div');
+    avatarPreview.className = 'avatar-preview';
+    avatarPreview.innerHTML = '<span>Preview</span>';
+    profilePicInput.parentNode.appendChild(avatarPreview);
+
+    // Handle profile picture preview
+    profilePicInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                avatarPreview.innerHTML = `<img src="${e.target.result}" alt="Profile Preview">`;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Handle add user form submission
+    addUserForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Get form values
+        const firstName = document.getElementById('newFirstName').value;
+        const lastName = document.getElementById('newLastName').value;
+        const email = document.getElementById('newEmail').value;
+        const role = document.getElementById('newRole').value;
+        const status = document.getElementById('newStatus').value;
+        const password = document.getElementById('newPassword').value;
+        
+        // Generate initials for avatar
+        const initials = (firstName.charAt(0) + lastName.charAt(0)).toUpperCase();
+        
+        // Create new table row
+        const tbody = document.querySelector('.table-container tbody');
+        const newRow = document.createElement('tr');
+        
+        newRow.innerHTML = `
+            <td>
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <div class="user-avatar" style="width: 35px; height: 35px; font-size: 14px;">${initials}</div>
+                    <div>${firstName} ${lastName}</div>
+                </div>
+            </td>
+            <td>${email}</td>
+            <td>${role}</td>
+            <td><span class="status ${status === 'Active' ? 'status-viewed' : 'status-new'}">${status}</span></td>
+            <td>
+                <button class="action-btn"><i class="fas fa-edit"></i></button>
+                <button class="action-btn"><i class="fas fa-trash"></i></button>
+            </td>
+        `;
+        
+        // Add event listeners to the new action buttons
+        const editBtn = newRow.querySelector('.action-btn .fa-edit').closest('.action-btn');
+        const deleteBtn = newRow.querySelector('.action-btn .fa-trash').closest('.action-btn');
+        
+        editBtn.addEventListener('click', openEditModal);
+        deleteBtn.addEventListener('click', openDeleteModal);
+        
+        // Add the new row to the table
+        tbody.appendChild(newRow);
+        
+        // Close the modal
+        addUserModal.classList.remove('show');
+        
+        // Show success message
+        alert('User added successfully!');
+    });
+
+    // Open edit modal function
+    function openEditModal() {
+        const row = this.closest('tr');
+        const name = row.querySelector('td:first-child div:last-child').textContent.trim();
+        const email = row.cells[1].textContent;
+        const role = row.cells[2].textContent;
+        const status = row.cells[3].textContent;
+        
+        // Split name into first and last
+        const nameParts = name.split(' ');
+        const firstName = nameParts[0];
+        const lastName = nameParts.slice(1).join(' ');
+        
+        // Populate form
+        document.getElementById('firstName').value = firstName;
+        document.getElementById('lastName').value = lastName;
+        document.getElementById('email').value = email;
+        document.getElementById('status').value = status;
+        
+        // Store reference to current user being edited
+        editUserModal.currentUser = this.closest('tr');
+        
+        // Show modal
+        editUserModal.classList.add('show');
+    }
+
+    // Open delete modal function
+    function openDeleteModal() {
+        const row = this.closest('tr');
+        const name = row.querySelector('td:first-child div:last-child').textContent.trim();
+        
+        // Set user name in confirmation message
+        document.getElementById('userToDelete').textContent = name;
+        
+        // Store reference to current user being deleted
+        deleteUserModal.userToDelete = row;
+        
+        // Show modal
+        deleteUserModal.classList.add('show');
+    }
+
+    // Close modal when clicking outside
+    window.addEventListener('click', function(e) {
+        if (e.target === editUserModal) {
+            editUserModal.classList.remove('show');
+        }
+        if (e.target === deleteUserModal) {
+            deleteUserModal.classList.remove('show');
+        }
+        if (e.target === addUserModal) {
+            addUserModal.classList.remove('show');
+        }
+    });
+</script>
 </body>
 </html>

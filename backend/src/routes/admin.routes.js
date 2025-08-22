@@ -26,7 +26,7 @@ router.get('/getSalespersons', adminAuth, getSalespersons);
 
 // Salesperson management routes
 router.get('/salespersons', adminAuth, getSalespersons);
-router.put('/salesperson/:id', adminAuth, updateSalesperson);
+router.put('/salesperson/:id', adminAuth, mediaUpload('/salesDp').single('avatar'), updateSalesperson );
 router.delete('/salesperson/:id', adminAuth, deleteSalesperson);
 
 
