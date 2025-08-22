@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { assignLead, bulkDeleteLeads, bulkUpdateLeads, checkAdminLogin, deleteLead, deleteSalesperson, editLead, exportLeads, getLeadById, getLeads, getSalespersons, loginAdmin, logout, registerAdmin, updateSalesperson } from "../controllers/admin.controller.js";
+import { assignLead, bulkDeleteLeads, bulkUpdateLeads, checkAdminLogin, deleteLead, deleteSalesperson, editLead, exportLeads, getLeadById, getLeads, getSalespersons, loginAdmin, logout, registerAdmin, registerSalesPerson, updateSalesperson } from "../controllers/admin.controller.js";
 import { getFollowUpLeads } from "../controllers/sales.controller.js";
 import { adminAuth } from "../middlewares/auth.middleware.js";
 import { mediaUpload } from "../middlewares/multer.middleware.js";
@@ -28,6 +28,7 @@ router.get('/getSalespersons', adminAuth, getSalespersons);
 router.get('/salespersons', adminAuth, getSalespersons);
 router.put('/salesperson/:id', adminAuth, mediaUpload('/salesDp').single('avatar'), updateSalesperson );
 router.delete('/salesperson/:id', adminAuth, deleteSalesperson);
+router.post('/registerSalesPerson', mediaUpload('/salesDp').single('avatar') , registerSalesPerson)
 
 
 

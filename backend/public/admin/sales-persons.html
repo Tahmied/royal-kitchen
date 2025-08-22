@@ -97,38 +97,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>
-                                <div style="display: flex; align-items: center; gap: 15px;">
-                                    <div class="user-avatar" style="width: 35px; height: 35px; font-size: 14px;">JD</div>
-                                    <div>
-                                        John Doe
-                                    </div>
-                                </div>
-                            </td>
-                            <td>john.doe@company.com</td>
-                            <td><span class="status status-viewed">Active</span></td>
-                            <td>
-                                <button class="action-btn"><i class="fas fa-edit"></i></button>
-                                <button class="action-btn"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div style="display: flex; align-items: center; gap: 15px;">
-                                    <div class="user-avatar" style="width: 35px; height: 35px; font-size: 14px;">AS</div>
-                                    <div>
-                                        Alice Smith
-                                    </div>
-                                </div>
-                            </td>
-                            <td>alice.smith@company.com</td>
-                            <td><span class="status status-viewed">Active</span></td>
-                            <td>
-                                <button class="action-btn"><i class="fas fa-edit"></i></button>
-                                <button class="action-btn"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
+                        
                     </tbody>
                 </table>
             </div>
@@ -136,366 +105,595 @@
     </div>
 
     <!-- Edit User Modal -->
-<div class="modal" id="editUserModal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2>Edit User</h2>
-            <span class="close">&times;</span>
-        </div>
-        <div class="modal-body">
-            <form id="editUserForm">
-                <div class="form-group">
-                    <label for="firstName">First Name</label>
-                    <input type="text" id="firstName" name="firstName" required>
-                </div>
-                <div class="form-group">
-                    <label for="lastName">Last Name</label>
-                    <input type="text" id="lastName" name="lastName" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <div class="form-group">
-                </div>
-                <div class="form-group">
-                    <label for="status">Status</label>
-                    <select id="status" name="status" required>
-                        <option value="Active">Active</option>
-                        <option value="Inactive">Inactive</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="password">Password (leave blank to keep current)</label>
-                    <input type="password" id="password" name="password">
-                </div>
-                <div class="form-group">
-                    <label for="profilePic">Profile Picture</label>
-                    <input type="file" id="profilePic" name="profilePic" accept="image/*">
-                </div>
-                <div class="form-actions">
-                    <button type="button" class="btn btn-outline" id="cancelEdit">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<!-- Delete Confirmation Modal -->
-<div class="modal" id="deleteUserModal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2>Confirm Deletion</h2>
-            <span class="close">&times;</span>
-        </div>
-        <div class="modal-body">
-            <p>Are you sure you want to delete <span id="userToDelete"></span>? This action cannot be undone.</p>
-            <div class="form-actions">
-                <button type="button" class="btn btn-outline" id="cancelDelete">Cancel</button>
-                <button type="button" class="btn btn-danger" id="confirmDelete">Delete User</button>
+    <div class="modal" id="editUserModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit User</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="editUserForm">
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" name="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" name="lastName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                    </div>
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select id="status" name="status" required>
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password (leave blank to keep current)</label>
+                        <input type="password" id="password" name="password">
+                    </div>
+                    <div class="form-group">
+                        <label for="profilePic">Profile Picture</label>
+                        <input type="file" id="profilePic" name="profilePic" accept="image/*">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline" id="cancelEdit">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Add User Modal -->
-<div class="modal" id="addUserModal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2>Add New User</h2>
-            <span class="close" data-dismiss="addUserModal">&times;</span>
-        </div>
-        <div class="modal-body">
-            <form id="addUserForm">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="newFirstName">First Name</label>
-                        <input type="text" id="newFirstName" name="firstName" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="newLastName">Last Name</label>
-                        <input type="text" id="newLastName" name="lastName" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="newEmail">Email</label>
-                    <input type="email" id="newEmail" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="newPassword">Password</label>
-                    <input type="password" id="newPassword" name="password" required>
-                </div>
-                <div class="form-group">
-                    <label for="newProfilePic">Profile Picture</label>
-                    <input type="file" id="newProfilePic" name="profilePic" accept="image/*">
-                </div>
+    <!-- Delete Confirmation Modal -->
+    <div class="modal" id="deleteUserModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Confirm Deletion</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete <span id="userToDelete"></span>? This action cannot be undone.</p>
                 <div class="form-actions">
-                    <button type="button" class="btn btn-outline" data-dismiss="addUserModal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Add User</button>
+                    <button type="button" class="btn btn-outline" id="cancelDelete">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmDelete">Delete User</button>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
-</div>
+
+    <!-- Add User Modal -->
+    <div class="modal" id="addUserModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New User</h2>
+                <span class="close" data-dismiss="addUserModal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="addUserForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="newFirstName">First Name</label>
+                            <input type="text" id="newFirstName" name="firstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="newLastName">Last Name</label>
+                            <input type="text" id="newLastName" name="lastName" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="newEmail">Email</label>
+                        <input type="email" id="newEmail" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newPassword">Password</label>
+                        <input type="password" id="newPassword" name="password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newProfilePic">Profile Picture</label>
+                        <input type="file" id="newProfilePic" name="profilePic" accept="image/*">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline" data-dismiss="addUserModal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Add User</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 <script>
-    // Mobile sidebar toggle
-    document.querySelector('.mobile-toggle').addEventListener('click', function() {
-        document.querySelector('.sidebar').classList.toggle('active');
-    });
+document.addEventListener('DOMContentLoaded', () => {
+  /* ---------------------------
+     Small UI helpers & config
+     --------------------------- */
+  const API_BASE = '/api/v1/admin';
+  const tableBody = document.querySelector('.table-container tbody');
+  const editUserModal = document.getElementById('editUserModal');
+  const deleteUserModal = document.getElementById('deleteUserModal');
+  const addUserModal = document.getElementById('addUserModal');
 
-    // Nav item active state
-    const navItems = document.querySelectorAll('.nav-item');
-    navItems.forEach(item => {
-        item.addEventListener('click', function() {
-            navItems.forEach(i => i.classList.remove('active'));
-            this.classList.add('active');
-        });
-    });
+  const editForm = document.getElementById('editUserForm');
+  const addForm = document.getElementById('addUserForm');
 
-    // Card hover effect enhancement
-    const cards = document.querySelectorAll('.card');
-    cards.forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-8px)';
-        });
-        
-        card.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0)';
-        });
-    });
+  const addBtn = document.querySelector('.section-header .btn.btn-primary');
 
-    // Switch toggle animation
-    const switches = document.querySelectorAll('.switch input');
-    switches.forEach(sw => {
-        sw.addEventListener('change', function() {
-            if(this.checked) {
-                this.parentNode.style.transform = 'scale(1.05)';
-                setTimeout(() => {
-                    this.parentNode.style.transform = 'scale(1)';
-                }, 300);
-            }
-        });
-    });
+  // store loaded salespersons keyed by id
+  const salespersons = new Map();
 
-    // Modal functionality
-    const editUserModal = document.getElementById('editUserModal');
-    const deleteUserModal = document.getElementById('deleteUserModal');
-    const addUserModal = document.getElementById('addUserModal');
-    
-    // Edit buttons event listeners
-    document.querySelectorAll('.action-btn .fa-edit').forEach(btn => {
-        btn.closest('.action-btn').addEventListener('click', openEditModal);
+  function createToast(msg, type = 'info', timeout = 3000) {
+    const t = document.createElement('div');
+    t.className = `simple-toast simple-toast-${type}`;
+    t.textContent = msg;
+    Object.assign(t.style, {
+      position: 'fixed',
+      right: '16px',
+      bottom: '16px',
+      padding: '10px 14px',
+      background: 'rgba(0,0,0,0.8)',
+      color: 'white',
+      borderRadius: '6px',
+      zIndex: 99999,
+      fontSize: '13px'
     });
-    
-    // Delete buttons event listeners
-    document.querySelectorAll('.action-btn .fa-trash').forEach(btn => {
-        btn.closest('.action-btn').addEventListener('click', openDeleteModal);
-    });
-    
-    // Add user button event listener
-    document.querySelector('.btn-primary').addEventListener('click', function() {
-        // Check if this is the Add User button (not other primary buttons)
-        if (this.querySelector('.fa-plus')) {
-            addUserForm.reset();
-            avatarPreview.innerHTML = '<span>Preview</span>';
-            addUserModal.classList.add('show');
-        }
-    });
+    document.body.appendChild(t);
+    setTimeout(() => t.style.opacity = '0.0', timeout - 300);
+    setTimeout(() => t.remove(), timeout);
+  }
 
-    // Close buttons for all modals
-    document.querySelectorAll('.close, [data-dismiss]').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const modalId = this.getAttribute('data-dismiss');
-            if (modalId) {
-                document.getElementById(modalId).classList.remove('show');
-            } else {
-                // Close all modals if no specific modal specified
-                editUserModal.classList.remove('show');
-                deleteUserModal.classList.remove('show');
-                addUserModal.classList.remove('show');
-            }
-        });
-    });
+  /* ---------------------------
+     Existing small UI helpers
+     --------------------------- */
 
-    // Specific cancel buttons
-    document.getElementById('cancelEdit').addEventListener('click', function() {
+  // Mobile sidebar toggle (guarded)
+  const mobileToggle = document.querySelector('.mobile-toggle');
+  if (mobileToggle) {
+    mobileToggle.addEventListener('click', () => {
+      const sidebar = document.querySelector('.sidebar');
+      if (sidebar) sidebar.classList.toggle('active');
+    });
+  }
+
+  // Nav item active state
+  const navItems = document.querySelectorAll('.nav-item');
+  navItems.forEach(item => {
+    item.addEventListener('click', function() {
+      navItems.forEach(i => i.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+
+  // Card hover effect enhancement
+  const cards = document.querySelectorAll('.card');
+  cards.forEach(card => {
+    card.addEventListener('mouseenter', function() {
+      this.style.transform = 'translateY(-8px)';
+    });
+    card.addEventListener('mouseleave', function() {
+      this.style.transform = 'translateY(0)';
+    });
+  });
+
+  // Switch toggle animation
+  const switches = document.querySelectorAll('.switch input');
+  switches.forEach(sw => {
+    sw.addEventListener('change', function() {
+      if (this.checked) {
+        this.parentNode.style.transform = 'scale(1.05)';
+        setTimeout(() => {
+          this.parentNode.style.transform = 'scale(1)';
+        }, 300);
+      }
+    });
+  });
+
+  /* ---------------------------
+     Fetch & render list
+     --------------------------- */
+  async function fetchSalespersons() {
+    try {
+      const res = await fetch(`${API_BASE}/salespersons`, { credentials: 'include' });
+      if (!res.ok) throw res;
+      const json = await res.json();
+      const data = (json && json.data) || [];
+      salespersons.clear();
+      data.forEach(sp => salespersons.set(sp._id, sp));
+      renderTable(Array.from(salespersons.values()));
+    } catch (err) {
+      let message = 'Failed to fetch salespersons';
+      try { const e = await err.json(); if (e && e.message) message = e.message; } catch {}
+      createToast(message, 'error');
+      console.error('fetchSalespersons error', err);
+    }
+  }
+
+  function renderTable(list) {
+    tableBody.innerHTML = '';
+    if (!list.length) {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td colspan="4" style="text-align:center; padding:20px; color:#666;">No salespersons found</td>`;
+      tableBody.appendChild(tr);
+      return;
+    }
+
+    for (const sp of list) {
+      const tr = document.createElement('tr');
+      tr.dataset.id = sp._id;
+      const initials = `${(sp.firstName || '').charAt(0) || ''}${(sp.lastName || '').charAt(0) || ''}`.toUpperCase() || 'U';
+      const displayName = `${sp.firstName || ''} ${sp.lastName || ''}`.trim() || sp.email || 'Unknown';
+      const statusText = sp.isActive ? 'Active' : 'Inactive';
+      tr.innerHTML = `
+        <td>
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div class="user-avatar" style="width:35px; height:35px; font-size:14px; display:flex; align-items:center; justify-content:center; border-radius:6px; background:#e6e6e6;">
+              ${sp.dpLocalPath ? `<img src="${sp.dpLocalPath}" alt="${displayName}" style="width:100%; height:100%; object-fit:cover; border-radius:6px;">` : initials}
+            </div>
+            <div style="line-height:1;">
+              <div style="font-weight:600;">${escapeHtml(displayName)}</div>
+              <div style="font-size:12px; color:#666;">${escapeHtml(sp.role || 'sales')}</div>
+            </div>
+          </div>
+        </td>
+        <td>${escapeHtml(sp.email || '')}</td>
+        <td><span class="status ${sp.isActive ? 'status-viewed' : 'status-new'}">${statusText}</span></td>
+        <td style="white-space:nowrap;">
+          <button class="action-btn btn-edit" title="Edit"><i class="fas fa-edit"></i></button>
+          <button class="action-btn btn-delete" title="Delete" style="margin-left:8px;"><i class="fas fa-trash"></i></button>
+        </td>
+      `;
+      tableBody.appendChild(tr);
+    }
+  }
+
+  /* ---------------------------
+     Utility
+     --------------------------- */
+
+  function escapeHtml(s) {
+    if (!s && s !== 0) return '';
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  }
+
+  /* ---------------------------
+     Open / close modals & preview handlers
+     --------------------------- */
+
+  // close handlers for any .close or [data-dismiss] in document
+  document.querySelectorAll('.close, [data-dismiss]').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const modalId = this.getAttribute('data-dismiss');
+      if (modalId) {
+        const m = document.getElementById(modalId);
+        if (m) m.classList.remove('show');
+      } else {
         editUserModal.classList.remove('show');
-    });
-    
-    document.getElementById('cancelDelete').addEventListener('click', function() {
         deleteUserModal.classList.remove('show');
-    });
-
-    // Confirm delete action
-    document.getElementById('confirmDelete').addEventListener('click', function() {
-        if (deleteUserModal.userToDelete) {
-            // In a real application, you would send a request to the server here
-            deleteUserModal.userToDelete.remove();
-            deleteUserModal.classList.remove('show');
-            
-            // Show success message (you could implement a toast notification)
-            alert('User deleted successfully');
-        }
-    });
-
-    // Handle edit form submission
-    document.getElementById('editUserForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // In a real application, you would send this data to the server
-        const firstName = document.getElementById('firstName').value;
-        const lastName = document.getElementById('lastName').value;
-        const email = document.getElementById('email').value;
-        const status = document.getElementById('status').value;
-        
-        // Update the table row
-        if (editUserModal.currentUser) {
-            const nameCell = editUserModal.currentUser.querySelector('td:first-child div:last-child');
-            nameCell.textContent = `${firstName} ${lastName}`;
-            
-            editUserModal.currentUser.cells[1].textContent = email;
-            editUserModal.currentUser.cells[2].textContent = role;
-            
-            // Update status with proper styling
-            const statusSpan = editUserModal.currentUser.querySelector('.status');
-            statusSpan.textContent = status;
-            statusSpan.className = 'status ' + (status === 'Active' ? 'status-viewed' : 'status-new');
-            
-            // Close modal
-            editUserModal.classList.remove('show');
-            
-            // Show success message
-            alert('User updated successfully');
-        }
-    });
-
-    // Add User Modal functionality
-    const addUserForm = document.getElementById('addUserForm');
-    const profilePicInput = document.getElementById('newProfilePic');
-    const avatarPreview = document.createElement('div');
-    avatarPreview.className = 'avatar-preview';
-    avatarPreview.innerHTML = '<span>Preview</span>';
-    profilePicInput.parentNode.appendChild(avatarPreview);
-
-    // Handle profile picture preview
-    profilePicInput.addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                avatarPreview.innerHTML = `<img src="${e.target.result}" alt="Profile Preview">`;
-            };
-            reader.readAsDataURL(file);
-        }
-    });
-
-    // Handle add user form submission
-    addUserForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Get form values
-        const firstName = document.getElementById('newFirstName').value;
-        const lastName = document.getElementById('newLastName').value;
-        const email = document.getElementById('newEmail').value;
-        const role = document.getElementById('newRole').value;
-        const status = document.getElementById('newStatus').value;
-        const password = document.getElementById('newPassword').value;
-        
-        // Generate initials for avatar
-        const initials = (firstName.charAt(0) + lastName.charAt(0)).toUpperCase();
-        
-        // Create new table row
-        const tbody = document.querySelector('.table-container tbody');
-        const newRow = document.createElement('tr');
-        
-        newRow.innerHTML = `
-            <td>
-                <div style="display: flex; align-items: center; gap: 15px;">
-                    <div class="user-avatar" style="width: 35px; height: 35px; font-size: 14px;">${initials}</div>
-                    <div>${firstName} ${lastName}</div>
-                </div>
-            </td>
-            <td>${email}</td>
-            <td>${role}</td>
-            <td><span class="status ${status === 'Active' ? 'status-viewed' : 'status-new'}">${status}</span></td>
-            <td>
-                <button class="action-btn"><i class="fas fa-edit"></i></button>
-                <button class="action-btn"><i class="fas fa-trash"></i></button>
-            </td>
-        `;
-        
-        // Add event listeners to the new action buttons
-        const editBtn = newRow.querySelector('.action-btn .fa-edit').closest('.action-btn');
-        const deleteBtn = newRow.querySelector('.action-btn .fa-trash').closest('.action-btn');
-        
-        editBtn.addEventListener('click', openEditModal);
-        deleteBtn.addEventListener('click', openDeleteModal);
-        
-        // Add the new row to the table
-        tbody.appendChild(newRow);
-        
-        // Close the modal
         addUserModal.classList.remove('show');
-        
-        // Show success message
-        alert('User added successfully!');
+      }
     });
+  });
 
-    // Open edit modal function
-    function openEditModal() {
-        const row = this.closest('tr');
-        const name = row.querySelector('td:first-child div:last-child').textContent.trim();
-        const email = row.cells[1].textContent;
-        const role = row.cells[2].textContent;
-        const status = row.cells[3].textContent;
-        
-        // Split name into first and last
-        const nameParts = name.split(' ');
-        const firstName = nameParts[0];
-        const lastName = nameParts.slice(1).join(' ');
-        
-        // Populate form
-        document.getElementById('firstName').value = firstName;
-        document.getElementById('lastName').value = lastName;
-        document.getElementById('email').value = email;
-        document.getElementById('status').value = status;
-        
-        // Store reference to current user being edited
-        editUserModal.currentUser = this.closest('tr');
-        
-        // Show modal
-        editUserModal.classList.add('show');
+  // click outside to close
+  window.addEventListener('click', (e) => {
+    if (e.target === editUserModal) editUserModal.classList.remove('show');
+    if (e.target === deleteUserModal) deleteUserModal.classList.remove('show');
+    if (e.target === addUserModal) addUserModal.classList.remove('show');
+  });
+
+  // preview elements
+  const addProfileInput = document.getElementById('newProfilePic');
+  const addAvatarPreview = document.createElement('div');
+  addAvatarPreview.className = 'avatar-preview';
+  if (addProfileInput) {
+    addAvatarPreview.innerHTML = '<span>Preview</span>';
+    addProfileInput.parentNode.appendChild(addAvatarPreview);
+    addProfileInput.addEventListener('change', handleFilePreview.bind(null, addProfileInput, addAvatarPreview));
+  }
+
+  const editProfileInput = document.getElementById('profilePic');
+  let editAvatarPreview = null;
+  if (editProfileInput) {
+    editAvatarPreview = document.createElement('div');
+    editAvatarPreview.className = 'avatar-preview';
+    editAvatarPreview.innerHTML = '<span>Preview</span>';
+    editProfileInput.parentNode.appendChild(editAvatarPreview);
+    editProfileInput.addEventListener('change', handleFilePreview.bind(null, editProfileInput, editAvatarPreview));
+  }
+
+  function handleFilePreview(inputEl, previewEl, e) {
+    const file = inputEl.files && inputEl.files[0];
+    if (!file) {
+      previewEl.innerHTML = '<span>Preview</span>';
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = function(ev) {
+      previewEl.innerHTML = `<img src="${ev.target.result}" alt="Profile Preview" style="max-width:80px; max-height:80px; border-radius:6px;">`;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  /* ---------------------------
+     Table delegation for edit/delete buttons
+     --------------------------- */
+
+  tableBody.addEventListener('click', (e) => {
+    const editBtn = e.target.closest('.btn-edit');
+    if (editBtn) {
+      const row = editBtn.closest('tr');
+      const id = row && row.dataset.id;
+      if (id) openEditModalById(id);
+      return;
     }
 
-    // Open delete modal function
-    function openDeleteModal() {
-        const row = this.closest('tr');
-        const name = row.querySelector('td:first-child div:last-child').textContent.trim();
-        
-        // Set user name in confirmation message
-        document.getElementById('userToDelete').textContent = name;
-        
-        // Store reference to current user being deleted
-        deleteUserModal.userToDelete = row;
-        
-        // Show modal
-        deleteUserModal.classList.add('show');
+    const deleteBtn = e.target.closest('.btn-delete');
+    if (deleteBtn) {
+      const row = deleteBtn.closest('tr');
+      const id = row && row.dataset.id;
+      if (id) openDeleteModalById(id);
+      return;
+    }
+  });
+
+  /* ---------------------------
+     Open Edit
+     --------------------------- */
+  function openEditModalById(id) {
+    const sp = salespersons.get(id);
+    if (!sp) {
+      createToast('Salesperson data not found', 'error');
+      return;
+    }
+    // populate fields
+    document.getElementById('firstName').value = sp.firstName || '';
+    document.getElementById('lastName').value = sp.lastName || '';
+    document.getElementById('email').value = sp.email || '';
+    // status dropdown expects Active/Inactive
+    const statusEl = document.getElementById('status');
+    if (statusEl) statusEl.value = sp.isActive ? 'Active' : 'Inactive';
+
+    // set preview if image path present
+    if (editAvatarPreview) {
+      if (sp.dpLocalPath) {
+        editAvatarPreview.innerHTML = `<img src="${sp.dpLocalPath}" alt="avatar" style="max-width:80px; max-height:80px; border-radius:6px;">`;
+      } else {
+        editAvatarPreview.innerHTML = '<span>Preview</span>';
+      }
     }
 
-    // Close modal when clicking outside
-    window.addEventListener('click', function(e) {
-        if (e.target === editUserModal) {
-            editUserModal.classList.remove('show');
-        }
-        if (e.target === deleteUserModal) {
-            deleteUserModal.classList.remove('show');
-        }
-        if (e.target === addUserModal) {
-            addUserModal.classList.remove('show');
-        }
+    // store current id to modal
+    editUserModal.currentId = id;
+    editUserModal.classList.add('show');
+  }
+
+  /* ---------------------------
+     Open Delete
+     --------------------------- */
+  function openDeleteModalById(id) {
+    const sp = salespersons.get(id);
+    if (!sp) {
+      createToast('Salesperson data not found', 'error');
+      return;
+    }
+    document.getElementById('userToDelete').textContent = `${sp.firstName || ''} ${sp.lastName || ''}`.trim() || sp.email || 'this user';
+    deleteUserModal.userToDeleteId = id;
+    deleteUserModal.classList.add('show');
+  }
+
+  // cancel buttons
+  const cancelEdit = document.getElementById('cancelEdit');
+  if (cancelEdit) cancelEdit.addEventListener('click', () => editUserModal.classList.remove('show'));
+  const cancelDelete = document.getElementById('cancelDelete');
+  if (cancelDelete) cancelDelete.addEventListener('click', () => deleteUserModal.classList.remove('show'));
+
+  /* ---------------------------
+     Delete confirm
+     --------------------------- */
+  const confirmDeleteBtn = document.getElementById('confirmDelete');
+  if (confirmDeleteBtn) {
+    confirmDeleteBtn.addEventListener('click', async () => {
+      const id = deleteUserModal.userToDeleteId;
+      if (!id) return;
+      try {
+        const res = await fetch(`${API_BASE}/salesperson/${encodeURIComponent(id)}`, {
+          method: 'DELETE',
+          credentials: 'include'
+        });
+        if (!res.ok) throw res;
+        await res.json();
+        // remove from map and UI
+        salespersons.delete(id);
+        const row = tableBody.querySelector(`tr[data-id="${id}"]`);
+        if (row) row.remove();
+        deleteUserModal.classList.remove('show');
+        createToast('Salesperson deleted successfully', 'success');
+      } catch (err) {
+        let message = 'Failed to delete salesperson';
+        try { const e = await err.json(); if (e && e.message) message = e.message; } catch {}
+        createToast(message, 'error');
+        console.error('delete error', err);
+      }
     });
+  }
+
+  /* ---------------------------
+     Edit form submit (PUT multipart/form-data)
+     --------------------------- */
+  if (editForm) {
+    editForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const id = editUserModal.currentId;
+      if (!id) return createToast('No user selected', 'error');
+
+      // Build FormData
+      const fd = new FormData();
+      const fName = document.getElementById('firstName').value.trim();
+      const lName = document.getElementById('lastName').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const statusVal = document.getElementById('status').value;
+      const password = document.getElementById('password').value;
+      const avatarFile = document.getElementById('profilePic').files[0];
+
+      if (fName) fd.append('firstName', fName);
+      if (lName) fd.append('lastName', lName);
+      if (email) fd.append('email', email);
+      if (password) fd.append('password', password);
+      // backend expects isActive as boolean
+      fd.append('isActive', statusVal === 'Active' ? 'true' : 'false');
+      if (avatarFile) fd.append('avatar', avatarFile);
+
+      try {
+        const res = await fetch(`${API_BASE}/salesperson/${encodeURIComponent(id)}`, {
+          method: 'PUT',
+          credentials: 'include',
+          body: fd
+        });
+        if (!res.ok) throw res;
+        const data = await res.json();
+        const updated = (data && data.data) || null;
+        if (updated) {
+          // update local map & UI
+          salespersons.set(updated._id, updated);
+          updateRowFromData(updated);
+          createToast('Salesperson updated successfully', 'success');
+        } else {
+          createToast('Salesperson updated', 'success');
+        }
+        editUserModal.classList.remove('show');
+        // clear password field
+        document.getElementById('password').value = '';
+      } catch (err) {
+        let message = 'Failed to update salesperson';
+        try { const e = await err.json(); if (e && e.message) message = e.message; } catch {}
+        createToast(message, 'error');
+        console.error('update error', err);
+      }
+    });
+  }
+
+  function updateRowFromData(sp) {
+    const row = tableBody.querySelector(`tr[data-id="${sp._id}"]`);
+    if (!row) {
+      // if row not found, re-fetch list
+      fetchSalespersons();
+      return;
+    }
+    const displayName = `${sp.firstName || ''} ${sp.lastName || ''}`.trim() || sp.email || 'Unknown';
+    const avatarCell = row.cells[0];
+    const emailCell = row.cells[1];
+    const statusCell = row.cells[2];
+
+    // update avatar & name & role
+    const initials = `${(sp.firstName || '').charAt(0) || ''}${(sp.lastName || '').charAt(0) || ''}`.toUpperCase() || 'U';
+    avatarCell.innerHTML = `
+      <div style="display:flex; align-items:center; gap:12px;">
+        <div class="user-avatar" style="width:35px; height:35px; font-size:14px; display:flex; align-items:center; justify-content:center; border-radius:6px; background:#e6e6e6;">
+          ${sp.dpLocalPath ? `<img src="${sp.dpLocalPath}" alt="${displayName}" style="width:100%; height:100%; object-fit:cover; border-radius:6px;">` : initials}
+        </div>
+        <div style="line-height:1;">
+          <div style="font-weight:600;">${escapeHtml(displayName)}</div>
+          <div style="font-size:12px; color:#666;">${escapeHtml(sp.role || 'sales')}</div>
+        </div>
+      </div>
+    `;
+    emailCell.textContent = sp.email || '';
+    statusCell.querySelector('.status').textContent = sp.isActive ? 'Active' : 'Inactive';
+    statusCell.querySelector('.status').className = 'status ' + (sp.isActive ? 'status-viewed' : 'status-new');
+  }
+
+  /* ---------------------------
+     Add User flow (POST multipart/form-data)
+     --------------------------- */
+  if (addBtn) {
+    addBtn.addEventListener('click', () => {
+      // reset add form
+      addForm.reset();
+      if (addAvatarPreview) addAvatarPreview.innerHTML = '<span>Preview</span>';
+      addUserModal.classList.add('show');
+    });
+  }
+
+  if (addForm) {
+    addForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      // gather values - some optional fields might not exist in markup; use sensible defaults
+      const firstName = document.getElementById('newFirstName').value.trim();
+      const lastName = document.getElementById('newLastName').value.trim();
+      const email = document.getElementById('newEmail').value.trim();
+      const password = document.getElementById('newPassword').value;
+      const avatarFile = (document.getElementById('newProfilePic').files && document.getElementById('newProfilePic').files[0]) || null;
+
+      if (!firstName || !lastName || !email || !password) {
+        return createToast('Please fill required fields', 'error');
+      }
+
+      const fd = new FormData();
+      fd.append('firstName', firstName);
+      fd.append('lastName', lastName);
+      fd.append('email', email);
+      fd.append('password', password);
+      // default role to 'sales' unless there's a field
+      const newRoleEl = document.getElementById('newRole');
+      if (newRoleEl) fd.append('role', newRoleEl.value || 'sales'); else fd.append('role', 'sales');
+      // default isActive true unless newStatus exists
+      const newStatusEl = document.getElementById('newStatus');
+      fd.append('isActive', newStatusEl ? (newStatusEl.value === 'Active' ? 'true' : 'false') : 'true');
+
+      if (avatarFile) fd.append('avatar', avatarFile);
+
+      try {
+        const res = await fetch(`${API_BASE}/registerSalesPerson`, {
+          method: 'POST',
+          credentials: 'include',
+          body: fd
+        });
+        if (!res.ok) throw res;
+        const json = await res.json();
+        const sp = (json && json.data) || null;
+        if (sp) {
+          salespersons.set(sp._id, sp);
+          // add new row (re-render full list or just append)
+          renderTable(Array.from(salespersons.values()));
+          createToast('Salesperson added', 'success');
+        } else {
+          createToast('Salesperson added', 'success');
+          fetchSalespersons();
+        }
+        addUserModal.classList.remove('show');
+        addForm.reset();
+        if (addAvatarPreview) addAvatarPreview.innerHTML = '<span>Preview</span>';
+      } catch (err) {
+        let message = 'Failed to add salesperson';
+        try { const e = await err.json(); if (e && e.message) message = e.message; } catch {}
+        createToast(message, 'error');
+        console.error('add error', err);
+      }
+    });
+  }
+
+  /* ---------------------------
+     Initial load
+     --------------------------- */
+  fetchSalespersons();
+
+  /* ---------------------------
+     Extra: make sure icons/buttons (edit/delete) attached for rows that may be added outside flows
+     --------------------------- */
+  // done earlier via delegation
+
+});
 </script>
+
 </body>
 </html>

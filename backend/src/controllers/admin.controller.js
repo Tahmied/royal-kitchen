@@ -468,7 +468,7 @@ export const getSalespersons = asyncHandler(async (req, res) => {
 export const updateSalesperson = asyncHandler(async (req, res) => {
     const { id } = req.params;
     const { firstName, lastName, email, isActive, password } = req.body;
-    const newDpPath = req.file ? `/dp/${req.file.filename}` : null;
+    const newDpPath = req.file ? `/uploads/salesDp/${req.file.filename}` : null;
 
     if (!id) {
         if (req.file) {
@@ -551,4 +551,34 @@ export const deleteSalesperson = asyncHandler(async (req, res) => {
   return res.status(200).json(
     new ApiResponse(200, null, "Salesperson deleted successfully.")
   );
+});
+
+export const registerSalesPerson = asyncHandler(async (req, res) => {
+  const { firstName, lastName, email, password } = req.body;
+
+  if ([firstName, lastName, email, password].some((e) => !e)) {
+    throw new ApiError(400, "All input fields are required");
+  }
+
+  const profilePic = req.file ? `/uploads/salesDp/${req.file.filename}` : null;
+
+  try {
+    const newSalesPerson = await Sales.create({
+      firstName,
+      lastName,
+      email,
+      password,
+      dpLocalPath: profilePic,
+    });
+
+    const { password: _, ...safeSalesPerson } = newSalesPerson.toObject();
+
+    res.status(201).json(
+      new ApiResponse(201, safeSalesPerson, "New sales person registered successfully")
+    );
+  } catch (err) {
+    console.error(`Unable to register sales person due to ${err}`);
+    if (req.file) fs.unlinkSync(req.file.path);
+    throw new ApiError(500, "Unable to register sales person", err);
+  }
 });
