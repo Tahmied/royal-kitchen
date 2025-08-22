@@ -3723,3 +3723,128 @@ footer .footer-right-arrow {
     }
 }
  
+
+/* Video Modal Styles */
+.video-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.video-modal[aria-hidden="false"] {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.video-modal-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(11, 20, 31, 0.95);
+  backdrop-filter: blur(5px);
+}
+
+.video-modal-content {
+  position: relative;
+  width: 80%;
+  max-width: 900px;
+  background: #0B141F;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
+  z-index: 10000;
+  transform: scale(0.9);
+  transition: transform 0.3s ease;
+}
+
+.video-modal[aria-hidden="false"] .video-modal-content {
+  transform: scale(1);
+}
+
+.video-modal-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(159, 173, 190, 0.8);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  color: #0B141F;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 10001;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.video-modal-close:hover {
+  background: #9FADBE;
+  transform: rotate(90deg);
+}
+
+.video-container {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  height: 0;
+  overflow: hidden;
+}
+
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .video-modal-content {
+    width: 95%;
+    border-radius: 12px;
+  }
+  
+  .video-modal-close {
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+  }
+}
+/* Fix video modal centering */
+.video-modal {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+.video-modal-content {
+    position: relative !important;
+    margin: auto !important;
+    top: auto !important;
+    left: auto !important;
+    transform: translate(0, 0) scale(0.9) !important;
+    transition: transform 0.3s ease !important;
+}
+
+.video-modal[aria-hidden="false"] .video-modal-content {
+    transform: translate(0, 0) scale(1) !important;
+}
+
+.video-modal-overlay {
+  display: flex;
+}

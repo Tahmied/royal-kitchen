@@ -215,6 +215,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const overlay = document.getElementById('pcf-overlay');
   const modal = document.getElementById('pcf-modal');
 
+  const youtubeVideoId = 'vUncEiyXIT4';
+  const videoModal = document.getElementById('video-modal');
+  const videoOverlay = document.getElementById('video-modal-overlay');
+  const videoCloseBtn = document.getElementById('video-modal-close');
+  const youtubeIframe = document.getElementById('youtube-video');
+  const videoContainers = document.querySelectorAll('.fourth-video-container, .fourth-video-overlay');
+
   (function createToastStyles() {
     if (document.getElementById('pcf-toast-styles')) return;
     const style = document.createElement('style');
@@ -410,6 +417,39 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+  
+  // video functions
+  function openVideoModal() {
+    youtubeIframe.src = `https://www.youtube.com/embed/${youtubeVideoId}?autoplay=1`;
+    videoModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  
+  // Function to close video modal
+  function closeVideoModal() {
+    videoModal.setAttribute('aria-hidden', 'true');
+    youtubeIframe.src = ''; 
+    document.body.style.overflow = ''; 
+  }
+  
+  videoContainers.forEach(container => {
+    container.addEventListener('click', openVideoModal);
+    container.style.cursor = 'pointer';
+  });
+  
+  videoCloseBtn.addEventListener('click', closeVideoModal);
+  videoOverlay.addEventListener('click', function(e) {
+    if (e.target === videoOverlay) {
+      closeVideoModal();
+    }
+  });
+  
+  // Close modal with Escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && videoModal.getAttribute('aria-hidden') === 'false') {
+      closeVideoModal();
+    }
+  });
 });
 
 (function() {
