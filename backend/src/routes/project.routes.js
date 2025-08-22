@@ -11,7 +11,8 @@ router.route('/createProject').post(adminAuth, mediaUpload('/projects').fields([
         { name: 'homepageImages', maxCount: 6 },
         { name: 'videoThumbnail', maxCount: 1 },
         { name: 'video', maxCount: 1 }
-    ]), createProject).get(adminAuth, getAllProjects);   
+    ]), createProject);
+router.route('/getAllProjects').get(adminAuth, getAllProjects);  
 router.route('/admin/:id').put(adminAuth, mediaUpload('/projects').fields([
         { name: 'homepageImages', maxCount: 6 },
         { name: 'videoThumbnail', maxCount: 1 },
