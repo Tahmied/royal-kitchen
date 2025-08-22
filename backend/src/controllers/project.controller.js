@@ -22,9 +22,9 @@ export const createProject = asyncHandler(async (req, res) => {
     }
 
     // Get file paths
-    const homepageImagePaths = files['homepageImages'].map(file => `/uploads/projects/images/${file.filename}`);
-    const videoThumbnailPath = `/uploads/projects/images/${files['videoThumbnail'][0].filename}`;
-    const videoPath = `/uploads/projects/videos/${files['video'][0].filename}`;
+    const homepageImagePaths = files['homepageImages'].map(file => `/projects/images/${file.filename}`);
+    const videoThumbnailPath = `/projects/images/${files['videoThumbnail'][0].filename}`;
+    const videoPath = `/projects/videos/${files['video'][0].filename}`;
 
     const newProject = await Project.create({
         projectName,
@@ -80,7 +80,7 @@ export const updateProject = asyncHandler(async (req, res) => {
             }
         });
         // Save new image paths
-        project.homepageImages = files['homepageImages'].map(file => `/uploads/projects/images/${file.filename}`);
+        project.homepageImages = files['homepageImages'].map(file => `/projects/images/${file.filename}`);
     }
 
     // Handle video thumbnail update
@@ -92,7 +92,7 @@ export const updateProject = asyncHandler(async (req, res) => {
                 console.warn(`Could not delete old video thumbnail at .${project.videoThumbnailPath}`);
             }
         }
-        project.videoThumbnailPath = `/uploads/projects/images/${files['videoThumbnail'][0].filename}`;
+        project.videoThumbnailPath = `/projects/images/${files['videoThumbnail'][0].filename}`;
     }
 
     // Handle video update
@@ -104,7 +104,7 @@ export const updateProject = asyncHandler(async (req, res) => {
                 console.warn(`Could not delete old video at .${project.videoPath}`);
             }
         }
-        project.videoPath = `/uploads/projects/videos/${files['video'][0].filename}`;
+        project.videoPath = `/projects/videos/${files['video'][0].filename}`;
     }
     
     // Save the updated project document
