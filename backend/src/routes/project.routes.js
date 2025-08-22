@@ -1,0 +1,28 @@
+import { Router } from "express";
+import { createProject, deleteProject, getAllProjects, getProjectById, getPublicProjects, updateProject } from "../controllers/project.controller.js";
+import { adminAuth } from "../middlewares/auth.middleware.js";
+import { mediaUpload } from "../middlewares/multer.middleware.js";
+
+
+const router =  Router()
+
+
+router.route('/admin').post(adminAuth, mediaUpload('/uploads/projects').fields([
+        { name: 'homepageImages', maxCount: 6 },
+        { name: 'videoThumbnail', maxCount: 1 },
+        { name: 'video', maxCount: 1 }
+    ]), createProject).get(adminAuth, getAllProjects);   
+router.route('/admin/:id').put(adminAuth, mediaUpload('/uploads/projects').fields([
+        { name: 'homepageImages', maxCount: 6 },
+        { name: 'videoThumbnail', maxCount: 1 },
+        { name: 'video', maxCount: 1 }
+    ]), updateProject)
+    .delete(adminAuth, deleteProject);
+
+// Public-facing Project Routes
+router.route('/public').get(getPublicProjects);
+router.route('/public/:id').get(getProjectById);
+
+
+
+export default router

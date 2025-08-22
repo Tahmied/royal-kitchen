@@ -13,11 +13,13 @@ app.use(express.static('public'))
 
 import adminRoutes from './routes/admin.routes.js'
 import leadRoutes from './routes/lead.routes.js'
+import projectRoutes from './routes/project.routes.js'
 import salesAuth from './routes/sales.routes.js'
 
 app.use('/api/v1/admin' , adminRoutes)
 app.use('/api/v1/leads' , leadRoutes)
 app.use('/api/v1/sales' , salesAuth)
+app.use('/api/v1/projects' , projectRoutes )
 
 app.use(errorHandler);
 export { app }
