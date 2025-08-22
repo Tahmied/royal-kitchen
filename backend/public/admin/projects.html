@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/projects-styles.css">
 </head>
 <body>
     <!-- Mobile Toggle Button -->
@@ -59,121 +60,85 @@
 
     <!-- Main Content -->
     <div class="main-content">
-        <!-- Header -->
-        <div class="header">
-            <h1 class="page-title">Dashboard Overview</h1>
-            <div class="header-actions">
-                <div class="notification">
-                    <i class="fas fa-bell"></i>
-                </div>
-                <div class="user-profile">
-                    <div class="user-avatar">JD</div>
-                    <div>
-                        <div class="user-name">John Doe</div>
-                        <div class="user-role">Administrator</div>
-                    </div>
-                </div>
-            </div>
+        <div class="projects-container">
+    <!-- Main Dashboard View -->
+    <div id="dashboard-view" class="view">
+        <div class="header-bar">
+            <h2>Projects</h2>
+            <button id="create-project-btn" class="action-btn create-btn">
+                <i class="fas fa-plus-circle"></i> Create New Project
+            </button>
         </div>
 
-        <!-- Projects Management -->
-        <div class="management-section">
-            <div class="section-header">
-                <h2 class="section-title">Projects Management</h2>
-                <button class="btn btn-primary">
-                    <i class="fas fa-plus"></i> Add Project
-                </button>
+        <div class="projects-table-container">
+            <table class="projects-table">
+                <thead>
+                    <tr>
+                        <th>Project Name</th>
+                        <th>Date Created</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="projects-table-body">
+                    <!-- Project rows will be inserted here by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Create/Edit Project Form View -->
+    <div id="form-view" class="view hidden">
+        <div class="header-bar">
+            <h2 id="form-title">Create New Project</h2>
+        </div>
+
+        <form id="project-form" class="project-form">
+            <div class="form-group">
+                <label for="projectName">Project Name</label>
+                <input type="text" id="projectName" name="projectName" required>
+            </div>
+
+            <div class="form-group">
+                <label for="projectContent">Project Content</label>
+                <textarea id="projectContent" name="projectContent" rows="10" required placeholder="Write your project description here..."></textarea>
+            </div>
+
+            <div class="form-group file-upload-group">
+                <label>Homepage Images (6 required)</label>
+                <div id="homepageImages-previews" class="file-previews"></div>
+                <input type="file" id="homepageImages" name="homepageImages" accept="image/*" multiple required>
+            </div>
+
+            <div class="form-group file-upload-group">
+                <label>Video Thumbnail (1 required)</label>
+                <div id="videoThumbnail-preview" class="file-previews"></div>
+                <input type="file" id="videoThumbnail" name="videoThumbnail" accept="image/*" required>
+            </div>
+
+            <div class="form-group file-upload-group">
+                <label>Video File (1 required)</label>
+                <div id="video-preview" class="file-previews"></div>
+                <input type="file" id="video" name="video" accept="video/*" required>
             </div>
             
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Project</th>
-                            <th>Date Added</th>
-                            <th>Type</th>
-                            <th>Visibility</th>
-                            <th>Order</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <div style="display: flex; align-items: center; gap: 15px;">
-                                    <div class="project-thumb"></div>
-                                    <div>
-                                        <div>E-commerce Platform</div>
-                                        <div style="font-size: 13px; color: var(--gray);">Web Development</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>Mar 12, 2023</td>
-                            <td><span class="status status-viewed">Featured</span></td>
-                            <td>
-                                <label class="switch">
-                                    <input type="checkbox" checked>
-                                    <span class="slider"></span>
-                                </label>
-                            </td>
-                            <td>1</td>
-                            <td>
-                                <button class="action-btn"><i class="fas fa-edit"></i></button>
-                                <button class="action-btn"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div style="display: flex; align-items: center; gap: 15px;">
-                                    <div class="project-thumb"></div>
-                                    <div>
-                                        <div>Mobile Banking App</div>
-                                        <div style="font-size: 13px; color: var(--gray);">Mobile App</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>Apr 5, 2023</td>
-                            <td><span class="status status-replied">Featured</span></td>
-                            <td>
-                                <label class="switch">
-                                    <input type="checkbox" checked>
-                                    <span class="slider"></span>
-                                </label>
-                            </td>
-                            <td>2</td>
-                            <td>
-                                <button class="action-btn"><i class="fas fa-edit"></i></button>
-                                <button class="action-btn"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div style="display: flex; align-items: center; gap: 15px;">
-                                    <div class="project-thumb"></div>
-                                    <div>
-                                        <div>Corporate Website</div>
-                                        <div style="font-size: 13px; color: var(--gray);">Web Design</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>May 18, 2023</td>
-                            <td><span class="status status-new">Regular</span></td>
-                            <td>
-                                <label class="switch">
-                                    <input type="checkbox">
-                                    <span class="slider"></span>
-                                </label>
-                            </td>
-                            <td>3</td>
-                            <td>
-                                <button class="action-btn"><i class="fas fa-edit"></i></button>
-                                <button class="action-btn"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="form-actions">
+                <button type="button" id="cancel-btn" class="action-btn cancel-btn">Cancel</button>
+                <button type="submit" id="save-btn" class="action-btn save-btn">Save Project</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="delete-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <p>Are you sure you want to delete this project? This action cannot be undone.</p>
+            <div class="modal-actions">
+                <button id="confirm-delete-btn" class="action-btn confirm-delete-btn">Confirm</button>
+                <button id="cancel-delete-btn" class="action-btn cancel-btn">Cancel</button>
             </div>
         </div>
+    </div>
+</div>
 
     </div>
 
@@ -217,5 +182,9 @@
             });
         });
     </script>
+   
+
+<script src="./js/projects-logic.js"></script>
+
 </body>
 </html>

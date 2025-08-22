@@ -1,5 +1,5 @@
 
-    function updateHeroImage() {
+  function updateHeroImage() {
         const img = document.querySelector('.hero-image');
         if (!img) return;
         if (window.innerWidth <= 600) {
@@ -206,8 +206,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Elements
   const form = document.getElementById('pcf-contactForm');
   const nameInput = document.getElementById('pcf-name');
-  const phoneInput = document.getElementById('pcf-email');       // labeled "Phone Number" in your markup
-  const emailInput = document.getElementById('pcf-company');     // labeled "Email address" in your markup
+  const phoneInput = document.getElementById('pcf-email');       //  "Phone Number" in markup
+  const emailInput = document.getElementById('pcf-company');     //  "Email address" in markup
   const messageInput = document.getElementById('pcf-message');
   const submitBtn = document.getElementById('pcf-submitBtn');
   const cancelBtn = document.getElementById('pcf-cancelBtn');
@@ -417,7 +417,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
-  
+
   // video functions
   function openVideoModal() {
     youtubeIframe.src = `https://www.youtube.com/embed/${youtubeVideoId}?autoplay=1`;
