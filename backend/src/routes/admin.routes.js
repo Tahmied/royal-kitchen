@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { assignLead, bulkDeleteLeads, bulkUpdateLeads, checkAdminLogin, deleteLead, editLead, exportLeads, getLeadById, getLeads, getSalespersons, loginAdmin, logout, registerAdmin } from "../controllers/admin.controller.js";
+import { assignLead, bulkDeleteLeads, bulkUpdateLeads, checkAdminLogin, deleteLead, deleteSalesperson, editLead, exportLeads, getLeadById, getLeads, getSalespersons, loginAdmin, logout, registerAdmin, updateSalesperson } from "../controllers/admin.controller.js";
 import { getFollowUpLeads } from "../controllers/sales.controller.js";
 import { adminAuth } from "../middlewares/auth.middleware.js";
 import { mediaUpload } from "../middlewares/multer.middleware.js";
@@ -12,7 +12,7 @@ router.post('/login' , loginAdmin)
 router.get('/checkLogin', adminAuth , checkAdminLogin)
 router.get('/logout' , adminAuth, logout)
 
-// leads routes
+// leads management routes
 router.get('/getLeads' ,adminAuth , getLeads )
 router.put('/editLead/:id' , adminAuth , editLead )
 router.delete('/deleteLead/:id', adminAuth, deleteLead); 
@@ -23,6 +23,11 @@ router.get('/getLead/:id', adminAuth, getLeadById);
 router.put('/bulk-update', adminAuth, bulkUpdateLeads);
 router.delete('/bulk-delete', adminAuth, bulkDeleteLeads);
 router.get('/getSalespersons', adminAuth, getSalespersons);
+
+// Salesperson management routes
+router.get('/salespersons', adminAuth, getSalespersons);
+router.put('/salesperson/:id', adminAuth, updateSalesperson);
+router.delete('/salesperson/:id', adminAuth, deleteSalesperson);
 
 
 

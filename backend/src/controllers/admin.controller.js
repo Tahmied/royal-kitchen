@@ -144,7 +144,7 @@ export const logout = asyncHandler(async (req, res) => {
 });
 
 
-// leads
+// leads management
 
 export const getLeads = asyncHandler(async (req, res) => {
     // 1. Get all query parameters, including the new date filters
@@ -460,4 +460,76 @@ export const getSalespersons = asyncHandler(async (req, res) => {
     return res.status(200).json(
         new ApiResponse(200, salespersons, 'Salespersons fetched successfully.')
     );
+});
+
+
+// sales persons management
+
+export const updateSalesperson = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const { firstName, lastName, email, isActive, password } = req.body;
+
+    if (!id) {
+        throw new ApiError(400, "Salesperson ID is required for updating.");
+    }
+
+    // 1. Find the salesperson document
+    const salesperson = await Sales.findById(id);
+
+    if (!salesperson) {
+        throw new ApiError(404, "Salesperson not found.");
+    }
+
+    // 2. Update fields if they are provided in the request body
+    if (firstName) salesperson.firstName = firstName;
+    if (lastName) salesperson.lastName = lastName;
+    if (isActive !== undefined) salesperson.isActive = isActive;
+
+    // Handle email update and check for duplicates
+    if (email && email !== salesperson.email) {
+        const existingSalesperson = await Sales.findOne({ email });
+        if (existingSalesperson) {
+            throw new ApiError(409, "Email already in use by another salesperson.");
+        }
+        salesperson.email = email;
+    }
+
+    // 3. Update password. The pre('save') hook will handle hashing
+    if (password) {
+        salesperson.password = password;
+    }
+
+    // 4. Save the updated document. This will trigger the pre('save') hook
+    const updatedSalesperson = await salesperson.save();
+
+    // 5. Return the updated document without sensitive information
+    const { password: _, refreshToken: __, ...safeSalesperson } = updatedSalesperson.toObject();
+
+    return res.status(200).json(
+        new ApiResponse(200, safeSalesperson, "Salesperson details updated successfully.")
+    );
+});
+
+export const deleteSalesperson = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  if (!id) {
+    throw new ApiError(400, "Salesperson ID is required for deletion.");
+  }
+
+  // Optional: Reassign leads before deletion
+  await Lead.updateMany(
+    { assignedTo: id },
+    { $set: { assignedTo: null, assignedToModel: null } }
+  );
+
+  const deletedSalesperson = await Sales.findByIdAndDelete(id);
+
+  if (!deletedSalesperson) {
+    throw new ApiError(404, "Salesperson not found.");
+  }
+
+  return res.status(200).json(
+    new ApiResponse(200, null, "Salesperson deleted successfully.")
+  );
 });
