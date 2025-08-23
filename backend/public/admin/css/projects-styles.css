@@ -260,3 +260,152 @@
     align-items: center;
     padding-left: 0px !important;
 }
+
+/* Responsive styles for projects page */
+@media (max-width: 1200px) {
+    .main-content {
+        padding: 15px;
+    }
+    
+    .header-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    
+    .header-bar h2 {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .projects-table th, 
+    .projects-table td {
+        padding: 1rem;
+    }
+    
+    .project-form {
+        padding: 1.5rem;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .action-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        margin-left: 0;
+        padding: 15px 10px;
+    }
+    
+    .sidebar {
+        transform: translateX(-100%);
+        z-index: 1000;
+    }
+    
+    .sidebar.active {
+        transform: translateX(0);
+    }
+    
+    .mobile-toggle {
+        display: flex;
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        z-index: 1001;
+    }
+    
+    .header-bar h2 {
+        font-size: 1.5rem;
+        margin-top: 2rem;
+    }
+    
+    .projects-table {
+        font-size: 0.85rem;
+    }
+    
+    .projects-table th, 
+    .projects-table td {
+        padding: 0.75rem 0.5rem;
+    }
+    
+    .project-action-btns {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .edit-btn, .delete-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .file-previews {
+        justify-content: center;
+    }
+    
+    .file-preview {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+@media (max-width: 576px) {
+    .projects-container {
+        padding: 0 5px;
+    }
+    
+    .header-bar h2 {
+        font-size: 1.3rem;
+    }
+    
+    .projects-table th, 
+    .projects-table td {
+        padding: 0.5rem 0.25rem;
+        font-size: 0.8rem;
+    }
+    
+    .project-form {
+        padding: 1rem;
+    }
+    
+    .form-group {
+        margin-bottom: 1rem;
+    }
+    
+    .modal-content {
+        margin: 0 15px;
+        padding: 1.5rem;
+    }
+    
+    .modal-actions {
+        flex-direction: column;
+    }
+    
+    .file-preview {
+        width: 70px;
+        height: 70px;
+    }
+}
+
+/* Special handling for very small devices */
+@media (max-width: 400px) {
+    .header-bar h2 {
+        font-size: 1.2rem;
+    }
+    
+    .projects-table {
+        font-size: 0.75rem;
+    }
+    
+    .action-btn {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+}

@@ -181,6 +181,23 @@
                 }
             });
         });
+        // Mobile sidebar toggle
+document.querySelector('.mobile-toggle').addEventListener('click', function() {
+    document.querySelector('.sidebar').classList.toggle('active');
+});
+
+// Close sidebar when clicking outside on mobile
+document.addEventListener('click', function(event) {
+    const sidebar = document.querySelector('.sidebar');
+    const mobileToggle = document.querySelector('.mobile-toggle');
+    
+    if (window.innerWidth < 768 && 
+        !sidebar.contains(event.target) && 
+        !mobileToggle.contains(event.target) &&
+        sidebar.classList.contains('active')) {
+        sidebar.classList.remove('active');
+    }
+});
     </script>
    
 
