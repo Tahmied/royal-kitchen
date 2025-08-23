@@ -22,9 +22,9 @@ export const createProject = asyncHandler(async (req, res) => {
     }
 
     // Get file paths
-    const homepageImagePaths = files['homepageImages'].map(file => `/projects/images/${file.filename}`);
-    const videoThumbnailPath = `/projects/images/${files['videoThumbnail'][0].filename}`;
-    const videoPath = `/projects/videos/${files['video'][0].filename}`;
+    const homepageImagePaths = files['homepageImages'].map(file => `/uploads/projects/${file.filename}`);
+    const videoThumbnailPath = `/uploads/projects/${files['videoThumbnail'][0].filename}`;
+    const videoPath = `/uploads/projects/${files['video'][0].filename}`;
 
     const newProject = await Project.create({
         projectName,
@@ -189,7 +189,7 @@ export const uploadContentImage = asyncHandler(async (req, res) => {
         throw new ApiError(400, "Image file is required.");
     }
 
-    const imageUrl = `/project-content-images/${req.file.filename}`;
+    const imageUrl = `/uploads/project-content-images/${req.file.filename}`;
 
     return res.status(200).json(
         new ApiResponse(200, { url: imageUrl }, "Image uploaded successfully.")

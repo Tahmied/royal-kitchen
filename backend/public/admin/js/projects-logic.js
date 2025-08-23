@@ -205,7 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fetchProjects(); // Refresh the projects list
     }
 
-    async function showForm(mode, projectId = null) {
+async function showForm(mode, projectId = null) {
         dashboardView.classList.add('hidden');
         formView.classList.remove('hidden');
 
@@ -228,8 +228,43 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('projectName').value = project.projectName || '';
                 editor.innerHTML = project.projectContent || '';
                 
-                // Note: File inputs cannot be pre-populated for security reasons
-                // You might want to show current files as preview/info only
+                // --- Fix to display existing file previews ---
+                clearFilePreviews(); // Clear any existing previews first
+                
+                const homepagePreviews = document.getElementById('homepageImages-previews');
+                if (project.homepageImages && Array.isArray(project.homepageImages)) {
+                    project.homepageImages.forEach(imageUrl => {
+                        const img = document.createElement('img');
+                        img.src = imageUrl;
+                        img.alt = 'Homepage Image';
+                        img.style.maxWidth = '100px';
+                        img.style.maxHeight = '100px';
+                        img.style.margin = '5px';
+                        img.style.objectFit = 'cover';
+                        homepagePreviews.appendChild(img);
+                    });
+                }
+
+                const videoThumbnailPreview = document.getElementById('videoThumbnail-preview');
+                if (project.videoThumbnailPath) {
+                    const img = document.createElement('img');
+                    img.src = project.videoThumbnailPath;
+                    img.alt = 'Video Thumbnail';
+                    img.style.maxWidth = '150px';
+                    img.style.maxHeight = '100px';
+                    img.style.objectFit = 'cover';
+                    videoThumbnailPreview.appendChild(img);
+                }
+
+                const videoPreview = document.getElementById('video-preview');
+                if (project.videoPath) {
+                    const video = document.createElement('video');
+                    video.src = project.videoPath;
+                    video.controls = true;
+                    video.style.maxWidth = '200px';
+                    video.style.maxHeight = '150px';
+                    videoPreview.appendChild(video);
+                }
                 
             } catch (error) {
                 showNotification('Failed to load project details: ' + error.message, 'error');
@@ -237,7 +272,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     }
-
     function showDeleteModal(id) {
         deleteModal.classList.remove('hidden');
         deleteModal.dataset.projectId = id;
