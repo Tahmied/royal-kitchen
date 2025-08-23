@@ -1,8 +1,58 @@
-import fs from 'fs';
+import fs from 'fs/promises';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { Project } from '../models/projects.model.js';
 import { ApiError } from "../utils/apiError.js";
 import { ApiResponse } from '../utils/apiResponse.js';
 import { asyncHandler } from "../utils/asyncHandler.js";
+
+// utility functions
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+function normalizeStoredPath(stored) {
+  if (!stored) return null;
+  let p = stored.split('?')[0];
+
+  try {
+    const maybeUrl = new URL(p);
+    p = maybeUrl.pathname;
+  } catch (e) {
+  }
+
+  p = p.replace(/^\.?\/+/, '');
+
+  if (!p.startsWith('public/')) p = path.join('public', p);
+
+  return path.normalize(p);
+}
+
+async function deleteFileFromPublic(stored) {
+  const rel = normalizeStoredPath(stored);
+  if (!rel) return false;
+
+  const abs = path.resolve(process.cwd(), rel);
+
+  const alt = path.resolve(__dirname, '..', '..', rel);
+
+  const candidates = [abs, alt];
+
+  for (const candidate of candidates) {
+    try {
+      await fs.access(candidate); 
+      await fs.unlink(candidate);
+    //   console.log('Deleted:', candidate);
+      return true;
+    } catch (err) {
+    //   console.log(`Tried ${candidate} -> ${err.code || err.message}`);
+    }
+  }
+
+  console.warn('Could not delete. Stored path:', stored, 'Tried:', candidates);
+  return false;
+}
+
+// project management controllers
 
 export const createProject = asyncHandler(async (req, res) => {
     const { projectName, projectContent } = req.body;
@@ -116,37 +166,30 @@ export const updateProject = asyncHandler(async (req, res) => {
 });
 
 export const deleteProject = asyncHandler(async (req, res) => {
-    const { id } = req.params;
+  const { id } = req.params;
+  const project = await Project.findById(id);
+  if (!project) throw new ApiError(404, 'Project not found.');
 
-    const project = await Project.findById(id);
+  const allFilePaths = [
+    ...(project.homepageImages || []),
+    project.videoThumbnailPath,
+    project.videoPath
+  ].filter(Boolean);
 
-    if (!project) {
-        throw new ApiError(404, "Project not found.");
+  // debug info
+//   console.log('process.cwd():', process.cwd());
+//   console.log('__dirname (controller):', __dirname);
+
+  for (const fp of allFilePaths) {
+    try {
+      await deleteFileFromPublic(fp);
+    } catch (e) {
+    //   console.warn('Error deleting', fp, e && e.message);
     }
+  }
 
-    // Delete all associated files from the server
-    const allFilePaths = [
-        ...project.homepageImages,
-        project.videoThumbnailPath,
-        project.videoPath
-    ];
-
-    allFilePaths.forEach(filePath => {
-        try {
-            if (filePath) {
-                fs.unlinkSync(`.${filePath}`);
-            }
-        } catch (error) {
-            console.warn(`Could not delete file at .${filePath}`);
-        }
-    });
-
-    // Delete the document from the database
-    await Project.findByIdAndDelete(id);
-
-    return res.status(200).json(
-        new ApiResponse(200, null, "Project deleted successfully.")
-    );
+  await Project.findByIdAndDelete(id);
+  return res.status(200).json(new ApiResponse(200, null, 'Project deleted successfully.'));
 });
 
 export const getPublicProjects = asyncHandler(async (req, res) => {
