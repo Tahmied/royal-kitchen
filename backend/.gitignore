@@ -127,5 +127,9 @@ public/uploads/salesDp/*
 public/uploads/projects/*
 !public/uploads/projects/.gitkeep
 
+public/uploads/project-content-images/*
+!public/uploads/project-content-images/.gitkeep
+
+
 /.ds_store
 /.DS_STORE

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createProject, deleteProject, getAllProjects, getProjectById, getPublicProjects, updateProject } from "../controllers/project.controller.js";
+import { createProject, deleteProject, getAllProjects, getProjectById, getPublicProjects, updateProject, uploadContentImage } from "../controllers/project.controller.js";
 import { adminAuth } from "../middlewares/auth.middleware.js";
 import { mediaUpload } from "../middlewares/multer.middleware.js";
 
@@ -24,6 +24,8 @@ router.route('/admin/:id').put(adminAuth, mediaUpload('/projects').fields([
 router.route('/public').get(getPublicProjects);
 router.route('/public/:id').get(getProjectById);
 
+// handle file upload for content
+router.route('/upload-content-image').post(adminAuth, mediaUpload('/project-content-images').single('image'), uploadContentImage);
 
 
 export default router

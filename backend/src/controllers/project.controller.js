@@ -180,3 +180,18 @@ export const getProjectById = asyncHandler(async (req, res) => {
         new ApiResponse(200, project, "Project details fetched successfully.")
     );
 });
+
+// handle file upload for content
+
+export const uploadContentImage = asyncHandler(async (req, res) => {
+
+    if (!req.file) {
+        throw new ApiError(400, "Image file is required.");
+    }
+
+    const imageUrl = `/project-content-images/${req.file.filename}`;
+
+    return res.status(200).json(
+        new ApiResponse(200, { url: imageUrl }, "Image uploaded successfully.")
+    );
+});
