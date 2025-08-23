@@ -8,6 +8,130 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./css/styles.css">
     <link rel="stylesheet" href="./css/projects-styles.css">
+    <style>
+        /* Responsive fixes for main content */
+.main-content {
+    width: calc(100% - var(--sidebar-width));
+    transition: var(--transition);
+}
+
+@media (max-width: 992px) {
+    .main-content {
+        width: calc(100% - 80px);
+        margin-left: 80px;
+        padding: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        width: 100%;
+        margin-left: 0;
+        padding: 15px 10px;
+        padding-top: 70px; /* Add padding to account for mobile toggle */
+    }
+    
+    .sidebar {
+        transform: translateX(-100%);
+        z-index: 1000;
+    }
+    
+    .sidebar.active {
+        transform: translateX(0);
+    }
+    
+    .mobile-toggle {
+        display: flex;
+    }
+}
+
+/* Additional responsive adjustments for inner elements */
+@media (max-width: 1200px) {
+    .projects-table th, 
+    .projects-table td {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .header-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    
+    .project-form {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-bar h2 {
+        font-size: 1.5rem;
+    }
+    
+    .projects-table {
+        font-size: 0.85rem;
+    }
+    
+    .projects-table th, 
+    .projects-table td {
+        padding: 0.75rem 0.5rem;
+    }
+    
+    .project-action-btns {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .file-preview {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+@media (max-width: 576px) {
+    .header-bar h2 {
+        font-size: 1.3rem;
+    }
+    
+    .projects-table th, 
+    .projects-table td {
+        padding: 0.5rem 0.25rem;
+        font-size: 0.8rem;
+    }
+    
+    .project-form {
+        padding: 1rem;
+    }
+    
+    .form-group {
+        margin-bottom: 1rem;
+    }
+    
+    .file-preview {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .action-btn {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Fix for view switching */
+.view {
+    width: 100%;
+}
+
+/* Ensure proper spacing on mobile */
+@media (max-width: 768px) {
+    .projects-container {
+        margin-top: 20px;
+    }
+}
+    </style>
 </head>
 <body>
     <!-- Mobile Toggle Button -->
