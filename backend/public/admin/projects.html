@@ -222,9 +222,25 @@
                 <input type="text" id="projectName" name="projectName" required>
             </div>
 
-            <div class="form-group">
+           <div class="form-group">
                 <label for="projectContent">Project Content</label>
-                <textarea id="projectContent" name="projectContent" rows="10" required placeholder="Write your project description here..."></textarea>
+                <div class="editor-toolbar">
+                    <button type="button" class="toolbar-btn" data-command="bold" title="Bold"><i class="fas fa-bold"></i></button>
+                    <button type="button" class="toolbar-btn" data-command="italic" title="Italic"><i class="fas fa-italic"></i></button>
+                    <button type="button" class="toolbar-btn" data-command="underline" title="Underline"><i class="fas fa-underline"></i></button>
+                    <div class="toolbar-divider"></div>
+                    <select class="toolbar-select" data-command="formatBlock" title="Heading">
+                        <option value="p">Paragraph</option>
+                        <option value="h1">Heading 1</option>
+                        <option value="h2">Heading 2</option>
+                        <option value="h3">Heading 3</option>
+                    </select>
+                    <div class="toolbar-divider"></div>
+                    <button type="button" class="toolbar-btn" data-command="insertImage" title="Insert Image"><i class="fas fa-image"></i></button>
+                    <input type="file" id="imageUpload" accept="image/*" style="display: none;">
+                </div>
+                <div id="projectContent" class="rich-text-editor" contenteditable="true" placeholder="Write your project description here..."></div>
+                <textarea id="projectContentTextarea" name="projectContent" style="display: none;"></textarea>
             </div>
 
             <div class="form-group file-upload-group">

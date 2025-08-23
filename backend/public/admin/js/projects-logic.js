@@ -159,3 +159,62 @@
         }, 300);
     }, 3000);
 }
+
+
+// Rich Text Editor Functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const editor = document.querySelector('.rich-text-editor');
+    const textarea = document.querySelector('#projectContentTextarea');
+    const toolbarButtons = document.querySelectorAll('.toolbar-btn');
+    const formatSelect = document.querySelector('.toolbar-select');
+    const imageUpload = document.querySelector('#imageUpload');
+    
+    // Toolbar button actions
+    toolbarButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const command = this.dataset.command;
+            
+            if (command === 'insertImage') {
+                imageUpload.click();
+            } else {
+                document.execCommand(command, false, null);
+                editor.focus();
+            }
+        });
+    });
+    
+    // Heading format change
+    formatSelect.addEventListener('change', function() {
+        const format = this.value;
+        document.execCommand('formatBlock', false, format);
+        editor.focus();
+    });
+    
+    // Handle image upload
+    imageUpload.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file && file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.execCommand('insertImage', false, e.target.result);
+                editor.focus();
+            };
+            reader.readAsDataURL(file);
+        }
+        // Reset the input to allow uploading the same image again
+        this.value = '';
+    });
+    
+    // Sync editor content with hidden textarea before form submission
+    const projectForm = document.querySelector('#project-form');
+    if (projectForm) {
+        projectForm.addEventListener('submit', function() {
+            textarea.value = editor.innerHTML;
+        });
+    }
+    
+    // Load existing content into editor when editing
+    if (textarea.value) {
+        editor.innerHTML = textarea.value;
+    }
+});
