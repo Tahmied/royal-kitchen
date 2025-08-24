@@ -214,13 +214,78 @@ document.addEventListener('DOMContentLoaded', () => {
   const closeBtn = document.getElementById('pcf-closeBtn');
   const overlay = document.getElementById('pcf-overlay');
   const modal = document.getElementById('pcf-modal');
+// Video modal functionality for project sections
+const videoModal = document.getElementById('video-modal');
+const videoOverlay = document.getElementById('video-modal-overlay');
+const videoCloseBtn = document.getElementById('video-modal-close');
+const videoElement = document.getElementById('local-video');
+const videoSource = document.getElementById('local-video-source');
+const videoContainers = document.querySelectorAll('.fourth-video-container, .fourth-video-overlay');
 
-  const youtubeVideoId = 'vUncEiyXIT4';
-  const videoModal = document.getElementById('video-modal');
-  const videoOverlay = document.getElementById('video-modal-overlay');
-  const videoCloseBtn = document.getElementById('video-modal-close');
-  const youtubeIframe = document.getElementById('youtube-video');
-  const videoContainers = document.querySelectorAll('.fourth-video-container, .fourth-video-overlay');
+// Video paths for each project section 
+const videoPaths = [
+  './uploads/projects/WhatsApp Video 2025-08-02 at 20.35.42.mp4',
+  '/uploads/projects/project2-video.mp4',
+  '/uploads/projects/project3-video.mp4'
+];
+
+// Function to open video modal with the correct video
+function openVideoModal(event) {
+  // Find the closest project section
+  const projectSection = event.currentTarget.closest('.fourth-section');
+  
+  // Find the index of this section among all fourth-section elements
+  const allSections = document.querySelectorAll('.fourth-section');
+  const sectionIndex = Array.from(allSections).indexOf(projectSection);
+  
+  // Use the section index to get the correct video path
+  const videoPath = videoPaths[sectionIndex] || videoPaths[0];
+  
+  // Set the video source and load it
+  videoSource.src = videoPath;
+  videoElement.load();
+  
+  // Show the modal and play the video
+  videoModal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  
+  // Play the video when it's ready
+  videoElement.oncanplay = function() {
+    videoElement.play().catch(error => {
+      console.log('Auto-play prevented:', error);
+      // User interaction might be required for autoplay in some browsers
+    });
+  };
+}
+
+// Function to close video modal
+function closeVideoModal() {
+  videoModal.setAttribute('aria-hidden', 'true');
+  videoElement.pause();
+  videoElement.currentTime = 0;
+  document.body.style.overflow = '';
+}
+
+// Add event listeners to all video containers
+videoContainers.forEach(container => {
+  container.addEventListener('click', openVideoModal);
+  container.style.cursor = 'pointer';
+});
+
+// Close modal events
+videoCloseBtn.addEventListener('click', closeVideoModal);
+videoOverlay.addEventListener('click', function(e) {
+  if (e.target === videoOverlay) {
+    closeVideoModal();
+  }
+});
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape' && videoModal.getAttribute('aria-hidden') === 'false') {
+    closeVideoModal();
+  }
+});
 
   (function createToastStyles() {
     if (document.getElementById('pcf-toast-styles')) return;
@@ -418,31 +483,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // video functions
-  function openVideoModal() {
-    youtubeIframe.src = `https://www.youtube.com/embed/${youtubeVideoId}?autoplay=1`;
-    videoModal.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
-  }
-  
-  // Function to close video modal
-  function closeVideoModal() {
-    videoModal.setAttribute('aria-hidden', 'true');
-    youtubeIframe.src = ''; 
-    document.body.style.overflow = ''; 
-  }
-  
-  videoContainers.forEach(container => {
-    container.addEventListener('click', openVideoModal);
-    container.style.cursor = 'pointer';
-  });
-  
-  videoCloseBtn.addEventListener('click', closeVideoModal);
-  videoOverlay.addEventListener('click', function(e) {
-    if (e.target === videoOverlay) {
-      closeVideoModal();
-    }
-  });
   
   // Close modal with Escape key
   document.addEventListener('keydown', function(e) {
@@ -868,7 +908,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // Initialize everything when DOM is ready
+  // Initialize animations and contact form when DOM is ready
   function initialize() {
     sectionAnimations.init();
     contactForm.init();
