@@ -215,6 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const overlay = document.getElementById('pcf-overlay');
   const modal = document.getElementById('pcf-modal');
 // Video modal functionality for project sections
+// Video modal functionality for project sections
 const videoModal = document.getElementById('video-modal');
 const videoOverlay = document.getElementById('video-modal-overlay');
 const videoCloseBtn = document.getElementById('video-modal-close');
@@ -245,17 +246,20 @@ function openVideoModal(event) {
   videoSource.src = videoPath;
   videoElement.load();
   
-  // Show the modal and play the video
+  // Show the modal
   videoModal.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
   
   // Play the video when it's ready
-  videoElement.oncanplay = function() {
+  const playVideo = function() {
     videoElement.play().catch(error => {
       console.log('Auto-play prevented:', error);
-      // User interaction might be required for autoplay in some browsers
     });
+    // Remove the event listener after it's used
+    videoElement.removeEventListener('canplay', playVideo);
   };
+  
+  videoElement.addEventListener('canplay', playVideo);
 }
 
 // Function to close video modal
@@ -284,6 +288,14 @@ videoOverlay.addEventListener('click', function(e) {
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape' && videoModal.getAttribute('aria-hidden') === 'false') {
     closeVideoModal();
+  }
+});
+
+// Reset video when modal is closed
+videoModal.addEventListener('transitionend', function(e) {
+  if (e.propertyName === 'opacity' && videoModal.getAttribute('aria-hidden') === 'true') {
+    videoElement.pause();
+    videoElement.currentTime = 0;
   }
 });
 
