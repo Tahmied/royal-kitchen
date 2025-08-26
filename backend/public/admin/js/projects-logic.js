@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const homepageImagesInput = document.getElementById('homepageImages');
     const videoThumbnailInput = document.getElementById('videoThumbnail');
     const videoInput = document.getElementById('video');
+    const ownerProfileImageInput = document.getElementById('ownerProfileImage');
 
     // --- Utility Functions ---
     function showNotification(message, type = 'success') {
@@ -265,6 +266,18 @@ async function showForm(mode, projectId = null) {
                     video.style.maxHeight = '150px';
                     videoPreview.appendChild(video);
                 }
+
+                const ownerProfileImagePreview = document.getElementById('ownerProfileImage-preview');
+                if (project.ownerProfileImagePath) {
+                    const img = document.createElement('img');
+                    img.src = project.ownerProfileImagePath;
+                    img.alt = 'Owner Profile Picture';
+                    img.style.maxWidth = '100px';
+                    img.style.maxHeight = '100px';
+                    img.style.objectFit = 'cover';
+                    ownerProfileImagePreview.appendChild(img);
+                }
+
                 
             } catch (error) {
                 showNotification('Failed to load project details: ' + error.message, 'error');
@@ -287,6 +300,7 @@ async function showForm(mode, projectId = null) {
         document.getElementById('homepageImages-previews').innerHTML = '';
         document.getElementById('videoThumbnail-preview').innerHTML = '';
         document.getElementById('video-preview').innerHTML = '';
+        document.getElementById('ownerProfileImage-preview').innerHTML = ''; 
     }
 
     // --- Rich Text Editor Functions ---
@@ -396,39 +410,67 @@ async function showForm(mode, projectId = null) {
                 preview.appendChild(video);
             }
         });
+
+        ownerProfileImageInput.addEventListener('change', function(e) {
+            const preview = document.getElementById('ownerProfileImage-preview');
+            preview.innerHTML = '';
+
+            const file = e.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.style.maxWidth = '100px';
+                    img.style.maxHeight = '100px';
+                    img.style.objectFit = 'cover';
+                    preview.appendChild(img);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
     }
 
     // --- Form Validation ---
-    function validateForm() {
-        const projectName = document.getElementById('projectName').value.trim();
+function validateForm() {
+    const projectName = document.getElementById('projectName').value.trim();
+
+    if (!projectName) {
+        showNotification('Project name is required', 'error');
+        return false;
+    }
+
+    if (currentMode === 'create') {
         const homepageImages = homepageImagesInput.files;
         const videoThumbnail = videoThumbnailInput.files[0];
         const video = videoInput.files[0];
+        const ownerProfileImage = ownerProfileImageInput.files[0]; // Get the new field
 
-        if (!projectName) {
-            showNotification('Project name is required', 'error');
+        // Check for required files only when creating a new project
+        if (!ownerProfileImage) {
+            showNotification('Owner profile picture is required', 'error');
             return false;
         }
 
-        if (currentMode === 'create') {
-            if (homepageImages.length !== 6) {
-                showNotification('Exactly 6 homepage images are required', 'error');
-                return false;
-            }
-
-            if (!videoThumbnail) {
-                showNotification('Video thumbnail is required', 'error');
-                return false;
-            }
-
-            if (!video) {
-                showNotification('Video file is required', 'error');
-                return false;
-            }
+        if (homepageImages.length !== 6) {
+            showNotification('Exactly 6 homepage images are required', 'error');
+            return false;
         }
 
-        return true;
+        if (!videoThumbnail) {
+            showNotification('Video thumbnail is required', 'error');
+            return false;
+        }
+
+        if (!video) {
+            showNotification('Video file is required', 'error');
+            return false;
+        }
     }
+
+    return true;
+}
 
     // --- Event Listeners ---
     createBtn.addEventListener('click', () => showForm('create'));
@@ -475,6 +517,11 @@ async function showForm(mode, projectId = null) {
         // Append video file
         if (videoInput.files[0]) {
             formData.append('video', videoInput.files[0]);
+        }
+
+        // Append owner's profile image
+        if (ownerProfileImageInput.files[0]) {
+            formData.append('ownerProfileImage', ownerProfileImageInput.files[0]);
         }
         
         try {

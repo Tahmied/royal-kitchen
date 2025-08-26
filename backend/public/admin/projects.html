@@ -219,7 +219,7 @@
         <form id="project-form" class="project-form">
             <div class="form-group">
                 <label for="projectName">Project Name</label>
-                <input type="text" id="projectName" name="projectName" required>
+                <input type="text" id="projectName" name="projectName">
             </div>
 
            <div class="form-group">
@@ -246,19 +246,25 @@
             <div class="form-group file-upload-group">
                 <label>Homepage Images (6 required)</label>
                 <div id="homepageImages-previews" class="file-previews"></div>
-                <input type="file" id="homepageImages" name="homepageImages" accept="image/*" multiple required>
+                <input type="file" id="homepageImages" name="homepageImages" accept="image/*" multiple>
+            </div>
+
+            <div class="form-group file-upload-group">
+                <label>Owner's Profile Picture (1 required)</label>
+                <div id="ownerProfileImage-preview" class="file-previews"></div>
+                <input type="file" id="ownerProfileImage" name="ownerProfileImage" accept="image/*">
             </div>
 
             <div class="form-group file-upload-group">
                 <label>Video Thumbnail (1 required)</label>
                 <div id="videoThumbnail-preview" class="file-previews"></div>
-                <input type="file" id="videoThumbnail" name="videoThumbnail" accept="image/*" required>
+                <input type="file" id="videoThumbnail" name="videoThumbnail" accept="image/*">
             </div>
 
             <div class="form-group file-upload-group">
                 <label>Video File (1 required)</label>
                 <div id="video-preview" class="file-previews"></div>
-                <input type="file" id="video" name="video" accept="video/*" required>
+                <input type="file" id="video" name="video" accept="video/*">
             </div>
             
             <div class="form-actions">

@@ -249,7 +249,7 @@ class DynamicProjectsLoader {
 
                     <button class="project-pinned-pic-btn" onclick="window.location.href='project.html?id=${project._id}'">
                         <div class="house-owner">
-                            <img src="images/section-four/owner.png" alt="" class="profile-pic">
+                            <img src="${project.ownerProfileImagePath}" alt="" class="profile-pic">
                         </div>
                         <div class="house-owner-details">
                             <p class="owner-name">${project.projectName}</p>
