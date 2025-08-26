@@ -1568,6 +1568,7 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
     gap: 8px;
     z-index: 9999;
     animation: pdp-bounce 2.4s infinite cubic-bezier(.25,.8,.25,1);
+    text-decoration: none;
 }
 
 .project-button-text {
@@ -1700,6 +1701,7 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
     border: none;
     outline: none;
     cursor: pointer;
+    text-decoration: none;
 }
 
 .project-pinned-pic-btn:hover {

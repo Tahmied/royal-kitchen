@@ -245,9 +245,11 @@ class DynamicProjectsLoader {
             ${heading}
             <div class="${containerClass}" ${containerId}>
                 <div class="fourth-left">
-                    <img src="${project.homepageImages[0]}" alt="" class="pinned-project-img" id="pinned-project-img-id">
+                <a href="/projects/${project._id}" class="pinned-project-link" aria-label="Open project ${project.projectName}">
+                  <img src="${project.homepageImages[0]}" alt="${project.projectName}" class="pinned-project-img">
+                </a>
 
-                    <button class="project-pinned-pic-btn" onclick="window.location.href='project.html?id=${project._id}'">
+                    <a class="project-pinned-pic-btn" href="/projects/${project._id}">
                         <div class="house-owner">
                             <img src="${project.ownerProfileImagePath}" alt="" class="profile-pic">
                         </div>
@@ -255,12 +257,12 @@ class DynamicProjectsLoader {
                             <p class="owner-name">${project.projectName}</p>
                             <p class="see-details">See Details</p>
                         </div>
-                    </button>
+                    </a>
 
-                    <button class="project-details-page-indicator-btn" onclick="window.location.href='project.html?id=${project._id}'">
+                    <a class="project-details-page-indicator-btn" href="/projects/${project._id}">
                         <span class="project-button-text">Click for details</span>
                         <img id="project-cta-btn-arrow" src="images/hero/button-arrow.svg" alt="" class="cta-btn-arrow">
-                    </button>
+                    </a>
                 </div>
                 <div class="fourth-right">
                     ${this.createThumbnails(project.homepageImages)}
