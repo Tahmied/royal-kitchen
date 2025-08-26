@@ -6,6 +6,10 @@ const projectSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
+    ownerProfileImagePath: { 
+        type: String,
+        required: true,
+    },
     homepageImages: {
         type: [String], 
         required: true,

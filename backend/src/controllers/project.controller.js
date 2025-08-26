@@ -64,7 +64,7 @@ export const createProject = asyncHandler(async (req, res) => {
     
     // Check for required files
     const files = req.files;
-    if (!files || !files['homepageImages'] || files['homepageImages'].length !== 6 || !files['videoThumbnail'] || !files['video']) {
+    if (!files || !files['ownerProfileImage'] || !files['homepageImages'] || files['homepageImages'].length !== 6 || !files['videoThumbnail'] || !files['video']) {
         // Clean up uploaded files if validation fails
         const uploadedFiles = Object.values(files).flat();
         uploadedFiles.forEach(file => fs.unlinkSync(file.path));
@@ -72,12 +72,13 @@ export const createProject = asyncHandler(async (req, res) => {
     }
 
     // Get file paths
+    const ownerProfileImagePath = `/uploads/projects/${files['ownerProfileImage'][0].filename}`; 
     const homepageImagePaths = files['homepageImages'].map(file => `/uploads/projects/${file.filename}`);
     const videoThumbnailPath = `/uploads/projects/${files['videoThumbnail'][0].filename}`;
     const videoPath = `/uploads/projects/${files['video'][0].filename}`;
 
     const newProject = await Project.create({
-        projectName,
+        projectName, ownerProfileImagePath,
         homepageImages: homepageImagePaths,
         videoThumbnailPath,
         videoPath,
@@ -119,6 +120,17 @@ export const updateProject = asyncHandler(async (req, res) => {
     if (projectName) project.projectName = projectName;
     if (projectContent) project.projectContent = projectContent;
 
+    if (files && files['ownerProfileImage']) {
+    if (project.ownerProfileImagePath) {
+        try {
+            fs.unlinkSync(`.${project.ownerProfileImagePath}`);
+        } catch (error) {
+            console.warn(`Could not delete old profile image at .${project.ownerProfileImagePath}`);
+        }
+    }
+        project.ownerProfileImagePath = `/uploads/projects/${files['ownerProfileImage'][0].filename}`;
+    }
+
     // Handle homepage image updates
     if (files && files['homepageImages']) {
         // Delete old image files
@@ -130,7 +142,7 @@ export const updateProject = asyncHandler(async (req, res) => {
             }
         });
         // Save new image paths
-        project.homepageImages = files['homepageImages'].map(file => `/projects/images/${file.filename}`);
+        project.homepageImages = files['homepageImages'].map(file => `/uploads/projects/${file.filename}`);
     }
 
     // Handle video thumbnail update
@@ -142,7 +154,7 @@ export const updateProject = asyncHandler(async (req, res) => {
                 console.warn(`Could not delete old video thumbnail at .${project.videoThumbnailPath}`);
             }
         }
-        project.videoThumbnailPath = `/projects/images/${files['videoThumbnail'][0].filename}`;
+        project.videoThumbnailPath = `/uploads/projects/${files['videoThumbnail'][0].filename}`;
     }
 
     // Handle video update
@@ -154,7 +166,7 @@ export const updateProject = asyncHandler(async (req, res) => {
                 console.warn(`Could not delete old video at .${project.videoPath}`);
             }
         }
-        project.videoPath = `/projects/videos/${files['video'][0].filename}`;
+        project.videoPath = `/uploads/projects/${files['video'][0].filename}`;
     }
     
     // Save the updated project document
@@ -196,6 +208,7 @@ export const getPublicProjects = asyncHandler(async (req, res) => {
     const projects = await Project.find({}, {
         _id: 1,
         projectName: 1,
+        ownerProfileImagePath: 1,
         homepageImages: 1,
         videoThumbnailPath: 1,
         videoPath: 1
