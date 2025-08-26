@@ -168,20 +168,15 @@
             <i class="fas fa-users"></i>
             <span class="nav-text">Users</span>
         </div>
-        <div class="nav-item">
-            <i class="fas fa-chart-line"></i>
-            <span class="nav-text">Blogs</span>
-        </div>
-        <div class="nav-item">
+        <!-- <div class="nav-item">
             <i class="fas fa-cog"></i>
             <span class="nav-text">Settings</span>
-        </div>
-        <div class="nav-item">
+        </div> -->
+        <div class="nav-item logout-btn">
             <i class="fas fa-sign-out-alt"></i>
             <span class="nav-text">Logout</span>
         </div>
     </div>
-
     <!-- Main Content -->
     <div class="main-content">
         <div class="projects-container">
@@ -288,66 +283,9 @@
 
     </div>
 
-    <script>
-        // Mobile sidebar toggle
-        document.querySelector('.mobile-toggle').addEventListener('click', function() {
-            document.querySelector('.sidebar').classList.toggle('active');
-        });
-
-        // Nav item active state
-        const navItems = document.querySelectorAll('.nav-item');
-        navItems.forEach(item => {
-            item.addEventListener('click', function() {
-                navItems.forEach(i => i.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
-
-        // Card hover effect enhancement
-        const cards = document.querySelectorAll('.card');
-        cards.forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-8px)';
-            });
-            
-            card.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0)';
-            });
-        });
-
-        // Switch toggle animation
-        const switches = document.querySelectorAll('.switch input');
-        switches.forEach(sw => {
-            sw.addEventListener('change', function() {
-                if(this.checked) {
-                    this.parentNode.style.transform = 'scale(1.05)';
-                    setTimeout(() => {
-                        this.parentNode.style.transform = 'scale(1)';
-                    }, 300);
-                }
-            });
-        });
-        // Mobile sidebar toggle
-document.querySelector('.mobile-toggle').addEventListener('click', function() {
-    document.querySelector('.sidebar').classList.toggle('active');
-});
-
-// Close sidebar when clicking outside on mobile
-document.addEventListener('click', function(event) {
-    const sidebar = document.querySelector('.sidebar');
-    const mobileToggle = document.querySelector('.mobile-toggle');
-    
-    if (window.innerWidth < 768 && 
-        !sidebar.contains(event.target) && 
-        !mobileToggle.contains(event.target) &&
-        sidebar.classList.contains('active')) {
-        sidebar.classList.remove('active');
-    }
-});
-    </script>
-   
 
 <script src="./js/projects-logic.js"></script>
+<script src="./js/common.js"></script>
 
 </body>
 </html>

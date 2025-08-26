@@ -13,19 +13,45 @@ document.querySelector('.logout-btn').addEventListener('click' , async (e)=>{
     }
 })
 
-
 // Mobile sidebar toggle
-document.querySelector('.mobile-toggle').addEventListener('click', function() {
+const mobileToggle = document.querySelector('.mobile-toggle');
+if (mobileToggle) {
+  mobileToggle.addEventListener('click', () => {
     document.querySelector('.sidebar').classList.toggle('active');
-});
-// Nav item active state
-const navItems = document.querySelectorAll('.nav-item');
+  });
+}
+
+// Map sidebar items (by index or by text) to target URLs
+const routes = {
+  Dashboard: '/admin/index.html',
+  Projects: '/admin/projects.html',
+  Feedback: '/admin/feedback.html',
+  Leads: '/admin/leads.html',
+  Users: '/admin/sales-persons.html',
+  // all other items go here as default
+  default: '/admin/example.html'
+};
+
+// Attach click handlers and manage active state
+const navItems = document.querySelectorAll('.sidebar .nav-item');
 navItems.forEach(item => {
-    item.addEventListener('click', function() {
-        navItems.forEach(i => i.classList.remove('active'));
-        this.classList.add('active');
-    });
+  item.addEventListener('click', function () {
+    // active state
+    navItems.forEach(i => i.classList.remove('active'));
+    this.classList.add('active');
+
+    // determine text label (trim to be safe)
+    const labelEl = this.querySelector('.nav-text');
+    const label = labelEl ? labelEl.textContent.trim() : '';
+
+    // choose route
+    const target = routes[label] || routes.default;
+
+    // navigate
+    window.location.href = target;
+  });
 });
+
 // Card hover effect enhancement
 const cards = document.querySelectorAll('.card');
 cards.forEach(card => {
