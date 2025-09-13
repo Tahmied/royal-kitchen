@@ -7,8 +7,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (!response.ok) {
       if (window.location.pathname !== './login.html') {
-        // window.location.replace('/login.html');
-        console.log(`unable to chheck login`)
+        window.location.replace('/login.html');
       }
       return;
     }
