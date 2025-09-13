@@ -1640,6 +1640,7 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
 
 .fourth-video-thumbnail {
     border-radius: 25px;
+    width: 100%;
 }
 
 .fourth-video-overlay {
