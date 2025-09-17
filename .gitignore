@@ -130,6 +130,10 @@ public/uploads/projects/*
 public/uploads/project-content-images/*
 !public/uploads/project-content-images/.gitkeep
 
+public/uploads/feedback/*
+!public/uploads/feedback/.gitkeep
+
+
 
 /.ds_store
 /.DS_STORE

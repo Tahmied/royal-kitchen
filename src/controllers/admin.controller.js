@@ -2,6 +2,7 @@ import { stringify } from 'csv-stringify';
 import fs from 'fs';
 import { Admin } from '../models/admin.model.js';
 import { Lead } from '../models/leads.model.js';
+import { Project } from '../models/projects.model.js';
 import { Sales } from '../models/sales.model.js';
 import { ApiError } from "../utils/apiError.js";
 import { ApiResponse } from '../utils/apiResponse.js';
@@ -32,6 +33,68 @@ const generateAccessAndRefreshTokenAdmin = async (id) => {
     throw new ApiError(500, `Failed to generate tokens ${err}`);
   }
 };
+
+// admin dashboard controller
+export const getDashboardData = asyncHandler(async (req, res) => {
+    const cutoffDate = new Date(Date.now() - 24 * 60 * 60 * 1000);
+
+    const [
+        totalLeads,
+        newLeads,
+        totalSales,
+        newSales,
+        totalProjects,
+        newProjects,
+        totalFeedbacks,
+        newFeedbacks,
+        last3Leads,
+        last3Sales,
+        last3Projects,
+        last3Feedbacks
+    ] = await Promise.all([
+        Lead.countDocuments({}),
+        Lead.countDocuments({ createdAt: { $gte: cutoffDate } }),
+        Sales.countDocuments({}),
+        Sales.countDocuments({ createdAt: { $gte: cutoffDate } }),
+        Project.countDocuments({}),
+        Project.countDocuments({ createdAt: { $gte: cutoffDate } }),
+        Feedback.countDocuments({}),
+        Feedback.countDocuments({ createdAt: { $gte: cutoffDate } }),
+        Lead.find({}).sort({ createdAt: -1 }).limit(3),
+        Sales.find({}).sort({ createdAt: -1 }).limit(3).select('-password -refreshToken'),
+        Project.find({}).sort({ createdAt: -1 }).limit(3),
+        Feedback.find({}).sort({ createdAt: -1 }).limit(3)
+    ]);
+
+    const dashboardData = {
+        totalCounts: {
+            leads: totalLeads,
+            salesPersons: totalSales,
+            projects: totalProjects,
+            feedbacks: totalFeedbacks
+        },
+        newCounts: {
+            leads: newLeads,
+            salesPersons: newSales,
+            projects: newProjects,
+            feedbacks: newFeedbacks
+        },
+        lastEntries: {
+            leads: last3Leads,
+            salesPersons: last3Sales,
+            projects: last3Projects,
+            feedbacks: last3Feedbacks
+        }
+    };
+
+    return res.status(200).json(
+        new ApiResponse(
+            200,
+            dashboardData,
+            "Dashboard data fetched successfully"
+        )
+    );
+});
 
 
 // auth controllers
