@@ -355,6 +355,12 @@ nav {
     }
 }
 
+@media (max-width:425px) {
+    .underhero {
+      scale: 0.9;
+    }
+}
+
 @media (max-width:400px) {
     .hero-cta-btn {
         top: -7px;
@@ -362,6 +368,7 @@ nav {
         left: 38.5%;
     }
 }
+
 
 @media (max-width:350px) {
     .hero-cta-btn {

@@ -133,6 +133,288 @@
 
     </div>
 
+
+    <!-- Feedback Form Modal -->
+<div class="modal-overlay" id="feedbackModal">
+  <div class="modal-container">
+    <div class="modal-header">
+      <h3 id="modalTitle">Add Feedback</h3>
+      <button class="modal-close" id="closeModal">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <form id="feedbackForm" class="modal-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="clientName">Client Name</label>
+          <input type="text" id="clientName" name="clientName" required>
+        </div>
+        <div class="form-group">
+          <label for="projectName">Project Name</label>
+          <input type="text" id="projectName" name="projectName" required>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="feedbackText">Feedback</label>
+        <textarea id="feedbackText" name="feedbackText" rows="4" required></textarea>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="clientImage">Client Image URL</label>
+          <div class="url-input-group">
+            <input type="url" id="clientImage" name="clientImage" placeholder="https://example.com/image.jpg">
+            <span class="url-preview" id="clientPreview"></span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="companyLogo">Company Logo URL</label>
+          <div class="url-input-group">
+            <input type="url" id="companyLogo" name="companyLogo" placeholder="https://example.com/logo.jpg">
+            <span class="url-preview" id="logoPreview"></span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="projectImage">Project Image URL</label>
+          <div class="url-input-group">
+            <input type="url" id="projectImage" name="projectImage" placeholder="https://example.com/project.jpg">
+            <span class="url-preview" id="projectPreview"></span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="projectLink">Project Link</label>
+          <input type="url" id="projectLink" name="projectLink" placeholder="https://example.com">
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="feedbackDate">Date</label>
+          <input type="date" id="feedbackDate" name="feedbackDate" required>
+        </div>
+      </div>
+      
+      <div class="form-actions">
+        <button type="button" class="btn btn-outline" id="cancelForm">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save Feedback</button>
+      </div>
+    </form>
+  </div>
+</div>
+
     <script src="./js/common.js"></script>
+    <script>
+        // Feedback Form Handling
+document.addEventListener('DOMContentLoaded', function() {
+  const modal = document.getElementById('feedbackModal');
+  const addFeedbackBtn = document.querySelector('.btn-primary');
+  const closeModalBtn = document.getElementById('closeModal');
+  const cancelBtn = document.getElementById('cancelForm');
+  const feedbackForm = document.getElementById('feedbackForm');
+  const modalTitle = document.getElementById('modalTitle');
+  
+  // Image URL preview elements
+  const clientPreview = document.getElementById('clientPreview');
+  const logoPreview = document.getElementById('logoPreview');
+  const projectPreview = document.getElementById('projectPreview');
+  
+  // Current editing state
+  let isEditing = false;
+  let currentEditRow = null;
+  
+  // Open modal for adding new feedback
+  addFeedbackBtn.addEventListener('click', function() {
+    isEditing = false;
+    modalTitle.textContent = 'Add Feedback';
+    feedbackForm.reset();
+    resetImagePreviews();
+    
+    // Set today's date as default
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('feedbackDate').value = today;
+    
+    openModal();
+  });
+  
+  // Close modal buttons
+  closeModalBtn.addEventListener('click', closeModal);
+  cancelBtn.addEventListener('click', closeModal);
+  
+  // Close modal when clicking outside
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) {
+      closeModal();
+    }
+  });
+  
+  // Handle edit button clicks
+  document.querySelectorAll('.action-btn .fa-edit').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const row = this.closest('tr');
+      populateFormWithRowData(row);
+      isEditing = true;
+      currentEditRow = row;
+      modalTitle.textContent = 'Edit Feedback';
+      openModal();
+    });
+  });
+  
+  // Image URL preview functionality
+  document.getElementById('clientImage').addEventListener('input', function() {
+    toggleImagePreview(this, clientPreview);
+  });
+  
+  document.getElementById('companyLogo').addEventListener('input', function() {
+    toggleImagePreview(this, logoPreview);
+  });
+  
+  document.getElementById('projectImage').addEventListener('input', function() {
+    toggleImagePreview(this, projectPreview);
+  });
+  
+  // Form submission
+  feedbackForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    if (isEditing) {
+      updateFeedbackRow(currentEditRow);
+    } else {
+      addNewFeedbackRow();
+    }
+    
+    closeModal();
+  });
+  
+  function openModal() {
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  
+  function closeModal() {
+    modal.classList.remove('active');
+    document.body.style.overflow = 'auto';
+  }
+  
+  function toggleImagePreview(input, previewElement) {
+    if (input.value) {
+      previewElement.style.backgroundImage = `url(${input.value})`;
+      previewElement.classList.add('visible');
+    } else {
+      previewElement.classList.remove('visible');
+    }
+  }
+  
+  function resetImagePreviews() {
+    [clientPreview, logoPreview, projectPreview].forEach(preview => {
+      preview.classList.remove('visible');
+    });
+  }
+  
+  function populateFormWithRowData(row) {
+    const cells = row.cells;
+    
+    // Client name and image
+    const clientName = cells[0].querySelector('div:not(.user-avatar)').textContent.trim();
+    const clientInitials = cells[0].querySelector('.user-avatar').textContent.trim();
+    
+    document.getElementById('clientName').value = clientName;
+    document.getElementById('projectName').value = cells[1].textContent.trim();
+    document.getElementById('feedbackText').value = cells[2].textContent.trim();
+    
+    // Format date for input (YYYY-MM-DD)
+    const dateStr = cells[3].textContent.trim();
+    const dateObj = new Date(dateStr);
+    const formattedDate = dateObj.toISOString().split('T')[0];
+    document.getElementById('feedbackDate').value = formattedDate;
+    
+    // Reset image URLs (these would normally come from data attributes)
+    document.getElementById('clientImage').value = '';
+    document.getElementById('companyLogo').value = '';
+    document.getElementById('projectImage').value = '';
+    document.getElementById('projectLink').value = '';
+    
+    resetImagePreviews();
+  }
+  
+  function addNewFeedbackRow() {
+    const tbody = document.querySelector('.table-container tbody');
+    const formData = getFormData();
+    
+    const newRow = document.createElement('tr');
+    newRow.innerHTML = `
+      <td>
+        <div style="display: flex; align-items: center; gap: 15px;">
+          <div class="user-avatar" style="width: 35px; height: 35px; font-size: 14px;">
+            ${getInitials(formData.clientName)}
+          </div>
+          <div>${formData.clientName}</div>
+        </div>
+      </td>
+      <td>${formData.projectName}</td>
+      <td>${formData.feedbackText}</td>
+      <td>${formatDate(formData.feedbackDate)}</td>
+      <td>
+        <button class="action-btn"><i class="fas fa-edit"></i></button>
+        <button class="action-btn"><i class="fas fa-trash"></i></button>
+      </td>
+    `;
+    
+    tbody.appendChild(newRow);
+    
+    // Add event listener to the new edit button
+    newRow.querySelector('.fa-edit').addEventListener('click', function() {
+      const row = this.closest('tr');
+      populateFormWithRowData(row);
+      isEditing = true;
+      currentEditRow = row;
+      modalTitle.textContent = 'Edit Feedback';
+      openModal();
+    });
+  }
+  
+  function updateFeedbackRow(row) {
+    const formData = getFormData();
+    const cells = row.cells;
+    
+    // Update client cell
+    const avatarDiv = cells[0].querySelector('.user-avatar');
+    const nameDiv = cells[0].querySelector('div:not(.user-avatar)');
+    
+    avatarDiv.textContent = getInitials(formData.clientName);
+    nameDiv.textContent = formData.clientName;
+    
+    // Update other cells
+    cells[1].textContent = formData.projectName;
+    cells[2].textContent = formData.feedbackText;
+    cells[3].textContent = formatDate(formData.feedbackDate);
+  }
+  
+  function getFormData() {
+    return {
+      clientName: document.getElementById('clientName').value,
+      projectName: document.getElementById('projectName').value,
+      feedbackText: document.getElementById('feedbackText').value,
+      clientImage: document.getElementById('clientImage').value,
+      companyLogo: document.getElementById('companyLogo').value,
+      projectImage: document.getElementById('projectImage').value,
+      projectLink: document.getElementById('projectLink').value,
+      feedbackDate: document.getElementById('feedbackDate').value
+    };
+  }
+  
+  function getInitials(name) {
+    return name.split(' ').map(part => part[0]).join('').toUpperCase();
+  }
+  
+  function formatDate(dateString) {
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString('en-US', options);
+  }
+});
+    </script>
 </body>
 </html>
