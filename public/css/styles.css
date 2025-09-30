@@ -1001,7 +1001,7 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
 /* third section */
 
 .puls-biznesu-text {
-  font-family: 'ABeeZee';
+  font-family: 'ClashDisplay-Medium';
   font-style: normal;
   font-weight: 400;
   font-size: 200px;
@@ -1010,7 +1010,7 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
   text-align: center;
   letter-spacing: -0.04em;
   text-transform: uppercase;
-  background: linear-gradient(180deg, #FFFFFF -23.18%, #9FADBE 105.3%);
+  background: linear-gradient(180deg, #FFFFFF -23.18%, #9FADBE 75.3%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -1210,7 +1210,8 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
 .third-right img {
   max-width: 376px;
   position: relative;
-  left: -100px;
+  left: -105px;
+  top: -73px;
 }
 
 @media (max-width:1320px) {
@@ -1736,6 +1737,7 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
     border-radius: 999px !important;
     height: 70px;
     width: 70px;
+    object-fit: contain;
 }
 
 .house-owner-details {
@@ -2304,14 +2306,16 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
 }
 
 .feedback-title {
-    font-family: 'Clash Display';
+    font-family: 'ClashDisplay-Medium';
     font-style: normal;
     font-weight: 500;
     font-size: 225px;
+    leading-trim: both;
     text-align: center;
+    text-edge: cap;
     letter-spacing: -0.04em;
     text-transform: uppercase;
-    background: linear-gradient(180deg, #FFFFFF -23.18%, #9FADBE 105.3%);
+    background: linear-gradient(180deg, #FFFFFF -23.18%, #9FADBE 75.3%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -2716,7 +2720,7 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
 .sixth-description {
     font-family: 'Urbanist';
     font-style: normal;
-    font-weight: 300;
+    font-weight: 500;
     font-size: 23px;
     leading-trim: both;
     text-edge: cap;
@@ -3211,7 +3215,7 @@ footer {
 .footer-heading {
     font-family: 'Urbanist';
     font-style: normal;
-    font-weight: 500;
+    font-weight: 300;
     font-size: 60px;
     text-align: center;
     letter-spacing: -0.01em;
@@ -3224,16 +3228,17 @@ footer {
     width: 80%;
 }
 
+
 .footer-description {
     font-family: 'Urbanist';
     font-style: normal;
+    font-weight: 500;
     font-size: 20px;
     leading-trim: both;
     text-edge: cap;
     text-align: center;
     color: #FFFFFF;
 }
-
 
 .footer-cta-btn {
     display: flex;
