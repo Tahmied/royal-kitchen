@@ -41,7 +41,7 @@ async function deleteFileFromPublic(stored) {
     try {
       await fs.access(candidate); 
       await fs.unlink(candidate);
-    //   console.log('Deleted:', candidate);
+      
       return true;
     } catch (err) {
     //   console.log(`Tried ${candidate} -> ${err.code || err.message}`);
@@ -57,21 +57,17 @@ async function deleteFileFromPublic(stored) {
 export const createProject = asyncHandler(async (req, res) => {
     const { projectName, projectContent } = req.body;
 
-    // Check for required text fields
     if ([projectName, projectContent].some(field => !field)) {
         throw new ApiError(400, "Project name and content are required.");
     }
     
-    // Check for required files
     const files = req.files;
     if (!files || !files['ownerProfileImage'] || !files['homepageImages'] || files['homepageImages'].length !== 6 || !files['videoThumbnail'] || !files['video']) {
-        // Clean up uploaded files if validation fails
         const uploadedFiles = Object.values(files).flat();
         uploadedFiles.forEach(file => fs.unlinkSync(file.path));
         throw new ApiError(400, "6 homepage images, a video thumbnail, and a video file are required.");
     }
 
-    // Get file paths
     const ownerProfileImagePath = `/uploads/projects/${files['ownerProfileImage'][0].filename}`; 
     const homepageImagePaths = files['homepageImages'].map(file => `/uploads/projects/${file.filename}`);
     const videoThumbnailPath = `/uploads/projects/${files['videoThumbnail'][0].filename}`;
@@ -116,7 +112,6 @@ export const updateProject = asyncHandler(async (req, res) => {
         throw new ApiError(404, "Project not found.");
     }
 
-    // Update text fields if provided
     if (projectName) project.projectName = projectName;
     if (projectContent) project.projectContent = projectContent;
 
@@ -131,9 +126,7 @@ export const updateProject = asyncHandler(async (req, res) => {
         project.ownerProfileImagePath = `/uploads/projects/${files['ownerProfileImage'][0].filename}`;
     }
 
-    // Handle homepage image updates
     if (files && files['homepageImages']) {
-        // Delete old image files
         project.homepageImages.forEach(imagePath => {
             try {
                 fs.unlinkSync(`.${imagePath}`);
@@ -141,11 +134,9 @@ export const updateProject = asyncHandler(async (req, res) => {
                 console.warn(`Could not delete old image at .${imagePath}`);
             }
         });
-        // Save new image paths
         project.homepageImages = files['homepageImages'].map(file => `/uploads/projects/${file.filename}`);
     }
 
-    // Handle video thumbnail update
     if (files && files['videoThumbnail']) {
         if (project.videoThumbnailPath) {
             try {
@@ -157,7 +148,6 @@ export const updateProject = asyncHandler(async (req, res) => {
         project.videoThumbnailPath = `/uploads/projects/${files['videoThumbnail'][0].filename}`;
     }
 
-    // Handle video update
     if (files && files['video']) {
         if (project.videoPath) {
             try {
@@ -169,7 +159,6 @@ export const updateProject = asyncHandler(async (req, res) => {
         project.videoPath = `/uploads/projects/${files['video'][0].filename}`;
     }
     
-    // Save the updated project document
     const updatedProject = await project.save();
 
     return res.status(200).json(
@@ -187,10 +176,6 @@ export const deleteProject = asyncHandler(async (req, res) => {
     project.videoThumbnailPath,
     project.videoPath
   ].filter(Boolean);
-
-  // debug info
-//   console.log('process.cwd():', process.cwd());
-//   console.log('__dirname (controller):', __dirname);
 
   for (const fp of allFilePaths) {
     try {
