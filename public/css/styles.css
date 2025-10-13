@@ -109,6 +109,7 @@ nav {
     color: rgba(222, 235, 250, 0.62);
     margin: 1rem auto;
     width: 80%;
+    line-height: 28px;
 }
 
 .underhero {
@@ -592,6 +593,7 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
     right: -200px;
     height: 100%;
     z-index: 999999;
+    scale: 1.2;
 }
 
 @media (max-width:1024px) {
@@ -620,7 +622,7 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
     flex-direction: column;
     justify-content: space-around;
     align-items: flex-start;
-    gap: 1rem;
+    gap: 2rem;
     max-width: 600px;
 }
 
@@ -648,6 +650,7 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
     letter-spacing: 0.03em;
     text-transform: lowercase;
     color: rgba(222, 235, 250, 0.62);
+    line-height: 28px;
 }
 
 .cta-btn {
@@ -1031,7 +1034,7 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
   font-family: 'ClashDisplay-Medium';
   font-style: normal;
   font-weight: 400;
-  font-size: 200px;
+  font-size: 15vw;
   leading-trim: both;
   text-edge: cap;
   text-align: center;
@@ -1243,7 +1246,7 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
 
 @media (max-width:1320px) {
   .puls-biznesu-text {
-    font-size: 180px;
+    /* font-size: 180px; */
   }
 
   .third-container {
@@ -1259,7 +1262,7 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
 
 @media (max-width:1200px) {
   .puls-biznesu-text {
-    font-size: 150px;
+    /* font-size: 150px; */
   }
 
   .third-container {
@@ -1300,7 +1303,7 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
 
 @media (max-width:1024px) {
   .puls-biznesu-text {
-    font-size: 130px;
+    /* font-size: 130px; */
   }
 
   .shadow-overlay {
@@ -1315,7 +1318,7 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
 
 @media (max-width:900px) {
   .puls-biznesu-text {
-    font-size: 110px;
+    /* font-size: 110px; */
   }
 
   .third-container {
@@ -1340,7 +1343,7 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
 
 @media (max-width:768px) {
   .puls-biznesu-text {
-    font-size: 60px;
+    /* font-size: 60px; */
   }
 
   .third-center {
@@ -1398,13 +1401,13 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
 
 @media (max-width:400px) {
   .puls-biznesu-text {
-    font-size: 50px;
+    /* font-size: 50px; */
   }
 }
 
 @media (max-width:325px) {
   .puls-biznesu-text {
-    font-size: 45px;
+    /* font-size: 45px; */
   }
 }
 
@@ -1675,6 +1678,7 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
     width: 149px;
     height: 177px;
     border-radius: 12px;
+    object-fit: cover;
 }
 
 .fourth-video-container {
