@@ -628,3 +628,48 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+// Dynamic positioning for .layered-blur element (only for screens >= 1440px)
+function updateLayeredBlurPosition() {
+  const layeredBlur = document.querySelector('.layered-blur');
+  if (!layeredBlur) return;
+
+  const screenWidth = window.innerWidth;
+
+  // Only apply JS positioning for screens >= 1440px
+  if (screenWidth >= 1440) {
+    // For screens larger than 1440px, calculate proportionally
+    const extraWidth = screenWidth - 1440;
+    const scaleFactor = extraWidth / 1440;
+    
+    // Base values at 1440px: top: -100px, right: -200px
+    // Adjust proportionally for larger screens
+    const topValue = -100 - (scaleFactor * 50); // Gradually move up more
+    const rightValue = -200 - (scaleFactor * 80); // Gradually move right more
+    
+    // Apply the calculated values
+    layeredBlur.style.top = `${topValue}px`;
+    layeredBlur.style.right = `${rightValue}px`;
+  } else {
+    // For screens < 1440px, remove inline styles to let CSS handle it
+    layeredBlur.style.top = '';
+    layeredBlur.style.right = '';
+  }
+}
+
+// Run on page load
+updateLayeredBlurPosition();
+
+// Run on window resize with debouncing for performance
+let resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => {
+    updateLayeredBlurPosition();
+  }, 100);
+});
+
+// Optional: Run on orientation change for mobile devices
+window.addEventListener('orientationchange', () => {
+  setTimeout(updateLayeredBlurPosition, 200);
+});

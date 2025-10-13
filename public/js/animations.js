@@ -1,6 +1,6 @@
-(function() {
+(function () {
   'use strict';
-  
+
   // Configuration
   const CONFIG = {
     REMOVE_DELAYS: {
@@ -13,7 +13,7 @@
     },
     INTERSECTION_OPTIONS: {
       root: null,
-      rootMargin: '0px 0px -12% 0px',
+      rootMargin: '0px 0px -15% 0px',
       threshold: [0, 0.12, 0.25, 0.5]
     },
     PCF_TRIGGER_CLASS: 'pcf-open'
@@ -23,7 +23,7 @@
   const utils = {
     // Check if user prefers reduced motion
     prefersReducedMotion: () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches,
-    
+
     // Debounced class toggle with cleanup
     createToggler: (element, delay) => {
       let timer = null;
@@ -77,8 +77,7 @@
     },
 
     setupObservers() {
-      // Individual sections with specific configs
-      this.setupSingleSection('.second-section', CONFIG.REMOVE_DELAYS.second);
+      this.setupSingleSection('.second-section', CONFIG.REMOVE_DELAYS.second); 
       this.setupSingleSection('.third-section', CONFIG.REMOVE_DELAYS.third, {
         ...CONFIG.INTERSECTION_OPTIONS,
         rootMargin: '0px 0px -10% 0px',
@@ -87,8 +86,7 @@
       this.setupSingleSection('.fifth-section', CONFIG.REMOVE_DELAYS.fifth);
       this.setupSingleSection('.sixth-section', CONFIG.REMOVE_DELAYS.sixth);
       this.setupSingleSection('footer', CONFIG.REMOVE_DELAYS.footer);
-      
-      // Special handling for multiple .fourth-section elements
+
       this.setupFourthSections();
     },
 
@@ -110,10 +108,10 @@
 
     setupFourthSections() {
       const observedElements = new WeakSet();
-      
+
       const observer = utils.createObserver((target, isVisible) => {
         if (!target.__removeTimer) target.__removeTimer = null;
-        
+
         if (isVisible) {
           if (target.__removeTimer) {
             clearTimeout(target.__removeTimer);
@@ -201,16 +199,16 @@
     bindEvents() {
       // Delegated event for form triggers
       document.addEventListener('click', this.handleTriggerClick.bind(this));
-      
+
       // Form events
       document.addEventListener('input', this.refreshFloatingLabels.bind(this));
       document.addEventListener('change', this.refreshFloatingLabels.bind(this));
-      
+
       // Close events
       this.elements.closeBtn?.addEventListener('click', this.closeModal.bind(this));
       this.elements.cancelBtn?.addEventListener('click', this.closeModal.bind(this));
       this.elements.overlay?.addEventListener('click', this.handleOverlayClick.bind(this));
-      
+
       // Form submission
       this.elements.form?.addEventListener('submit', this.handleSubmit.bind(this));
     },
@@ -225,7 +223,7 @@
       this.elements.root?.querySelectorAll('.pcf-field').forEach(field => {
         const input = field.querySelector('input, textarea, select');
         if (!input) return;
-        
+
         const hasValue = input.value && input.value.trim() !== '';
         field.classList.toggle('pcf-has-value', hasValue);
       });
@@ -234,7 +232,7 @@
     handleTriggerClick(e) {
       const trigger = e.target.closest?.(`.${CONFIG.PCF_TRIGGER_CLASS}`);
       if (!trigger) return;
-      
+
       e.preventDefault();
       const prefill = {
         name: trigger.getAttribute('data-pcf-prefill-name') || '',
@@ -253,17 +251,17 @@
     openModal(prefill = {}) {
       this.elements.overlay?.setAttribute('aria-hidden', 'false');
       this.elements.root?.setAttribute('aria-hidden', 'false');
-      
+
       // Prefill form
       if (this.elements.form) {
         if (prefill.name && this.elements.form.name) this.elements.form.name.value = prefill.name;
         if (prefill.email && this.elements.form.email) this.elements.form.email.value = prefill.email;
         if (prefill.message && this.elements.form.message) this.elements.form.message.value = prefill.message;
       }
-      
+
       this.refreshFloatingLabels();
       this.setupFocusTrap();
-      
+
       // Focus first input after animation
       setTimeout(() => {
         const nameInput = document.getElementById('pcf-name');
@@ -274,10 +272,10 @@
     closeModal() {
       this.elements.overlay?.setAttribute('aria-hidden', 'true');
       this.elements.root?.setAttribute('aria-hidden', 'true');
-      
+
       this.removeFocusTrap();
       this.resetForm();
-      
+
       if (this.lastFocusedElement?.focus) {
         this.lastFocusedElement.focus();
       }
@@ -285,20 +283,20 @@
 
     setupFocusTrap() {
       this.lastFocusedElement = document.activeElement;
-      
+
       if (!this.elements.modal) return;
-      
+
       const focusableElements = Array.from(
         this.elements.modal.querySelectorAll(
           'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])'
         )
       ).filter(Boolean);
-      
+
       if (!focusableElements.length) return;
-      
+
       const firstElement = focusableElements[0];
       const lastElement = focusableElements[focusableElements.length - 1];
-      
+
       this.focusTrapHandler = (e) => {
         if (e.key === 'Tab') {
           if (e.shiftKey && document.activeElement === firstElement) {
@@ -313,7 +311,7 @@
           this.closeModal();
         }
       };
-      
+
       document.addEventListener('keydown', this.focusTrapHandler);
     },
 
@@ -328,34 +326,34 @@
       // Remove success card if present
       const successCard = this.elements.modal?.querySelector('.pcf-success');
       successCard?.remove();
-      
+
       // Reset form state
       if (this.elements.form) {
         this.elements.form.style.display = '';
         this.elements.form.reset();
       }
-      
+
       if (this.elements.submitBtn) {
         this.elements.submitBtn.disabled = false;
         this.elements.submitBtn.textContent = 'Send message';
       }
-      
+
       this.refreshFloatingLabels();
     },
 
     async handleSubmit(e) {
       e.preventDefault();
-      
+
       const formData = new FormData(this.elements.form);
       const name = formData.get('name')?.toString().trim();
       const email = formData.get('email')?.toString().trim();
       const message = formData.get('message')?.toString().trim();
-      
+
       if (!name || !email || !message) {
         this.shakeModal();
         return;
       }
-      
+
       await this.submitForm();
     },
 
@@ -374,18 +372,18 @@
         this.elements.submitBtn.disabled = true;
         this.elements.submitBtn.innerHTML = '<span class="pcf-spinner"></span>';
       }
-      
+
       // Simulate network delay
       await new Promise(resolve => setTimeout(resolve, 900 + Math.random() * 900));
-      
+
       this.showSuccessMessage();
     },
 
     showSuccessMessage() {
       if (!this.elements.form || !this.elements.modal) return;
-      
+
       this.elements.form.style.display = 'none';
-      
+
       const successCard = document.createElement('div');
       successCard.className = 'pcf-success pcf-full';
       successCard.innerHTML = `
@@ -399,10 +397,10 @@
           Thanks! We received your message and will reply within 1 business day. If your request is urgent, please include a phone number.
         </p>
       `;
-      
+
       this.elements.form.insertAdjacentElement('afterend', successCard);
       this.elements.closeBtn?.focus();
-      
+
       // Auto-close after delay
       setTimeout(() => {
         const fadeOut = successCard.animate([{ opacity: 1 }, { opacity: 0 }], {
@@ -436,18 +434,18 @@
 
 
 function updateHeroImage() {
-      const img = document.querySelector('.hero-image');
-      if (!img) return;
-      if (window.innerWidth <= 600) {
-          img.src = 'images/hero/hero-ain-image-mobile.png';
-      } else {
-          img.src = 'images/hero/hero image.png';
-      }
+  const img = document.querySelector('.hero-image');
+  if (!img) return;
+  if (window.innerWidth <= 600) {
+    img.src = 'images/hero/hero-ain-image-mobile.png';
+  } else {
+    img.src = 'images/hero/hero image.png';
   }
+}
 
 window.addEventListener('load', updateHeroImage);
 window.addEventListener('resize', updateHeroImage);
-    
+
 
 const slider = document.querySelector('.slider');
 const container = document.querySelector('.sixth-left-container');

@@ -576,15 +576,35 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
     margin-top: 600px;
     padding-bottom: 150px;
     position: relative;
-    overflow: hidden;
+}
+
+.overflow-hidden {
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+  padding-top: 100px;
 }
 
 .layered-blur {
   position: absolute;
-    top: -200px;
-    right: -300px;
+    top:   -100px;
+    right: -200px;
     height: 100%;
     z-index: 999999;
+}
+
+@media (max-width:1024px) {
+  .layered-blur {
+    top:   -00px;
+    right: -150px;
+}
+}
+
+@media (max-width:768px) {
+  .layered-blur {
+    display: none;
+}
 }
 
 .two-container {
@@ -1017,7 +1037,7 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
   text-align: center;
   letter-spacing: -0.04em;
   text-transform: uppercase;
-  background: linear-gradient(180deg, #FFFFFF -23.18%, #9FADBE 75.3%);
+  background: linear-gradient(180deg, #FFFFFF -23.18%, #9FADBE 85.3%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -1208,7 +1228,7 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
 
 .shadow-overlay{
   position: absolute;
-  bottom: 0;
+  bottom: -3px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 5;
@@ -1506,6 +1526,7 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
     background-color: #0B141F;
     position: relative;
     overflow: hidden;
+    padding: 2rem 0 2rem 0;
 }
 
 .fourth-overlay-shadow {
@@ -1693,12 +1714,13 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
     text-align: center;
     letter-spacing: -0.01em;
     text-transform: uppercase;
-    color: #ffffff79;
-    background-image: url('../images/section-four/fourth-video-thumbnail.png');
+    color: #ffffff91;
+    /* background-image: url('../images/section-four/fourth-video-thumbnail.png');
     background-size: cover;
     background-position: center;
     -webkit-background-clip: text;
-    background-clip: text;
+    background-clip: text; */
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
 }
 
 #reverse-project-section {
@@ -2309,7 +2331,7 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
 
 .fifth-section {
     overflow: hidden;
-    padding: 1rem 0 1rem 0;
+    padding: 1rem 0 5.5rem 0;
 }
 
 .feedback-title {
@@ -2322,7 +2344,7 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
     text-edge: cap;
     letter-spacing: -0.04em;
     text-transform: uppercase;
-    background: linear-gradient(180deg, #FFFFFF -23.18%, #9FADBE 75.3%);
+    background: linear-gradient(180deg, #FFFFFF -23.18%, #9FADBE 85.3%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -2670,7 +2692,7 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
 
 .sixth-section {
     background-color: #0B141F;
-    padding: 2rem 0 2rem 0;
+    padding: 2rem 0 5rem 0;
 }
 
 .sixth-title {
