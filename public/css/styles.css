@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@100..800&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
 
 * {
     margin: 0;
@@ -1040,7 +1040,7 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
   text-align: center;
   letter-spacing: -0.04em;
   text-transform: uppercase;
-  background: linear-gradient(180deg, #FFFFFF -23.18%, #9FADBE 85.3%);
+  background: linear-gradient(180deg, #FFFFFF -23.18%, #9FADBE 105.3%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -1080,6 +1080,19 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
     letter-spacing: 0.03em;
     text-transform: lowercase;
     color: #FFFFFF;
+    line-height: 28px;
+}
+
+.third-highlight {
+  font-family: 'Urbanist';
+  font-style: normal;
+  font-weight: 800;
+  font-size: 22px;
+  line-height: 28px;
+  leading-trim: both;
+  text-edge: cap;
+  text-transform: lowercase;
+  color: #FFFFFF;
 }
 
 .third-left {
@@ -2339,21 +2352,22 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
 }
 
 .feedback-title {
-    font-family: 'ClashDisplay-Medium';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 225px;
-    leading-trim: both;
-    text-align: center;
-    text-edge: cap;
-    letter-spacing: -0.04em;
-    text-transform: uppercase;
-    background: linear-gradient(180deg, #FFFFFF -23.18%, #9FADBE 85.3%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-fill-color: transparent;
-    margin-top: 2rem;
+  font-family: 'ClashDisplay-Medium';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 225px;
+  line-height: 175px;
+  leading-trim: both;
+  text-edge: cap;
+  text-align: center;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  background: linear-gradient(180deg, #FFFFFF -23.18%, #9FADBE 105.3%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  margin-top: 3rem;
 }
 
 .fifth-container {
@@ -2696,7 +2710,16 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
 
 .sixth-section {
     background-color: #0B141F;
-    padding: 2rem 0 5rem 0;
+    position: relative;
+    padding: 4rem 0 9rem 0;
+    overflow: hidden;
+}
+
+.sixth-overlay-shadow {
+  position: absolute;
+  left: 50%;
+  top: -10px;
+  transform: translateX(-50%);
 }
 
 .sixth-title {
@@ -2713,7 +2736,7 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
     -webkit-text-fill-color: transparent;
     background-clip: text;
     text-fill-color: transparent;
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
 }
 
 .sixth-container {
@@ -2741,24 +2764,27 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
 }
 
 .sixth-heading {
-    font-family: 'Urbanist';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 60px;
-    text-edge: cap;
-    text-transform: capitalize;
-    color: #FFFFFF;
+  font-family: 'Urbanist';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 3.8em;
+  line-height: 59px;
+  leading-trim: both;
+  text-edge: cap;
+  text-transform: capitalize;
+  color: #FFFFFF;
 }
 
 .sixth-description {
-    font-family: 'Urbanist';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 23px;
-    leading-trim: both;
-    text-edge: cap;
-    text-transform: capitalize;
-    color: #FFFFFF;
+  font-family: 'Urbanist';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 23px;
+  line-height: 28px;
+  leading-trim: both;
+  text-edge: cap;
+  text-transform: capitalize;
+  color: #FFFFFF;
 }
 
 .sixth-cta-btn {
@@ -3232,17 +3258,18 @@ footer {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 1rem;
+    gap: 2rem;
     background-image: url('../images/footer/bg.svg');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     border-radius: 30px;
-    padding: 100px 0 100px 0;
+    padding: 30px 0 70px 0;
 }
 
 .footer-top-img {
     max-width: 60%;
+    margin-bottom: 2rem;
 }
 
 .footer-heading {
@@ -3327,19 +3354,36 @@ footer {
 }
 
 .footer-last-description {
-    font-family: 'Sora';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 19px;
-    leading-trim: both;
-    text-edge: cap;
-    text-align: center;
-    text-transform: capitalize;
-    color: #0B141F;
+  font-family: 'Sora';
+font-style: normal;
+font-weight: 400;
+font-size: 19px;
+line-height: 21px;
+leading-trim: both;
+text-edge: cap;
+text-align: center;
+text-transform: capitalize;
+color: #0B141F;
+
 }
+
 
 .footer-highlight {
     font-weight: bold;
+font-family: 'Sora';
+font-style: normal;
+font-weight: 700;
+font-size: 19px;
+line-height: 21px;
+leading-trim: both;
+text-edge: cap;
+text-align: center;
+text-transform: uppercase;
+background: linear-gradient(90.5deg, #0B141F 11.09%, #1F4676 55.32%, #0B141F 91.1%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+text-fill-color: transparent;
 }
 
 @media (max-width:1200px) {
