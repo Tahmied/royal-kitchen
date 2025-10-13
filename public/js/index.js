@@ -190,7 +190,7 @@ class DynamicProjectsLoader {
         this.insertionPoint = fifthSection;
     }
 
-    renderProjects() {
+renderProjects() {
         if (!this.projects.length) {
             console.log('No projects to render');
             return;
@@ -199,6 +199,12 @@ class DynamicProjectsLoader {
         // Remove existing static sections
         const existingSections = document.querySelectorAll('.fourth-section');
         existingSections.forEach(section => section.remove());
+
+        // Remove existing contact button if it exists
+        const existingContactBtn = document.getElementById('second-cta-btn');
+        if (existingContactBtn) {
+            existingContactBtn.remove();
+        }
 
         // Create and insert new dynamic sections
         this.projects.forEach((project, index) => {
@@ -209,6 +215,9 @@ class DynamicProjectsLoader {
                 this.projectsContainer.appendChild(section);
             }
         });
+
+        // Add contact button after the last project
+        this.addContactButton();
 
         // Add video modal if not exists
         this.ensureVideoModal();
@@ -287,6 +296,37 @@ class DynamicProjectsLoader {
                 <img src="${imageSrc}" alt="">
             </div>
         `).join('');
+    }
+
+    addContactButton() {
+        // Find all fourth-sections
+        const allSections = document.querySelectorAll('.fourth-section');
+        if (allSections.length === 0) return;
+
+        // Get the last section
+        const lastSection = allSections[allSections.length - 1];
+        const lastVideoContainer = lastSection.querySelector('.fourth-video-container');
+        
+        if (!lastVideoContainer) return;
+
+        // Remove existing contact button if it exists
+        const existingContactBtn = document.getElementById('second-cta-btn');
+        if (existingContactBtn) {
+            existingContactBtn.remove();
+        }
+
+        // Create the contact button
+        const contactButton = document.createElement('button');
+        contactButton.id = 'second-cta-btn';
+        contactButton.className = 'cta-btn pcf-open';
+        contactButton.style.cssText = 'margin: -50px auto 0;';
+        contactButton.innerHTML = `
+            <p class="cta-btn-text">Contact Us</p>
+            <img src="images/hero/button-arrow.svg" alt="" class="cta-btn-arrow">
+        `;
+
+        // Insert after the video container
+        lastVideoContainer.insertAdjacentElement('afterend', contactButton);
     }
 
     ensureVideoModal() {

@@ -1722,7 +1722,7 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
 }
 
 .video-overlay-text {
-    font-family: 'Clash Display';
+    /* font-family: 'ClashDisplay-Medium';
     font-style: normal;
     font-weight: 400;
     font-size: 185px;
@@ -1731,14 +1731,32 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
     text-align: center;
     letter-spacing: -0.01em;
     text-transform: uppercase;
-    color: #ffffff91;
+    color: #ffffff91; */
     /* background-image: url('../images/section-four/fourth-video-thumbnail.png');
     background-size: cover;
     background-position: center;
     -webkit-background-clip: text;
     background-clip: text; */
-    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+    /* -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3); */
 }
+
+.video-overlay-text {
+  font-family: 'Clash Display';
+font-style: normal;
+font-weight: 400;
+font-size: 185px;
+line-height: 111px;
+leading-trim: both;
+text-edge: cap;
+text-align: center;
+letter-spacing: -0.01em;
+text-transform: uppercase;
+color: rgba(255, 255, 255, 0.601);
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+
+}
+
 
 #reverse-project-section {
     background-color:transparent;
@@ -1803,7 +1821,7 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
 }
 
 .owner-name {
-    font-family: 'Clash Display';
+    font-family: 'ClashDisplay-Medium';
     font-style: normal;
     font-weight: 600;
     font-size: 18px;
@@ -2425,6 +2443,7 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
     background-clip: text;
     text-fill-color: transparent;
     padding: 0 0 0 2rem;
+    line-height: 39px;
 }
 
 .feedback-text {
@@ -2432,6 +2451,7 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
     font-style: italic;
     font-weight: 500;
     font-size: 18px;
+    line-height: 28px;
     leading-trim: both;
     text-edge: cap;
     text-transform: lowercase;
