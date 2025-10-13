@@ -137,6 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function deleteProject(id) {
+        console.log('trying to delete')
         try {
             await apiRequest(`/admin/${id}`, {
                 method: 'DELETE'
@@ -478,16 +479,28 @@ function validateForm() {
     cancelDeleteBtn.addEventListener('click', () => hideDeleteModal());
 
     // Event delegation for table buttons
-    projectsTableBody.addEventListener('click', (event) => {
+    projectsTableBody.addEventListener('click', async (event) => {
         const target = event.target.closest('button');
         if (!target) return;
 
         const projectId = target.dataset.id;
+        console.log('Button clicked, ID:', projectId); // Debug log
 
         if (target.classList.contains('edit-btn')) {
+            console.log('Edit button clicked'); // Debug log
             showForm('edit', projectId);
         } else if (target.classList.contains('delete-btn')) {
-            showDeleteModal(projectId);
+            console.log('Delete button clicked'); // Debug log
+            
+            // Delete directly without confirmation
+            try {
+                showNotification('Deleting project...', 'info');
+                await deleteProject(projectId);
+                showNotification('Project deleted successfully!', 'success');
+                fetchProjects(); // Refresh the projects list
+            } catch (error) {
+                showNotification(error.message, 'error');
+            }
         }
     });
 
