@@ -135,7 +135,6 @@
                     <thead>
                         <tr>
                             <th>Project</th>
-                            <th>Email</th>
                             <th>Date Added</th>
                         </tr>
                     </thead>
@@ -220,13 +219,11 @@ class DashboardManager {
         this.retryAttempts = 3;
         this.retryDelay = 1000;
         this.cache = null;
-        this.cacheExpiry = 5 * 60 * 1000; // 5 minutes
+        this.cacheExpiry = 5 * 60 * 1000;
         this.lastFetch = null;
     }
 
-    /**
-     * Initialize dashboard - fetch data and render
-     */
+
     async init() {
         try {
             this.showLoading();
@@ -241,11 +238,8 @@ class DashboardManager {
         }
     }
 
-    /**
-     * Fetch dashboard data with retry logic and caching
-     */
+
     async fetchDashboardData() {
-        // Check cache first
         if (this.cache && this.lastFetch && (Date.now() - this.lastFetch < this.cacheExpiry)) {
             console.log('Using cached data');
             return this.cache;
@@ -290,9 +284,7 @@ class DashboardManager {
         }
     }
 
-    /**
-     * Render complete dashboard with data
-     */
+
     renderDashboard(data) {
         console.log('Rendering dashboard with data:', data);
         this.renderCards(data.totalCounts, data.newCounts);
@@ -302,9 +294,7 @@ class DashboardManager {
         this.renderSalesPersons(data.lastEntries.salesPersons);
     }
 
-    /**
-     * Render dashboard cards
-     */
+
     renderCards(totalCounts, newCounts) {
         console.log('Rendering cards:', totalCounts, newCounts);
         const cards = [
@@ -347,13 +337,9 @@ class DashboardManager {
         });
     }
 
-    /**
-     * Render projects table
-     */
+
     renderProjects(projects) {
         console.log('Rendering projects:', projects);
-        
-        // Find the Projects Management section specifically
         const sections = document.querySelectorAll('.management-section');
         let projectSection = null;
         
@@ -398,7 +384,6 @@ class DashboardManager {
                         </div>
                     </div>
                 </td>
-                <td>${project.videoPath ? 'Video Available' : 'N/A'}</td>
                 <td>${this.formatDate(project.createdAt)}</td>
             </tr>
         `).join('');
