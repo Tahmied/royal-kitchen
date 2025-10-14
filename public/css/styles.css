@@ -370,6 +370,8 @@ nav {
     }
 }
 
+
+
 @media (max-width:425px) {
     .underhero {
       scale: 0.9;
@@ -382,6 +384,15 @@ nav {
         scale: 0.9;
         left: 38.5%;
     }
+    .underhero {
+    top: 530px;
+    }
+}
+
+@media (max-width:400px) {
+  .underhero {
+    top: 550px;
+  }
 }
 
 
