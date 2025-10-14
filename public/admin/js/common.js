@@ -29,7 +29,7 @@ const routes = {
   Leads: '/admin/leads.html',
   Users: '/admin/sales-persons.html',
   // all other items go here as default
-  default: '/admin/example.html'
+  default: '/index.html'
 };
 
 // Attach click handlers and manage active state
