@@ -83,11 +83,11 @@
         rootMargin: '0px 0px -10% 0px',
         threshold: [0, 0.12, 0.25]
       });
-      this.setupSingleSection('.fifth-section', CONFIG.REMOVE_DELAYS.fifth);
       this.setupSingleSection('.sixth-section', CONFIG.REMOVE_DELAYS.sixth);
       this.setupSingleSection('footer', CONFIG.REMOVE_DELAYS.footer);
 
       this.setupFourthSections();
+      this.setupFifthSections(); // Add observer for multiple fifth sections
     },
 
     setupSingleSection(selector, delay, options) {
@@ -165,6 +165,67 @@
 
       mutationObserver.observe(document.body, { childList: true, subtree: true });
       this.observers.set('fourth-sections', { observer, mutationObserver });
+    },
+
+    setupFifthSections() {
+      const observedElements = new WeakSet();
+
+      const observer = utils.createObserver((target, isVisible) => {
+        if (!target.__removeTimer) target.__removeTimer = null;
+
+        if (isVisible) {
+          if (target.__removeTimer) {
+            clearTimeout(target.__removeTimer);
+            target.__removeTimer = null;
+          }
+          target.classList.add('in-view');
+        } else {
+          if (target.__removeTimer) clearTimeout(target.__removeTimer);
+          target.__removeTimer = setTimeout(() => {
+            target.classList.remove('in-view');
+            target.__removeTimer = null;
+          }, CONFIG.REMOVE_DELAYS.fifth);
+        }
+      });
+
+      const observeElements = () => {
+        document.querySelectorAll('.fifth-section').forEach(section => {
+          if (!observedElements.has(section)) {
+            observer.observe(section);
+            observedElements.add(section);
+          }
+        });
+      };
+
+      // Observe existing elements
+      observeElements();
+
+      // Watch for dynamically added elements
+      const mutationObserver = new MutationObserver(mutations => {
+        mutations.forEach(mutation => {
+          if (mutation.type === 'childList' && mutation.addedNodes.length) {
+            mutation.addedNodes.forEach(node => {
+              if (node.nodeType === 1) {
+                if (node.classList?.contains('fifth-section')) {
+                  if (!observedElements.has(node)) {
+                    observer.observe(node);
+                    observedElements.add(node);
+                  }
+                }
+                node.querySelectorAll?.('.fifth-section').forEach(section => {
+                  if (!observedElements.has(section)) {
+                    observer.observe(section);
+                    observedElements.add(section);
+                  }
+                });
+              }
+            });
+          }
+        });
+      });
+
+      mutationObserver.observe(document.body, { childList: true, subtree: true });
+      this.observers.set('fifth-sections', { observer, mutationObserver });
     }
   };
 

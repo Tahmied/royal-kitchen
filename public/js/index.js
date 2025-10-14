@@ -443,6 +443,157 @@ renderProjects() {
     }
 }
 
+// Dynamic Feedback Loader
+class DynamicFeedbackLoader {
+    constructor() {
+        this.feedbacks = [];
+        this.feedbacksContainer = null;
+        this.init();
+    }
+
+    async init() {
+        await this.fetchFeedbacks();
+        this.findFeedbacksContainer();
+        this.renderFeedbacks();
+    }
+
+    async fetchFeedbacks() {
+        try {
+            const response = await fetch('/api/v1/feedbacks/getFeedbacks');
+            const result = await response.json();
+
+            if (result.success && result.data) {
+                this.feedbacks = result.data;
+                console.log('Feedbacks loaded:', this.feedbacks);
+            } else {
+                console.error('Failed to fetch feedbacks:', result.message);
+                this.feedbacks = [];
+            }
+        } catch (error) {
+            console.error('Error fetching feedbacks:', error);
+            this.feedbacks = [];
+        }
+    }
+
+    findFeedbacksContainer() {
+        // Find the existing fifth-section (static feedback section)
+        const existingFifthSection = document.querySelector('.fifth-section');
+        
+        // Find the sixth-section to insert feedbacks before it
+        const sixthSection = document.querySelector('.sixth-section');
+        
+        if (existingFifthSection) {
+            // Store reference to parent and the section itself
+            this.feedbacksContainer = existingFifthSection.parentElement;
+            this.existingSection = existingFifthSection;
+        } else {
+            // Fallback to body if no fifth-section exists
+            this.feedbacksContainer = document.body;
+            this.existingSection = null;
+        }
+        
+        // Store the insertion point (sixth-section)
+        this.insertionPoint = sixthSection;
+    }
+
+    renderFeedbacks() {
+        if (!this.feedbacks.length) {
+            console.log('No feedbacks to render');
+            return;
+        }
+
+        // Remove the existing static feedback section
+        if (this.existingSection) {
+            this.existingSection.remove();
+        }
+
+        // Create and insert new dynamic feedback sections
+        this.feedbacks.forEach((feedback, index) => {
+            const section = this.createFeedbackSection(feedback, index);
+            
+            // Insert before sixth-section if it exists, otherwise append to container
+            if (this.insertionPoint) {
+                this.feedbacksContainer.insertBefore(section, this.insertionPoint);
+            } else {
+                this.feedbacksContainer.appendChild(section);
+            }
+        });
+    }
+
+    createFeedbackSection(feedback, index) {
+        const section = document.createElement('section');
+        section.className = 'fifth-section';
+        section.dataset.feedbackId = feedback._id;
+
+        // Extract the client name for the highlight
+        const clientName = feedback.feedbackClientName;
+        
+        // Replace the client name in feedbackText with a highlighted version
+        const highlightedText = feedback.feedbackText.replace(
+            new RegExp(clientName, 'gi'),
+            `<span class="feedback-highlight">${clientName}</span>`
+        );
+
+        // Only show "FEEDBACK" title for the first feedback
+        const feedbackTitle = index === 0 
+            ? '<p class="feedback-title">FEEDBACK</p>' 
+            : '';
+
+        section.innerHTML = `
+            ${feedbackTitle}
+            <div class="fifth-container">
+                <div class="fifth-left">
+                    <img src="${feedback.feedbackClientImagePath}" alt="${clientName}" class="fifth-left-img">
+                    <img src="images/section-five/fifth-left-img-shadow.png" alt="" class="fifth-left-shadow">
+                </div>
+                <div class="fifth-feedback">
+                    <p class="feedback-name">${clientName}</p>
+                    <p class="feedback-text">${highlightedText}</p>
+                    <img src="${feedback.feedbackLogoPath}" alt="Feedback logo" class="feedback-logo">
+                </div>
+                <div class="fifth-right">
+                    <img src="${feedback.feedbackRightImagePath}" alt="" class="fifth-right-img">
+                </div>
+            </div>
+            <button class="feedback-button" data-project-link="${feedback.projectLink}">
+                <p class="feedback-btn-text">SEE FULL PROJECT</p>
+                <img src="images/section-five/feedback-arrow.svg" alt="" class="feedback-arrow">
+            </button>
+        `;
+
+        // Add click event listener to the button
+        const button = section.querySelector('.feedback-button');
+        button.addEventListener('click', () => {
+            window.location.href = feedback.projectLink;
+        });
+
+        return section;
+    }
+}
+
+// Update the initialization to include DynamicFeedbackLoader
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', async () => {
+        new ProjectImageSwitcher();
+        const projectsLoader = new DynamicProjectsLoader();
+        
+        // Wait for projects to finish loading before loading feedbacks
+        await projectsLoader.init();
+        new DynamicFeedbackLoader();
+    });
+} else {
+    (async () => {
+        new ProjectImageSwitcher();
+        const projectsLoader = new DynamicProjectsLoader();
+        await projectsLoader.init();
+        new DynamicFeedbackLoader();
+    })();
+}
+
+window.ProjectImageSwitcher = ProjectImageSwitcher;
+window.DynamicProjectsLoader = DynamicProjectsLoader;
+window.DynamicFeedbackLoader = DynamicFeedbackLoader;
+
 // Initialize everything when DOM is ready
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {

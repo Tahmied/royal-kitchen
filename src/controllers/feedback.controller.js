@@ -57,3 +57,15 @@ export const createFeedback = asyncHandler(async (req, res) => {
         throw new ApiError(500, "Failed to create feedback", error.message);
     }
 });
+
+export const getFeedbacks = asyncHandler(async (req, res) => {
+    const feedbacks = await Feedback.find({}).sort({ createdAt: -1 });
+
+    if (!feedbacks) {
+        throw new ApiError(404, "No feedbacks found");
+    }
+
+    return res.status(200).json(
+        new ApiResponse(200, feedbacks, "Feedbacks fetched successfully")
+    );
+});
