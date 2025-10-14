@@ -73,10 +73,10 @@
                         <i class="fas fa-user-friends"></i>
                     </div>
                 </div>
-                <div class="card-value">156</div>
+                <div class="card-value">0</div>
                 <div class="card-info">
                     <i class="fas fa-envelope"></i>
-                    <span>24 New Leads</span>
+                    <span>0 New Leads</span>
                 </div>
             </div>
             
@@ -87,10 +87,10 @@
                         <i class="fas fa-users"></i>
                     </div>
                 </div>
-                <div class="card-value">8</div>
+                <div class="card-value">0</div>
                 <div class="card-info">
                     <i class="fas fa-user-shield"></i>
-                    <span>2 new Sales Persons</span>
+                    <span>0 new Sales Persons</span>
                 </div>
             </div>
 
@@ -101,10 +101,10 @@
                         <i class="fas fa-project-diagram"></i>
                     </div>
                 </div>
-                <div class="card-value">42</div>
+                <div class="card-value">0</div>
                 <div class="card-info">
                     <i class="fas fa-star"></i>
-                    <span>12 New Projects</span>
+                    <span>0 New Projects</span>
                 </div>
             </div>
             
@@ -115,10 +115,10 @@
                         <i class="fas fa-comments"></i>
                     </div>
                 </div>
-                <div class="card-value">28</div>
+                <div class="card-value">0</div>
                 <div class="card-info">
                     <i class="fas fa-exclamation-circle"></i>
-                    <span>5 New Feedback Entries</span>
+                    <span>0 New Feedback Entries</span>
                 </div>
             </div>
             
@@ -135,50 +135,12 @@
                     <thead>
                         <tr>
                             <th>Project</th>
+                            <th>Email</th>
                             <th>Date Added</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>
-                                <div style="display: flex; align-items: center; gap: 15px;">
-                                   
-                                    <div>
-                                        <div>E-commerce Platform</div>
-                                        <div style="font-size: 13px; color: var(--gray);">Web Development</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>Mar 12, 2023</td>
-                          
-                        </tr>
-                        <tr>
-                            <td>
-                                <div style="display: flex; align-items: center; gap: 15px;">
-                                  
-                                    <div>
-                                        <div>Mobile Banking App</div>
-                                        <div style="font-size: 13px; color: var(--gray);">Mobile App</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>Apr 5, 2023</td>
-                            
-                            
-                        </tr>
-                        <tr>
-                            <td>
-                                <div style="display: flex; align-items: center; gap: 15px;">
-                                  
-                                    <div>
-                                        <div>Corporate Website</div>
-                                        <div style="font-size: 13px; color: var(--gray);">Web Design</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>May 18, 2023</td>
-                           
-                        </tr>
+             
                     </tbody>
                 </table>
             </div>
@@ -199,32 +161,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>
-                                <div style="display: flex; align-items: center; gap: 15px;">
-                                    
-                                    <div>
-                                        Sarah Mitchell
-                                    </div>
-                                </div>
-                            </td>
-                          
-                       
-                            <td>Jun 10, 2023</td>
-                          
-                        </tr>
-                        <tr>
-                            <td>
-                                <div style="display: flex; align-items: center; gap: 15px;">
-                                    
-                                    <div>
-                                        Robert Johnson
-                                    </div>
-                                </div>
-                            </td>
-                          
-                            <td>Jun 3, 2023</td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -247,24 +183,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Michael Anderson</td>
-                            <td>m.anderson@email.com</td>
-                          
-                            <td>Today, 09:24 AM</td>
-                        </tr>
-                        <tr>
-                            <td>Jennifer Lopez</td>
-                            <td>jennifer@lopez.com</td>
-                           
-                            <td>Yesterday, 04:15 PM</td>
-                        </tr>
-                        <tr>
-                            <td>Thomas Wright</td>
-                            <td>+1 (555) 123-4567</td>
-                           
-                            <td>Jun 15, 2023</td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -285,30 +203,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>
-                                <div style="display: flex; align-items: center; gap: 15px;">
-                                   
-                                    <div>
-                                        John Doe
-                                    </div>
-                                </div>
-                            </td>
-                            <td>john.doe@company.com</td>
-                           
-                        </tr>
-                        <tr>
-                            <td>
-                                <div style="display: flex; align-items: center; gap: 15px;">
-                                    
-                                    <div>
-                                        Alice Smith
-                                    </div>
-                                </div>
-                            </td>
-                            <td>alice.smith@company.com</td>
-                           
-                        </tr>
+                        
                     </tbody>
                 </table>
             </div>
@@ -317,5 +212,557 @@
 
     <script src="./js/index.js"></script>
     <script src="./js/common.js"></script>
+
+<script>
+class DashboardManager {
+    constructor() {
+        this.apiEndpoint = '/api/v1/admin/getDashboardData';
+        this.retryAttempts = 3;
+        this.retryDelay = 1000;
+        this.cache = null;
+        this.cacheExpiry = 5 * 60 * 1000; // 5 minutes
+        this.lastFetch = null;
+    }
+
+    /**
+     * Initialize dashboard - fetch data and render
+     */
+    async init() {
+        try {
+            this.showLoading();
+            const data = await this.fetchDashboardData();
+            console.log('Dashboard data fetched:', data);
+            this.renderDashboard(data);
+            this.hideLoading();
+        } catch (error) {
+            this.hideLoading();
+            this.showError('Failed to load dashboard data. Please refresh the page.');
+            console.error('Dashboard initialization error:', error);
+        }
+    }
+
+    /**
+     * Fetch dashboard data with retry logic and caching
+     */
+    async fetchDashboardData() {
+        // Check cache first
+        if (this.cache && this.lastFetch && (Date.now() - this.lastFetch < this.cacheExpiry)) {
+            console.log('Using cached data');
+            return this.cache;
+        }
+
+        for (let attempt = 1; attempt <= this.retryAttempts; attempt++) {
+            try {
+                const response = await fetch(this.apiEndpoint, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include'
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+                console.log('API Response:', result);
+                
+                if (!result.success || result.statusCode !== 200) {
+                    throw new Error(result.message || 'API returned unsuccessful status');
+                }
+
+                // Cache the data
+                this.cache = result.data;
+                this.lastFetch = Date.now();
+                
+                return result.data;
+            } catch (error) {
+                console.error(`Fetch attempt ${attempt} failed:`, error);
+                
+                if (attempt === this.retryAttempts) {
+                    throw error;
+                }
+                
+                // Wait before retrying
+                await this.delay(this.retryDelay * attempt);
+            }
+        }
+    }
+
+    /**
+     * Render complete dashboard with data
+     */
+    renderDashboard(data) {
+        console.log('Rendering dashboard with data:', data);
+        this.renderCards(data.totalCounts, data.newCounts);
+        this.renderProjects(data.lastEntries.projects);
+        this.renderFeedback(data.lastEntries.feedbacks);
+        this.renderLeads(data.lastEntries.leads);
+        this.renderSalesPersons(data.lastEntries.salesPersons);
+    }
+
+    /**
+     * Render dashboard cards
+     */
+    renderCards(totalCounts, newCounts) {
+        console.log('Rendering cards:', totalCounts, newCounts);
+        const cards = [
+            {
+                selector: '.card-leads .card-value',
+                value: totalCounts.leads,
+                newSelector: '.card-leads .card-info span',
+                newText: `${newCounts.leads} New Leads`
+            },
+            {
+                selector: '.card-users .card-value',
+                value: totalCounts.salesPersons,
+                newSelector: '.card-users .card-info span',
+                newText: `${newCounts.salesPersons} new Sales Persons`
+            },
+            {
+                selector: '.card-blogs .card-value',
+                value: totalCounts.projects,
+                newSelector: '.card-blogs .card-info span',
+                newText: `${newCounts.projects} New Projects`
+            },
+            {
+                selector: '.card-feedback .card-value',
+                value: totalCounts.feedbacks,
+                newSelector: '.card-feedback .card-info span',
+                newText: `${newCounts.feedbacks} New Feedback Entries`
+            }
+        ];
+
+        cards.forEach(card => {
+            const valueElement = document.querySelector(card.selector);
+            const infoElement = document.querySelector(card.newSelector);
+            
+            if (valueElement) {
+                this.animateNumber(valueElement, card.value);
+            }
+            if (infoElement) {
+                infoElement.textContent = card.newText;
+            }
+        });
+    }
+
+    /**
+     * Render projects table
+     */
+    renderProjects(projects) {
+        console.log('Rendering projects:', projects);
+        
+        // Find the Projects Management section specifically
+        const sections = document.querySelectorAll('.management-section');
+        let projectSection = null;
+        
+        sections.forEach(section => {
+            const title = section.querySelector('.section-title');
+            if (title && title.textContent.trim() === 'Projects Management') {
+                projectSection = section;
+            }
+        });
+        
+        if (!projectSection) {
+            console.warn('Projects Management section not found');
+            return;
+        }
+        
+        const tbody = projectSection.querySelector('tbody');
+        if (!tbody) {
+            console.warn('Projects tbody not found');
+            return;
+        }
+
+        if (!projects || projects.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="3" style="text-align: center; padding: 20px; color: #999;">No projects found</td></tr>';
+            return;
+        }
+
+        tbody.innerHTML = projects.map(project => `
+            <tr>
+                <td>
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        ${project.ownerProfileImagePath ? 
+                            `<img src="${this.escapeHtml(project.ownerProfileImagePath)}" 
+                                 alt="${this.escapeHtml(project.projectName)}" 
+                                 style="width: 40px; height: 40px; border-radius: 8px; object-fit: cover;"
+                                 onerror="this.style.display='none'">` 
+                            : ''}
+                        <div>
+                            <div style="font-weight: 500;">${this.escapeHtml(project.projectName)}</div>
+                            <div style="font-size: 13px; color: #999;">
+                                ${project.homepageImages?.length || 0} Images
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td>${project.videoPath ? 'Video Available' : 'N/A'}</td>
+                <td>${this.formatDate(project.createdAt)}</td>
+            </tr>
+        `).join('');
+        
+        console.log('Projects rendered successfully');
+    }
+
+    /**
+     * Render feedback table
+     */
+    renderFeedback(feedbacks) {
+        console.log('Rendering feedback:', feedbacks);
+        
+        // Find the Feedback Management section specifically
+        const sections = document.querySelectorAll('.management-section');
+        let feedbackSection = null;
+        
+        sections.forEach(section => {
+            const title = section.querySelector('.section-title');
+            if (title && title.textContent.trim() === 'Feedback Management') {
+                feedbackSection = section;
+            }
+        });
+        
+        if (!feedbackSection) {
+            console.warn('Feedback Management section not found');
+            return;
+        }
+        
+        const tbody = feedbackSection.querySelector('tbody');
+        if (!tbody) {
+            console.warn('Feedback tbody not found');
+            return;
+        }
+
+        if (!feedbacks || feedbacks.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="2" style="text-align: center; padding: 20px; color: #999;">No feedback found</td></tr>';
+            return;
+        }
+
+        tbody.innerHTML = feedbacks.map(feedback => `
+            <tr>
+                <td>
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        ${feedback.feedbackClientImagePath ? 
+                            `<img src="${this.escapeHtml(feedback.feedbackClientImagePath)}" 
+                                 alt="${this.escapeHtml(feedback.feedbackClientName)}" 
+                                 style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;"
+                                 onerror="this.style.display='none'">` 
+                            : ''}
+                        <div style="font-weight: 500;">${this.escapeHtml(feedback.feedbackClientName)}</div>
+                    </div>
+                </td>
+                <td>${this.formatDate(feedback.createdAt)}</td>
+            </tr>
+        `).join('');
+        
+        console.log('Feedback rendered successfully');
+    }
+
+    /**
+     * Render leads table
+     */
+    renderLeads(leads) {
+        console.log('Rendering leads:', leads);
+        
+        // Find the Lead Management section specifically
+        const sections = document.querySelectorAll('.management-section');
+        let leadSection = null;
+        
+        sections.forEach(section => {
+            const title = section.querySelector('.section-title');
+            if (title && title.textContent.trim() === 'Lead Management') {
+                leadSection = section;
+            }
+        });
+        
+        if (!leadSection) {
+            console.warn('Lead Management section not found');
+            return;
+        }
+        
+        const tbody = leadSection.querySelector('tbody');
+        if (!tbody) {
+            console.warn('Lead tbody not found');
+            return;
+        }
+
+        if (!leads || leads.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="3" style="text-align: center; padding: 20px; color: #999;">No leads found</td></tr>';
+            return;
+        }
+
+        tbody.innerHTML = leads.map(lead => `
+            <tr>
+                <td style="font-weight: 500;">${this.escapeHtml(lead.name)}</td>
+                <td>${this.escapeHtml(lead.email)}</td>
+                <td>${this.formatDate(lead.createdAt)}</td>
+            </tr>
+        `).join('');
+        
+        console.log('Leads rendered successfully');
+    }
+
+    /**
+     * Render sales persons table
+     */
+    renderSalesPersons(salesPersons) {
+        console.log('Rendering sales persons:', salesPersons);
+        
+        // Find the User Management section specifically
+        const sections = document.querySelectorAll('.management-section');
+        let userSection = null;
+        
+        sections.forEach(section => {
+            const title = section.querySelector('.section-title');
+            if (title && title.textContent.trim() === 'User Management') {
+                userSection = section;
+            }
+        });
+        
+        if (!userSection) {
+            console.warn('User Management section not found');
+            return;
+        }
+        
+        const tbody = userSection.querySelector('tbody');
+        if (!tbody) {
+            console.warn('User Management tbody not found');
+            return;
+        }
+
+        if (!salesPersons || salesPersons.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="2" style="text-align: center; padding: 20px; color: #999;">No sales persons found</td></tr>';
+            return;
+        }
+
+        tbody.innerHTML = salesPersons.map(person => `
+            <tr>
+                <td>
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        ${person.dpLocalPath ? 
+                            `<img src="${this.escapeHtml(person.dpLocalPath)}" 
+                                 alt="${this.escapeHtml(person.firstName)}" 
+                                 style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;"
+                                 onerror="this.style.display='none'">` 
+                            : ''}
+                        <div style="font-weight: 500;">${this.escapeHtml(`${person.firstName} ${person.lastName}`)}</div>
+                    </div>
+                </td>
+                <td>${this.escapeHtml(person.email)}</td>
+            </tr>
+        `).join('');
+        
+        console.log('Sales persons rendered successfully');
+    }
+
+    /**
+     * Animate number counting effect
+     */
+    animateNumber(element, targetValue) {
+        const duration = 1000;
+        const startValue = 0;
+        const startTime = Date.now();
+
+        const animate = () => {
+            const currentTime = Date.now();
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            
+            const currentValue = Math.floor(startValue + (targetValue - startValue) * this.easeOutQuad(progress));
+            element.textContent = currentValue;
+
+            if (progress < 1) {
+                requestAnimationFrame(animate);
+            }
+        };
+
+        animate();
+    }
+
+    /**
+     * Easing function for smooth animation
+     */
+    easeOutQuad(t) {
+        return t * (2 - t);
+    }
+
+    /**
+     * Format date to human-readable format
+     */
+    formatDate(dateString) {
+        const date = new Date(dateString);
+        const now = new Date();
+        const diffMs = now - date;
+        const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+        if (diffDays === 0) {
+            const hours = date.getHours().toString().padStart(2, '0');
+            const minutes = date.getMinutes().toString().padStart(2, '0');
+            return `Today, ${hours}:${minutes}`;
+        } else if (diffDays === 1) {
+            const hours = date.getHours().toString().padStart(2, '0');
+            const minutes = date.getMinutes().toString().padStart(2, '0');
+            return `Yesterday, ${hours}:${minutes}`;
+        } else {
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+        }
+    }
+
+    /**
+     * Escape HTML to prevent XSS
+     */
+    escapeHtml(text) {
+        if (!text) return '';
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    /**
+     * Show loading state
+     */
+    showLoading() {
+        const mainContent = document.querySelector('.main-content');
+        if (!mainContent) return;
+
+        // Remove existing loading overlay if present
+        const existingLoading = document.getElementById('dashboard-loading');
+        if (existingLoading) {
+            existingLoading.remove();
+        }
+
+        const loadingOverlay = document.createElement('div');
+        loadingOverlay.id = 'dashboard-loading';
+        loadingOverlay.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        `;
+        loadingOverlay.innerHTML = `
+            <div style="text-align: center;">
+                <div style="border: 4px solid #f3f3f3; border-top: 4px solid #3498db; 
+                            border-radius: 50%; width: 50px; height: 50px; 
+                            animation: spin 1s linear infinite; margin: 0 auto;"></div>
+                <p style="margin-top: 15px; color: #666; font-size: 14px;">Loading dashboard...</p>
+            </div>
+        `;
+        
+        // Add keyframe animation
+        if (!document.getElementById('loading-styles')) {
+            const style = document.createElement('style');
+            style.id = 'loading-styles';
+            style.textContent = `
+                @keyframes spin {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+        
+        document.body.appendChild(loadingOverlay);
+    }
+
+    /**
+     * Hide loading state
+     */
+    hideLoading() {
+        const loading = document.getElementById('dashboard-loading');
+        if (loading) {
+            loading.remove();
+        }
+    }
+
+    /**
+     * Show error message
+     */
+    showError(message) {
+        const mainContent = document.querySelector('.main-content');
+        if (!mainContent) return;
+
+        // Remove existing error if present
+        const existingError = document.getElementById('dashboard-error');
+        if (existingError) {
+            existingError.remove();
+        }
+
+        const errorDiv = document.createElement('div');
+        errorDiv.id = 'dashboard-error';
+        errorDiv.style.cssText = `
+            background: #fee;
+            border: 1px solid #fcc;
+            color: #c33;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        `;
+        errorDiv.innerHTML = `
+            <i class="fas fa-exclamation-triangle"></i>
+            <span>${this.escapeHtml(message)}</span>
+            <button onclick="location.reload()" style="margin-left: auto; padding: 8px 16px; 
+                    background: #c33; color: white; border: none; border-radius: 4px; 
+                    cursor: pointer; font-size: 14px;">Retry</button>
+        `;
+        
+        mainContent.insertBefore(errorDiv, mainContent.firstChild);
+    }
+
+    /**
+     * Refresh dashboard data
+     */
+    async refresh() {
+        this.cache = null;
+        this.lastFetch = null;
+        await this.init();
+    }
+
+    /**
+     * Utility delay function
+     */
+    delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+}
+
+// Initialize dashboard when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeDashboard);
+} else {
+    // DOM already loaded
+    initializeDashboard();
+}
+
+function initializeDashboard() {
+    console.log('Initializing dashboard...');
+    window.dashboardManager = new DashboardManager();
+    window.dashboardManager.init();
+    
+    // Optional: Auto-refresh every 5 minutes
+    setInterval(() => {
+        console.log('Auto-refreshing dashboard...');
+        window.dashboardManager.refresh();
+    }, 5 * 60 * 1000);
+}
+
+// Optional: Refresh on visibility change
+document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && window.dashboardManager) {
+        console.log('Tab visible again, refreshing dashboard...');
+        window.dashboardManager.refresh();
+    }
+});
+</script>
 </body>
 </html>

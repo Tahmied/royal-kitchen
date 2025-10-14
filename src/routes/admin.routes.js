@@ -1,10 +1,13 @@
 import { Router } from "express";
-import { assignLead, bulkDeleteLeads, bulkUpdateLeads, checkAdminLogin, deleteLead, deleteSalesperson, editLead, exportLeads, getLeadById, getLeads, getSalespersons, loginAdmin, logout, registerAdmin, registerSalesPerson, updateSalesperson } from "../controllers/admin.controller.js";
+import { assignLead, bulkDeleteLeads, bulkUpdateLeads, checkAdminLogin, deleteLead, deleteSalesperson, editLead, exportLeads, getDashboardData, getLeadById, getLeads, getSalespersons, loginAdmin, logout, registerAdmin, registerSalesPerson, updateSalesperson } from "../controllers/admin.controller.js";
 import { getFollowUpLeads } from "../controllers/sales.controller.js";
 import { adminAuth } from "../middlewares/auth.middleware.js";
 import { mediaUpload } from "../middlewares/multer.middleware.js";
 
 const router = Router()
+
+// admin dashboard
+router.get('/getDashboardData' , adminAuth, getDashboardData)
 
 // auth routes
 router.post('/register', mediaUpload('/dp').single('avatar') , registerAdmin)
