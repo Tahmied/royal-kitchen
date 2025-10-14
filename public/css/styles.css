@@ -1718,6 +1718,8 @@ nav .nav-link:not([style*="animation"]) { animation: navFadeSlide 0.55s cubic-be
 .fourth-video-thumbnail {
     border-radius: 25px;
     width: 100%;
+    max-width: 1320px;
+    max-height: 566px;
 }
 
 .fourth-video-overlay {
