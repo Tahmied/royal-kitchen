@@ -7,6 +7,389 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./css/styles.css">
+  <style>
+    /* File Input Styling - Dark Theme */
+.form-group input[type="file"] {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.2);
+  font-size: 14px;
+  color: var(--light);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.form-group input[type="file"]:hover {
+  border-color: var(--primary);
+  background: rgba(67, 97, 238, 0.1);
+}
+
+.form-group input[type="file"]:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: rgba(67, 97, 238, 0.1);
+  box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.3);
+}
+
+/* Custom file input button */
+.form-group input[type="file"]::file-selector-button {
+  padding: 8px 16px;
+  margin-right: 12px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.form-group input[type="file"]::file-selector-button:hover {
+  background: var(--secondary);
+  transform: translateY(-2px);
+}
+
+/* Small helper text */
+.form-group small {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Required asterisk */
+.form-group label span[style*="color: #ef4444"] {
+  margin-left: 2px;
+  color: var(--danger) !important;
+}
+
+/* Form row layout */
+.form-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-row .form-group {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+/* Loading spinner */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.fa-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Action button improvements - Dark Theme */
+.action-btn {
+  padding: 8px 12px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  color: var(--light);
+}
+
+.action-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.action-btn.edit-btn:hover {
+  color: var(--primary);
+  background: rgba(67, 97, 238, 0.2);
+}
+
+.action-btn.delete-btn:hover {
+  color: var(--danger);
+  background: rgba(239, 68, 68, 0.2);
+}
+
+/* Table improvements */
+.table-container table td {
+  vertical-align: middle;
+  color: var(--light);
+}
+
+.table-container table td a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.table-container table td a:hover {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
+/* User avatar image */
+.user-avatar {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Modal improvements - Dark Theme */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+  backdrop-filter: blur(8px);
+}
+
+.modal-overlay.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-container {
+  background: var(--card-bg);
+  border-radius: 15px;
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  animation: slideUp 0.3s ease;
+}
+
+.modal-header {
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 15px 15px 0 0;
+}
+
+.modal-header h3 {
+  margin: 0;
+  color: var(--accent);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.modal-close {
+  background: transparent;
+  border: none;
+  color: var(--light);
+  font-size: 1.5rem;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.modal-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--danger);
+  transform: rotate(90deg);
+}
+
+.modal-form {
+  padding: 2rem;
+}
+
+/* File note styling */
+.file-note {
+  background: rgba(251, 191, 36, 0.15);
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  font-size: 13px;
+  color: #fbbf24;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.file-note i {
+  font-size: 16px;
+}
+
+/* Form actions */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Toast notifications - Dark Theme */
+#toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10000;
+}
+
+.toast {
+  background: var(--card-bg);
+  color: var(--light);
+  padding: 16px 20px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 320px;
+  animation: slideIn 0.3s ease-out;
+}
+
+.toast-success {
+  border-left: 4px solid var(--success);
+}
+
+.toast-success i {
+  color: var(--success);
+  font-size: 20px;
+}
+
+.toast-error {
+  border-left: 4px solid var(--danger);
+}
+
+.toast-error i {
+  color: var(--danger);
+  font-size: 20px;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+}
+
+/* Scrollbar styling for modal */
+.modal-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-container::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+.modal-container::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+
+.modal-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .form-row {
+    flex-direction: column;
+  }
+  
+  .form-row .form-group {
+    width: 100%;
+  }
+  
+  .modal-container {
+    width: 95%;
+    margin: 10px;
+    max-height: 95vh;
+  }
+  
+  .modal-header {
+    padding: 1rem 1.5rem;
+  }
+  
+  .modal-form {
+    padding: 1.5rem;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+  }
+  
+  .form-actions .btn {
+    width: 100%;
+  }
+  
+  .toast {
+    min-width: 280px;
+  }
+  
+  #toast-container {
+    right: 10px;
+    left: 10px;
+  }
+}
+  </style>
 </head>
 <body>
     <!-- Mobile Toggle Button -->
@@ -134,7 +517,7 @@
     </div>
 
 
-    <!-- Feedback Form Modal -->
+<!-- Feedback Form Modal -->
 <div class="modal-overlay" id="feedbackModal">
   <div class="modal-container">
     <div class="modal-header">
@@ -143,58 +526,46 @@
         <i class="fas fa-times"></i>
       </button>
     </div>
-    <form id="feedbackForm" class="modal-form">
+    <form id="feedbackForm" class="modal-form" enctype="multipart/form-data">
       <div class="form-row">
         <div class="form-group">
-          <label for="clientName">Client Name</label>
+          <label for="clientName">Client Name <span style="color: #ef4444;">*</span></label>
           <input type="text" id="clientName" name="clientName" required>
         </div>
         <div class="form-group">
-          <label for="projectName">Project Name</label>
-          <input type="text" id="projectName" name="projectName" required>
+          <label for="projectLink">Project Link <span style="color: #ef4444;">*</span></label>
+          <input type="url" id="projectLink" name="projectLink" placeholder="https://example.com" required>
         </div>
       </div>
       
       <div class="form-group">
-        <label for="feedbackText">Feedback</label>
+        <label for="feedbackText">Feedback Text <span style="color: #ef4444;">*</span></label>
         <textarea id="feedbackText" name="feedbackText" rows="4" required></textarea>
       </div>
       
       <div class="form-row">
         <div class="form-group">
-          <label for="clientImage">Client Image URL</label>
-          <div class="url-input-group">
-            <input type="url" id="clientImage" name="clientImage" placeholder="https://example.com/image.jpg">
-            <span class="url-preview" id="clientPreview"></span>
-          </div>
+          <label for="clientImage">Client Image <span style="color: #ef4444;">*</span></label>
+          <input type="file" id="clientImage" name="clientImage" accept="image/*">
+          <small style="color: #6b7280; font-size: 12px;">Upload client profile image</small>
         </div>
         <div class="form-group">
-          <label for="companyLogo">Company Logo URL</label>
-          <div class="url-input-group">
-            <input type="url" id="companyLogo" name="companyLogo" placeholder="https://example.com/logo.jpg">
-            <span class="url-preview" id="logoPreview"></span>
-          </div>
+          <label for="companyLogo">Company Logo <span style="color: #ef4444;">*</span></label>
+          <input type="file" id="companyLogo" name="companyLogo" accept="image/*">
+          <small style="color: #6b7280; font-size: 12px;">Upload company/brand logo</small>
         </div>
       </div>
       
       <div class="form-row">
         <div class="form-group">
-          <label for="projectImage">Project Image URL</label>
-          <div class="url-input-group">
-            <input type="url" id="projectImage" name="projectImage" placeholder="https://example.com/project.jpg">
-            <span class="url-preview" id="projectPreview"></span>
-          </div>
+          <label for="projectImage">Project Image <span style="color: #ef4444;">*</span></label>
+          <input type="file" id="projectImage" name="projectImage" accept="image/*">
+          <small style="color: #6b7280; font-size: 12px;">Upload project showcase image</small>
         </div>
-        <div class="form-group">
-          <label for="projectLink">Project Link</label>
-          <input type="url" id="projectLink" name="projectLink" placeholder="https://example.com">
-        </div>
-      </div>
-      
-      <div class="form-row">
         <div class="form-group">
           <label for="feedbackDate">Date</label>
-          <input type="date" id="feedbackDate" name="feedbackDate" required>
+          <input type="date" id="feedbackDate" name="feedbackDate">
+          <small style="color: #6b7280; font-size: 12px;">Display date (optional)</small>
         </div>
       </div>
       
@@ -207,8 +578,9 @@
 </div>
 
     <script src="./js/common.js"></script>
-    <script>
-        // Feedback Form Handling
+
+<script>
+  // Admin Feedback Management
 document.addEventListener('DOMContentLoaded', function() {
   const modal = document.getElementById('feedbackModal');
   const addFeedbackBtn = document.querySelector('.btn-primary');
@@ -216,22 +588,21 @@ document.addEventListener('DOMContentLoaded', function() {
   const cancelBtn = document.getElementById('cancelForm');
   const feedbackForm = document.getElementById('feedbackForm');
   const modalTitle = document.getElementById('modalTitle');
-  
-  // Image URL preview elements
-  const clientPreview = document.getElementById('clientPreview');
-  const logoPreview = document.getElementById('logoPreview');
-  const projectPreview = document.getElementById('projectPreview');
+  const tableBody = document.querySelector('.table-container tbody');
   
   // Current editing state
   let isEditing = false;
-  let currentEditRow = null;
+  let currentEditId = null;
+  
+  // Load all feedbacks on page load
+  loadFeedbacks();
   
   // Open modal for adding new feedback
   addFeedbackBtn.addEventListener('click', function() {
     isEditing = false;
+    currentEditId = null;
     modalTitle.textContent = 'Add Feedback';
     feedbackForm.reset();
-    resetImagePreviews();
     
     // Set today's date as default
     const today = new Date().toISOString().split('T')[0];
@@ -251,44 +622,283 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
   
-  // Handle edit button clicks
-  document.querySelectorAll('.action-btn .fa-edit').forEach(btn => {
-    btn.addEventListener('click', function() {
-      const row = this.closest('tr');
-      populateFormWithRowData(row);
-      isEditing = true;
-      currentEditRow = row;
-      modalTitle.textContent = 'Edit Feedback';
-      openModal();
-    });
-  });
-  
-  // Image URL preview functionality
-  document.getElementById('clientImage').addEventListener('input', function() {
-    toggleImagePreview(this, clientPreview);
-  });
-  
-  document.getElementById('companyLogo').addEventListener('input', function() {
-    toggleImagePreview(this, logoPreview);
-  });
-  
-  document.getElementById('projectImage').addEventListener('input', function() {
-    toggleImagePreview(this, projectPreview);
-  });
-  
   // Form submission
-  feedbackForm.addEventListener('submit', function(e) {
+  feedbackForm.addEventListener('submit', async function(e) {
     e.preventDefault();
     
     if (isEditing) {
-      updateFeedbackRow(currentEditRow);
+      await updateFeedback(currentEditId);
     } else {
-      addNewFeedbackRow();
+      await createFeedback();
     }
-    
-    closeModal();
   });
   
+  // Load all feedbacks from API
+  async function loadFeedbacks() {
+    try {
+      showLoadingState();
+      
+      const response = await fetch('/api/v1/feedbacks/getFeedbacks');
+      const result = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(result.message || 'Failed to fetch feedbacks');
+      }
+      
+      if (result.success && result.data) {
+        renderFeedbacks(result.data);
+      } else {
+        throw new Error('Invalid response format');
+      }
+    } catch (error) {
+      console.error('Error loading feedbacks:', error);
+      showError('Failed to load feedbacks: ' + error.message);
+      tableBody.innerHTML = `
+        <tr>
+          <td colspan="5" style="text-align: center; padding: 40px; color: #ef4444;">
+            <i class="fas fa-exclamation-circle" style="font-size: 24px; margin-bottom: 10px;"></i>
+            <p>Failed to load feedbacks. Please refresh the page.</p>
+          </td>
+        </tr>
+      `;
+    }
+  }
+  
+  // Render feedbacks in table
+  function renderFeedbacks(feedbacks) {
+    if (!feedbacks || feedbacks.length === 0) {
+      tableBody.innerHTML = `
+        <tr>
+          <td colspan="5" style="text-align: center; padding: 40px; color: #9ca3af;">
+            <i class="fas fa-inbox" style="font-size: 24px; margin-bottom: 10px;"></i>
+            <p>No feedbacks found. Add your first feedback!</p>
+          </td>
+        </tr>
+      `;
+      return;
+    }
+    
+    tableBody.innerHTML = '';
+    
+    feedbacks.forEach(feedback => {
+      const row = createFeedbackRow(feedback);
+      tableBody.appendChild(row);
+    });
+  }
+  
+  // Create a table row for feedback
+  function createFeedbackRow(feedback) {
+    const row = document.createElement('tr');
+    row.dataset.feedbackId = feedback._id;
+    
+    const formattedDate = formatDate(feedback.createdAt);
+    const initials = getInitials(feedback.feedbackClientName);
+    
+    row.innerHTML = `
+      <td>
+        <div style="display: flex; align-items: center; gap: 15px;">
+          <img src="${feedback.feedbackClientImagePath}" 
+               alt="${feedback.feedbackClientName}" 
+               class="user-avatar" 
+               style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover;"
+               onerror="this.outerHTML='<div class=\\'user-avatar\\' style=\\'width: 35px; height: 35px; font-size: 14px;\\'>${initials}</div>'">
+          <div>${feedback.feedbackClientName}</div>
+        </div>
+      </td>
+      <td>
+        <a href="${feedback.projectLink}" target="_blank" style="color: #3b82f6; text-decoration: none;">
+          View Project <i class="fas fa-external-link-alt" style="font-size: 10px;"></i>
+        </a>
+      </td>
+      <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+        ${feedback.feedbackText}
+      </td>
+      <td>${formattedDate}</td>
+      <td>
+        <button class="action-btn edit-btn" data-id="${feedback._id}" title="Edit">
+          <i class="fas fa-edit"></i>
+        </button>
+        <button class="action-btn delete-btn" data-id="${feedback._id}" title="Delete">
+          <i class="fas fa-trash"></i>
+        </button>
+      </td>
+    `;
+    
+    // Add event listeners
+    row.querySelector('.edit-btn').addEventListener('click', () => handleEdit(feedback));
+    row.querySelector('.delete-btn').addEventListener('click', () => handleDelete(feedback._id));
+    
+    return row;
+  }
+  
+  // Create new feedback
+  async function createFeedback() {
+    try {
+      const formData = new FormData();
+      
+      // Text fields
+      formData.append('feedbackClientName', document.getElementById('clientName').value.trim());
+      formData.append('feedbackText', document.getElementById('feedbackText').value.trim());
+      formData.append('projectLink', document.getElementById('projectLink').value.trim());
+      
+      // Image files
+      const clientImageInput = document.getElementById('clientImage');
+      const logoImageInput = document.getElementById('companyLogo');
+      const projectImageInput = document.getElementById('projectImage');
+      
+      if (!clientImageInput.files[0] || !logoImageInput.files[0] || !projectImageInput.files[0]) {
+        showError('All three images are required');
+        return;
+      }
+      
+      formData.append('feedbackClientImage', clientImageInput.files[0]);
+      formData.append('feedbackLogoImage', logoImageInput.files[0]);
+      formData.append('feedbackRightImage', projectImageInput.files[0]);
+      
+      // Show loading
+      const submitBtn = feedbackForm.querySelector('button[type="submit"]');
+      const originalText = submitBtn.textContent;
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating...';
+      
+      const response = await fetch('/api/v1/feedbacks/create-feedback', {
+        method: 'POST',
+        body: formData
+      });
+      
+      const result = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(result.message || 'Failed to create feedback');
+      }
+      
+      showSuccess('Feedback created successfully!');
+      closeModal();
+      await loadFeedbacks(); // Reload the table
+      
+    } catch (error) {
+      console.error('Error creating feedback:', error);
+      showError('Failed to create feedback: ' + error.message);
+    } finally {
+      const submitBtn = feedbackForm.querySelector('button[type="submit"]');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Save Feedback';
+    }
+  }
+  
+  // Handle edit button click
+  function handleEdit(feedback) {
+    isEditing = true;
+    currentEditId = feedback._id;
+    modalTitle.textContent = 'Edit Feedback';
+    
+    // Populate form
+    document.getElementById('clientName').value = feedback.feedbackClientName;
+    document.getElementById('feedbackText').value = feedback.feedbackText;
+    document.getElementById('projectLink').value = feedback.projectLink;
+    
+    // Note: We can't pre-fill file inputs for security reasons
+    // Show a note to the user
+    const fileNote = document.createElement('div');
+    fileNote.className = 'file-note';
+    fileNote.style.cssText = 'background: #fef3c7; padding: 10px; border-radius: 6px; margin-bottom: 15px; font-size: 13px; color: #92400e;';
+    fileNote.innerHTML = '<i class="fas fa-info-circle"></i> Leave image fields empty to keep existing images, or upload new ones to replace them.';
+    
+    const existingNote = feedbackForm.querySelector('.file-note');
+    if (existingNote) existingNote.remove();
+    
+    feedbackForm.insertBefore(fileNote, feedbackForm.firstChild);
+    
+    openModal();
+  }
+  
+  // Update feedback
+  async function updateFeedback(feedbackId) {
+    try {
+      const formData = new FormData();
+      
+      // Text fields
+      const clientName = document.getElementById('clientName').value.trim();
+      const feedbackText = document.getElementById('feedbackText').value.trim();
+      const projectLink = document.getElementById('projectLink').value.trim();
+      
+      if (clientName) formData.append('feedbackClientName', clientName);
+      if (feedbackText) formData.append('feedbackText', feedbackText);
+      if (projectLink) formData.append('projectLink', projectLink);
+      
+      // Image files (only if new files are selected)
+      const clientImageInput = document.getElementById('clientImage');
+      const logoImageInput = document.getElementById('companyLogo');
+      const projectImageInput = document.getElementById('projectImage');
+      
+      if (clientImageInput.files[0]) {
+        formData.append('feedbackClientImage', clientImageInput.files[0]);
+      }
+      if (logoImageInput.files[0]) {
+        formData.append('feedbackLogoImage', logoImageInput.files[0]);
+      }
+      if (projectImageInput.files[0]) {
+        formData.append('feedbackRightImage', projectImageInput.files[0]);
+      }
+      
+      // Show loading
+      const submitBtn = feedbackForm.querySelector('button[type="submit"]');
+      const originalText = submitBtn.textContent;
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updating...';
+      
+      const response = await fetch(`/api/v1/feedbacks/${feedbackId}`, {
+        method: 'PATCH',
+        body: formData
+      });
+      
+      const result = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(result.message || 'Failed to update feedback');
+      }
+      
+      showSuccess('Feedback updated successfully!');
+      closeModal();
+      await loadFeedbacks(); // Reload the table
+      
+    } catch (error) {
+      console.error('Error updating feedback:', error);
+      showError('Failed to update feedback: ' + error.message);
+    } finally {
+      const submitBtn = feedbackForm.querySelector('button[type="submit"]');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Save Feedback';
+    }
+  }
+  
+  // Handle delete button click
+  async function handleDelete(feedbackId) {
+    if (!confirm('Are you sure you want to delete this feedback? This action cannot be undone.')) {
+      return;
+    }
+    
+    try {
+      const response = await fetch(`/api/v1/feedbacks/${feedbackId}`, {
+        method: 'DELETE'
+      });
+      
+      const result = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(result.message || 'Failed to delete feedback');
+      }
+      
+      showSuccess('Feedback deleted successfully!');
+      await loadFeedbacks(); // Reload the table
+      
+    } catch (error) {
+      console.error('Error deleting feedback:', error);
+      showError('Failed to delete feedback: ' + error.message);
+    }
+  }
+  
+  // Utility functions
   function openModal() {
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
@@ -297,124 +907,120 @@ document.addEventListener('DOMContentLoaded', function() {
   function closeModal() {
     modal.classList.remove('active');
     document.body.style.overflow = 'auto';
+    feedbackForm.reset();
+    
+    // Remove file note if exists
+    const fileNote = feedbackForm.querySelector('.file-note');
+    if (fileNote) fileNote.remove();
+    
+    isEditing = false;
+    currentEditId = null;
   }
   
-  function toggleImagePreview(input, previewElement) {
-    if (input.value) {
-      previewElement.style.backgroundImage = `url(${input.value})`;
-      previewElement.classList.add('visible');
-    } else {
-      previewElement.classList.remove('visible');
-    }
-  }
-  
-  function resetImagePreviews() {
-    [clientPreview, logoPreview, projectPreview].forEach(preview => {
-      preview.classList.remove('visible');
-    });
-  }
-  
-  function populateFormWithRowData(row) {
-    const cells = row.cells;
-    
-    // Client name and image
-    const clientName = cells[0].querySelector('div:not(.user-avatar)').textContent.trim();
-    const clientInitials = cells[0].querySelector('.user-avatar').textContent.trim();
-    
-    document.getElementById('clientName').value = clientName;
-    document.getElementById('projectName').value = cells[1].textContent.trim();
-    document.getElementById('feedbackText').value = cells[2].textContent.trim();
-    
-    // Format date for input (YYYY-MM-DD)
-    const dateStr = cells[3].textContent.trim();
-    const dateObj = new Date(dateStr);
-    const formattedDate = dateObj.toISOString().split('T')[0];
-    document.getElementById('feedbackDate').value = formattedDate;
-    
-    // Reset image URLs (these would normally come from data attributes)
-    document.getElementById('clientImage').value = '';
-    document.getElementById('companyLogo').value = '';
-    document.getElementById('projectImage').value = '';
-    document.getElementById('projectLink').value = '';
-    
-    resetImagePreviews();
-  }
-  
-  function addNewFeedbackRow() {
-    const tbody = document.querySelector('.table-container tbody');
-    const formData = getFormData();
-    
-    const newRow = document.createElement('tr');
-    newRow.innerHTML = `
-      <td>
-        <div style="display: flex; align-items: center; gap: 15px;">
-          <div class="user-avatar" style="width: 35px; height: 35px; font-size: 14px;">
-            ${getInitials(formData.clientName)}
-          </div>
-          <div>${formData.clientName}</div>
-        </div>
-      </td>
-      <td>${formData.projectName}</td>
-      <td>${formData.feedbackText}</td>
-      <td>${formatDate(formData.feedbackDate)}</td>
-      <td>
-        <button class="action-btn"><i class="fas fa-edit"></i></button>
-        <button class="action-btn"><i class="fas fa-trash"></i></button>
-      </td>
+  function showLoadingState() {
+    tableBody.innerHTML = `
+      <tr>
+        <td colspan="5" style="text-align: center; padding: 40px;">
+          <i class="fas fa-spinner fa-spin" style="font-size: 24px; color: #3b82f6;"></i>
+          <p style="margin-top: 10px; color: #6b7280;">Loading feedbacks...</p>
+        </td>
+      </tr>
     `;
-    
-    tbody.appendChild(newRow);
-    
-    // Add event listener to the new edit button
-    newRow.querySelector('.fa-edit').addEventListener('click', function() {
-      const row = this.closest('tr');
-      populateFormWithRowData(row);
-      isEditing = true;
-      currentEditRow = row;
-      modalTitle.textContent = 'Edit Feedback';
-      openModal();
-    });
-  }
-  
-  function updateFeedbackRow(row) {
-    const formData = getFormData();
-    const cells = row.cells;
-    
-    // Update client cell
-    const avatarDiv = cells[0].querySelector('.user-avatar');
-    const nameDiv = cells[0].querySelector('div:not(.user-avatar)');
-    
-    avatarDiv.textContent = getInitials(formData.clientName);
-    nameDiv.textContent = formData.clientName;
-    
-    // Update other cells
-    cells[1].textContent = formData.projectName;
-    cells[2].textContent = formData.feedbackText;
-    cells[3].textContent = formatDate(formData.feedbackDate);
-  }
-  
-  function getFormData() {
-    return {
-      clientName: document.getElementById('clientName').value,
-      projectName: document.getElementById('projectName').value,
-      feedbackText: document.getElementById('feedbackText').value,
-      clientImage: document.getElementById('clientImage').value,
-      companyLogo: document.getElementById('companyLogo').value,
-      projectImage: document.getElementById('projectImage').value,
-      projectLink: document.getElementById('projectLink').value,
-      feedbackDate: document.getElementById('feedbackDate').value
-    };
   }
   
   function getInitials(name) {
-    return name.split(' ').map(part => part[0]).join('').toUpperCase();
+    return name.split(' ').map(part => part[0]).join('').toUpperCase().slice(0, 2);
   }
   
   function formatDate(dateString) {
     const options = { year: 'numeric', month: 'short', day: 'numeric' };
     return new Date(dateString).toLocaleDateString('en-US', options);
   }
+  
+  function showSuccess(message) {
+    showToast(message, 'success');
+  }
+  
+  function showError(message) {
+    showToast(message, 'error');
+  }
+  
+  function showToast(message, type = 'success') {
+    // Create toast container if it doesn't exist
+    let toastContainer = document.getElementById('toast-container');
+    if (!toastContainer) {
+      toastContainer = document.createElement('div');
+      toastContainer.id = 'toast-container';
+      toastContainer.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 10000;
+      `;
+      document.body.appendChild(toastContainer);
+    }
+    
+    // Create toast element
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.style.cssText = `
+      background: ${type === 'success' ? '#10b981' : '#ef4444'};
+      color: white;
+      padding: 16px 20px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 300px;
+      animation: slideIn 0.3s ease-out;
+    `;
+    
+    const icon = type === 'success' ? 'check-circle' : 'exclamation-circle';
+    toast.innerHTML = `
+      <i class="fas fa-${icon}" style="font-size: 18px;"></i>
+      <span>${message}</span>
+    `;
+    
+    toastContainer.appendChild(toast);
+    
+    // Auto remove after 4 seconds
+    setTimeout(() => {
+      toast.style.animation = 'slideOut 0.3s ease-out';
+      setTimeout(() => toast.remove(), 300);
+    }, 4000);
+  }
+  
+  // Add animation styles
+  if (!document.getElementById('toast-styles')) {
+    const style = document.createElement('style');
+    style.id = 'toast-styles';
+    style.textContent = `
+      @keyframes slideIn {
+        from {
+          transform: translateX(400px);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+      @keyframes slideOut {
+        from {
+          transform: translateX(0);
+          opacity: 1;
+        }
+        to {
+          transform: translateX(400px);
+          opacity: 0;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+  }
 });
-    </script>
+</script>
 </body>
 </html>

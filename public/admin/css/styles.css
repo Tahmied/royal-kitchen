@@ -620,6 +620,7 @@
   display: flex;
   gap: 20px;
   margin-bottom: 20px;
+  margin-top: 10px;
 }
 
 .form-group {

@@ -69,3 +69,105 @@ export const getFeedbacks = asyncHandler(async (req, res) => {
         new ApiResponse(200, feedbacks, "Feedbacks fetched successfully")
     );
 });
+
+export const updateFeedback = asyncHandler(async (req, res) => {
+    const { feedbackId } = req.params;
+    const { feedbackClientName, feedbackText, projectLink } = req.body;
+
+    if (!feedbackId) {
+        throw new ApiError(400, "Feedback ID is required");
+    }
+
+    const oldFeedback = await Feedback.findById(feedbackId);
+    if (!oldFeedback) {
+        throw new ApiError(404, "Feedback not found");
+    }
+
+    const updateData = {};
+    if (feedbackClientName && feedbackClientName.trim() !== "") {
+        updateData.feedbackClientName = feedbackClientName;
+    }
+    if (feedbackText && feedbackText.trim() !== "") {
+        updateData.feedbackText = feedbackText;
+    }
+    if (projectLink && projectLink.trim() !== "") {
+        updateData.projectLink = projectLink;
+    }
+
+    const oldImagePaths = [];
+
+    if (req.files) {
+        if (req.files.feedbackClientImage) {
+            updateData.feedbackClientImagePath = `/uploads/feedback/${req.files.feedbackClientImage[0].filename}`;
+            oldImagePaths.push(oldFeedback.feedbackClientImagePath);
+        }
+        if (req.files.feedbackLogoImage) {
+            updateData.feedbackLogoPath = `/uploads/feedback/${req.files.feedbackLogoImage[0].filename}`;
+            oldImagePaths.push(oldFeedback.feedbackLogoPath);
+        }
+        if (req.files.feedbackRightImage) {
+            updateData.feedbackRightImagePath = `/uploads/feedback/${req.files.feedbackRightImage[0].filename}`;
+            oldImagePaths.push(oldFeedback.feedbackRightImagePath);
+        }
+    }
+
+    const updatedFeedback = await Feedback.findByIdAndUpdate(
+        feedbackId,
+        { $set: updateData },
+        { new: true } 
+    );
+
+    if (!updatedFeedback) {
+        throw new ApiError(500, "Failed to update feedback in the database");
+    }
+
+    oldImagePaths.forEach(path => {
+        const fullPath = `./public${path}`;
+        fs.unlink(fullPath, (err) => {
+            if (err) console.error(`Failed to delete old image: ${fullPath}`, err);
+        });
+    });
+
+    return res.status(200).json(
+        new ApiResponse(200, updatedFeedback, "Feedback updated successfully")
+    );
+});
+
+export const deleteFeedback = asyncHandler(async (req, res) => {
+    const { feedbackId } = req.params;
+
+    if (!feedbackId) {
+        throw new ApiError(400, "Feedback ID is required");
+    }
+
+    const feedbackToDelete = await Feedback.findById(feedbackId);
+
+    if (!feedbackToDelete) {
+        throw new ApiError(404, "Feedback not found");
+    }
+
+    const imagePathsToDelete = [
+        feedbackToDelete.feedbackClientImagePath,
+        feedbackToDelete.feedbackLogoPath,
+        feedbackToDelete.feedbackRightImagePath
+    ];
+
+    const deleteResult = await Feedback.findByIdAndDelete(feedbackId);
+
+    if (!deleteResult) {
+        throw new ApiError(500, "Failed to delete feedback from the database");
+    }
+
+    imagePathsToDelete.forEach(path => {
+        if (path) {
+            const fullPath = `./public/${path}`;
+            fs.unlink(fullPath, (err) => {
+                if (err) console.error(`Failed to delete image file: ${fullPath}`, err);
+            });
+        }
+    });
+
+    return res.status(200).json(
+        new ApiResponse(200, {}, "Feedback deleted successfully")
+    );
+});

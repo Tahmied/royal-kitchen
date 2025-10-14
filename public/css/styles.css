@@ -2473,8 +2473,13 @@ color: rgba(255, 255, 255, 0.601);
 }
 
 .fifth-right-img {
-    border-radius: 15px;
+  border-radius: 15px;
+  max-width: 427px;
+  max-height: 528px;
 }
+
+
+
 
 .feedback-button {
     display: flex;
