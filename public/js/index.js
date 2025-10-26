@@ -280,9 +280,9 @@ renderProjects() {
             <div class="fourth-video-container" data-video-path="${project.videoPath}">
                 <img src="${project.videoThumbnailPath}" alt="" class="fourth-video-thumbnail">
                 <div class="fourth-video-overlay">
-                    <p class="video-overlay-text">PLAY</p>
+                    <p style="background-image: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)), url('${project.videoThumbnailPath}');" class="video-overlay-text">PLAY</p>
                     <img src="images/section-four/video-play-icon.svg" alt="" class="video-play-icon">
-                    <p class="video-overlay-text">VIDEO</p>
+                    <p style="background-image: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)), url('${project.videoThumbnailPath}');" class="video-overlay-text">VIDEO</p>
                 </div>
             </div>
         `;

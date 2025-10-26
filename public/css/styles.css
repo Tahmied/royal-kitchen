@@ -1814,26 +1814,7 @@ nav .nav-link:not([style*="animation"]) {
 }
 
 .video-overlay-text {
-  /* font-family: 'ClashDisplay-Medium';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 185px;
-    leading-trim: both;
-    text-edge: cap;
-    text-align: center;
-    letter-spacing: -0.01em;
-    text-transform: uppercase;
-    color: #ffffff91; */
-  /* background-image: url('../images/section-four/fourth-video-thumbnail.png');
-    background-size: cover;
-    background-position: center;
-    -webkit-background-clip: text;
-    background-clip: text; */
-  /* -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3); */
-}
-
-.video-overlay-text {
-  font-family: 'ClashDisplay-Medium';
+  font-family: 'ClashDisplay-Regular';
   font-style: normal;
   font-weight: 400;
   font-size: 185px;
@@ -1843,10 +1824,18 @@ nav .nav-link:not([style*="animation"]) {
   text-align: center;
   letter-spacing: -0.01em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.601);
+  background-size: contain;
+  background-position: center;
+  -webkit-user-select: none;
+  user-select: none;
+  filter: brightness(1.4);
+  background-attachment: fixed;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
   text-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
   -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
-
 }
 
 
