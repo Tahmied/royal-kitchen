@@ -1818,7 +1818,6 @@ nav .nav-link:not([style*="animation"]) {
   font-style: normal;
   font-weight: 400;
   font-size: 185px;
-  line-height: 111px;
   leading-trim: both;
   text-edge: cap;
   text-align: center;
@@ -1829,7 +1828,6 @@ nav .nav-link:not([style*="animation"]) {
   -webkit-user-select: none;
   user-select: none;
   filter: brightness(1.4);
-  background-attachment: fixed;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
