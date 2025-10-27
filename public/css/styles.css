@@ -2082,6 +2082,16 @@ nav .nav-link:not([style*="animation"]) {
 
 }
 
+@media (min-width:768px) and (max-width:1024px) {
+  .pinned-project-img {
+    clip-path: none;
+  }
+
+  .project-pinned-pic-btn {
+    display: none;
+  }
+}
+
 @media (max-width:980px) {
   .video-play-icon {
     width: 90px;
