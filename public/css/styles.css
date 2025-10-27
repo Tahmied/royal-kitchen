@@ -2315,6 +2315,38 @@ nav .nav-link:not([style*="animation"]) {
   }
 }
 
+/* Fix for pinned image swap - maintains dimensions when image changes */
+.pinned-project-img {
+  display: block !important;
+  width: 100% !important;
+  max-width: 985px !important;
+  min-height: 566px !important;
+  height: 566px !important;
+  object-fit: cover !important;
+}
+
+/* Responsive fixed heights to match your original design */
+@media (max-width: 1350px) {
+  .pinned-project-img {
+    min-height: 466px !important;
+    height: 466px !important;
+  }
+}
+
+@media (max-width: 1200px) {
+  .pinned-project-img {
+    min-height: 546px !important;
+    height: 546px !important;
+  }
+}
+
+@media (max-width: 1024px) {
+  .pinned-project-img {
+    height: auto !important;
+    min-height: auto !important;
+  }
+}
+
 /* footer animations */
 .fourth-section .fourth-heading,
 .fourth-section .fourth-left,
