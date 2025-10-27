@@ -1837,7 +1837,6 @@ nav .nav-link:not([style*="animation"]) {
   background-clip: text;
   color: transparent;
   -webkit-text-fill-color: transparent;
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
 }
 
 
@@ -2220,6 +2219,13 @@ nav .nav-link:not([style*="animation"]) {
 @media (max-width:360px) {
   .fourth-video-thumbnail {
     width: 100%;
+  }
+}
+
+@media (max-width:330px) {
+  .fourth-right {
+    scale: 0.9;
+    margin-top: -2rem;
   }
 }
 
