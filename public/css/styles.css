@@ -1614,7 +1614,6 @@ nav .nav-link:not([style*="animation"]) {
 .fourth-overlay-shadow {
   position: absolute;
   left: 50%;
-  top: -10px;
   transform: translateX(-50%);
   width: 100%;
 }
@@ -1643,7 +1642,7 @@ nav .nav-link:not([style*="animation"]) {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-fill-color: transparent;
-  margin: 2rem;
+  margin-bottom: 2rem;
 }
 
 .fourth-left {
