@@ -19,7 +19,7 @@ class ProjectImageSwitcher {
 
     initializeSection(section) {
         const thumbnails = section.querySelectorAll('.other-project-imgs');
-        
+
         thumbnails.forEach(thumbnail => {
             this.updateThumbnailOverlay(thumbnail);
         });
@@ -27,17 +27,17 @@ class ProjectImageSwitcher {
 
     handleImageClick(event) {
         const clickedThumbnail = event.target.closest('.other-project-imgs');
-        
+
         if (!clickedThumbnail) return;
-        
+
         const section = clickedThumbnail.closest('.fourth-section');
         const pinnedImg = section.querySelector('.pinned-project-img');
         const clickedImg = clickedThumbnail.querySelector('img');
-        
+
         if (!section || !pinnedImg || !clickedImg) return;
-        
+
         if (clickedThumbnail.id === 'active-project-img') return;
-        
+
         this.switchImages(section, pinnedImg, clickedImg, clickedThumbnail);
     }
 
@@ -45,47 +45,47 @@ class ProjectImageSwitcher {
         const currentActive = section.querySelector('#active-project-img');
         const currentPinnedSrc = pinnedImg.src;
         const newPinnedSrc = clickedImg.src;
-        
+
         pinnedImg.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
         clickedImg.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
-        
+
         pinnedImg.style.opacity = '0';
         pinnedImg.style.transform = 'scale(0.95)';
-        
+
         clickedImg.style.opacity = '0';
         clickedImg.style.transform = 'scale(1.05)';
-        
+
         setTimeout(() => {
             pinnedImg.src = newPinnedSrc;
-            
+
             if (currentActive && currentActive !== clickedThumbnail) {
                 const currentActiveImg = currentActive.querySelector('img');
                 if (currentActiveImg) {
                     currentActiveImg.src = currentPinnedSrc;
                 }
             }
-            
+
             if (currentActive) {
                 currentActive.removeAttribute('id');
             }
             clickedThumbnail.id = 'active-project-img';
-            
+
             const allThumbnails = section.querySelectorAll('.other-project-imgs');
             allThumbnails.forEach(thumbnail => {
                 this.updateThumbnailOverlay(thumbnail);
             });
-            
+
             pinnedImg.style.opacity = '1';
             pinnedImg.style.transform = 'scale(1)';
             clickedImg.style.opacity = '1';
             clickedImg.style.transform = 'scale(1)';
-            
+
             setTimeout(() => {
                 pinnedImg.style.transition = '';
                 clickedImg.style.transition = '';
             }, 300);
-            
-        }, 150); 
+
+        }, 150);
     }
 
     updateThumbnailOverlay(thumbnail) {
@@ -93,7 +93,7 @@ class ProjectImageSwitcher {
         if (existingOverlay) {
             existingOverlay.remove();
         }
-        
+
         if (thumbnail.id !== 'active-project-img') {
             const overlay = document.createElement('div');
             overlay.className = 'thumbnail-overlay';
@@ -109,15 +109,15 @@ class ProjectImageSwitcher {
                 transition: opacity 0.2s ease;
                 z-index: 1;
             `;
-            
+
             overlay.addEventListener('mouseenter', () => {
                 overlay.style.opacity = '0.2';
             });
-            
+
             overlay.addEventListener('mouseleave', () => {
                 overlay.style.opacity = '1';
             });
-            
+
             thumbnail.style.position = 'relative';
             thumbnail.appendChild(overlay);
         }
@@ -169,7 +169,7 @@ class DynamicProjectsLoader {
         try {
             const response = await fetch('/api/v1/projects/public');
             const result = await response.json();
-            
+
             if (result.success && result.data) {
                 this.projects = result.data;
                 console.log('Projects loaded:', this.projects);
@@ -190,7 +190,7 @@ class DynamicProjectsLoader {
         this.insertionPoint = fifthSection;
     }
 
-renderProjects() {
+    renderProjects() {
         if (!this.projects.length) {
             console.log('No projects to render');
             return;
@@ -225,11 +225,11 @@ renderProjects() {
 
     createProjectSection(project, index) {
         const isReverse = index % 2 !== 0;
-        
+
         const section = document.createElement('section');
         section.className = 'fourth-section';
         section.dataset.projectId = project._id;
-        
+
         if (isReverse) {
             section.id = 'reverse-project-section';
         }
@@ -251,6 +251,7 @@ renderProjects() {
 
         section.innerHTML = `
             ${shadowOverlay}
+            <div class="fourth-section-container">
             ${heading}
             <div class="${containerClass}" ${containerId}>
                 <div class="fourth-left">
@@ -285,6 +286,7 @@ renderProjects() {
                     <p style="background-image: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)), url('${project.videoThumbnailPath}');" class="video-overlay-text">VIDEO</p>
                 </div>
             </div>
+        </div>
         `;
 
         return section;
@@ -306,7 +308,7 @@ renderProjects() {
         // Get the last section
         const lastSection = allSections[allSections.length - 1];
         const lastVideoContainer = lastSection.querySelector('.fourth-video-container');
-        
+
         if (!lastVideoContainer) return;
 
         // Remove existing contact button if it exists
@@ -360,28 +362,28 @@ renderProjects() {
         const openVideoModal = (event) => {
             const videoContainer = event.currentTarget;
             const videoPath = videoContainer.dataset.videoPath;
-            
+
             if (!videoPath) {
                 console.error('No video path found for this project');
                 return;
             }
-            
+
             // Set the video source and load it
             videoSource.src = videoPath;
             videoElement.load();
-            
+
             // Show the modal
             videoModal.setAttribute('aria-hidden', 'false');
             document.body.style.overflow = 'hidden';
-            
+
             // Play the video when it's ready
-            const playVideo = function() {
+            const playVideo = function () {
                 videoElement.play().catch(error => {
                     console.log('Auto-play prevented:', error);
                 });
                 videoElement.removeEventListener('canplay', playVideo);
             };
-            
+
             videoElement.addEventListener('canplay', playVideo);
         };
 
@@ -398,13 +400,13 @@ renderProjects() {
             const clickedElement = event.target.closest('.fourth-video-container, .fourth-video-overlay');
             if (clickedElement) {
                 event.preventDefault();
-                
+
                 // Find the video container that has the data-video-path attribute
                 let videoContainer = clickedElement;
                 if (clickedElement.classList.contains('fourth-video-overlay')) {
                     videoContainer = clickedElement.closest('.fourth-video-container');
                 }
-                
+
                 if (videoContainer) {
                     openVideoModal({ currentTarget: videoContainer });
                 }
@@ -415,9 +417,9 @@ renderProjects() {
         if (videoCloseBtn) {
             videoCloseBtn.addEventListener('click', closeVideoModal);
         }
-        
+
         if (videoOverlay) {
-            videoOverlay.addEventListener('click', function(e) {
+            videoOverlay.addEventListener('click', function (e) {
                 if (e.target === videoOverlay) {
                     closeVideoModal();
                 }
@@ -425,7 +427,7 @@ renderProjects() {
         }
 
         // Close modal with Escape key
-        document.addEventListener('keydown', function(e) {
+        document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape' && videoModal && videoModal.getAttribute('aria-hidden') === 'false') {
                 closeVideoModal();
             }
@@ -433,7 +435,7 @@ renderProjects() {
 
         // Reset video when modal is closed
         if (videoModal) {
-            videoModal.addEventListener('transitionend', function(e) {
+            videoModal.addEventListener('transitionend', function (e) {
                 if (e.propertyName === 'opacity' && videoModal.getAttribute('aria-hidden') === 'true') {
                     videoElement.pause();
                     videoElement.currentTime = 0;
@@ -478,10 +480,10 @@ class DynamicFeedbackLoader {
     findFeedbacksContainer() {
         // Find the existing fifth-section (static feedback section)
         const existingFifthSection = document.querySelector('.fifth-section');
-        
+
         // Find the sixth-section to insert feedbacks before it
         const sixthSection = document.querySelector('.sixth-section');
-        
+
         if (existingFifthSection) {
             // Store reference to parent and the section itself
             this.feedbacksContainer = existingFifthSection.parentElement;
@@ -491,7 +493,7 @@ class DynamicFeedbackLoader {
             this.feedbacksContainer = document.body;
             this.existingSection = null;
         }
-        
+
         // Store the insertion point (sixth-section)
         this.insertionPoint = sixthSection;
     }
@@ -510,7 +512,7 @@ class DynamicFeedbackLoader {
         // Create and insert new dynamic feedback sections
         this.feedbacks.forEach((feedback, index) => {
             const section = this.createFeedbackSection(feedback, index);
-            
+
             // Insert before sixth-section if it exists, otherwise append to container
             if (this.insertionPoint) {
                 this.feedbacksContainer.insertBefore(section, this.insertionPoint);
@@ -527,7 +529,7 @@ class DynamicFeedbackLoader {
 
         // Extract the client name for the highlight
         const clientName = feedback.feedbackClientName;
-        
+
         // Replace the client name in feedbackText with a highlighted version
         const highlightedText = feedback.feedbackText.replace(
             new RegExp(clientName, 'gi'),
@@ -535,8 +537,8 @@ class DynamicFeedbackLoader {
         );
 
         // Only show "FEEDBACK" title for the first feedback
-        const feedbackTitle = index === 0 
-            ? '<p class="feedback-title">FEEDBACK</p>' 
+        const feedbackTitle = index === 0
+            ? '<p class="feedback-title">FEEDBACK</p>'
             : '';
 
         section.innerHTML = `
@@ -576,8 +578,7 @@ if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', async () => {
         new ProjectImageSwitcher();
         const projectsLoader = new DynamicProjectsLoader();
-        
-        // Wait for projects to finish loading before loading feedbacks
+
         await projectsLoader.init();
         new DynamicFeedbackLoader();
     });
@@ -734,7 +735,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (overlay) overlay.setAttribute('aria-hidden', 'true');
         if (modal) modal.setAttribute('aria-hidden', 'true');
     }
-    
+
     function openModal() {
         if (overlay) overlay.setAttribute('aria-hidden', 'false');
         if (modal) modal.setAttribute('aria-hidden', 'false');
@@ -822,30 +823,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Dynamic positioning for .layered-blur element (only for screens >= 1440px)
 function updateLayeredBlurPosition() {
-  const layeredBlur = document.querySelector('.layered-blur');
-  if (!layeredBlur) return;
+    const layeredBlur = document.querySelector('.layered-blur');
+    if (!layeredBlur) return;
 
-  const screenWidth = window.innerWidth;
+    const screenWidth = window.innerWidth;
 
-  // Only apply JS positioning for screens >= 1440px
-  if (screenWidth >= 1440) {
-    // For screens larger than 1440px, calculate proportionally
-    const extraWidth = screenWidth - 1440;
-    const scaleFactor = extraWidth / 1440;
-    
-    // Base values at 1440px: top: -100px, right: -200px
-    // Adjust proportionally for larger screens
-    const topValue = -100 - (scaleFactor * 50); // Gradually move up more
-    const rightValue = -200 - (scaleFactor * 80); // Gradually move right more
-    
-    // Apply the calculated values
-    layeredBlur.style.top = `${topValue}px`;
-    layeredBlur.style.right = `${rightValue}px`;
-  } else {
-    // For screens < 1440px, remove inline styles to let CSS handle it
-    layeredBlur.style.top = '';
-    layeredBlur.style.right = '';
-  }
+    // Only apply JS positioning for screens >= 1440px
+    if (screenWidth >= 1440) {
+        // For screens larger than 1440px, calculate proportionally
+        const extraWidth = screenWidth - 1440;
+        const scaleFactor = extraWidth / 1440;
+
+        // Base values at 1440px: top: -100px, right: -200px
+        // Adjust proportionally for larger screens
+        const topValue = -100 - (scaleFactor * 50); // Gradually move up more
+        const rightValue = -200 - (scaleFactor * 80); // Gradually move right more
+
+        // Apply the calculated values
+        layeredBlur.style.top = `${topValue}px`;
+        layeredBlur.style.right = `${rightValue}px`;
+    } else {
+        // For screens < 1440px, remove inline styles to let CSS handle it
+        layeredBlur.style.top = '';
+        layeredBlur.style.right = '';
+    }
 }
 
 // Run on page load
@@ -854,13 +855,13 @@ updateLayeredBlurPosition();
 // Run on window resize with debouncing for performance
 let resizeTimer;
 window.addEventListener('resize', () => {
-  clearTimeout(resizeTimer);
-  resizeTimer = setTimeout(() => {
-    updateLayeredBlurPosition();
-  }, 100);
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+        updateLayeredBlurPosition();
+    }, 100);
 });
 
 // Optional: Run on orientation change for mobile devices
 window.addEventListener('orientationchange', () => {
-  setTimeout(updateLayeredBlurPosition, 200);
+    setTimeout(updateLayeredBlurPosition, 200);
 });

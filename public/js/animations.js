@@ -70,7 +70,7 @@
     },
 
     handleReducedMotion() {
-      const selectors = ['.second-section', '.third-section', '.fourth-section', '.fifth-section', '.sixth-section', 'footer'];
+      const selectors = ['.second-section', '.third-section', '.fourth-section-container', '.fifth-section', '.sixth-section', 'footer'];
       selectors.forEach(selector => {
         document.querySelectorAll(selector).forEach(el => el.classList.add('in-view'));
       });
@@ -128,7 +128,7 @@
       });
 
       const observeElements = () => {
-        document.querySelectorAll('.fourth-section').forEach(section => {
+        document.querySelectorAll('.fourth-section-container').forEach(section => {
           if (!observedElements.has(section)) {
             observer.observe(section);
             observedElements.add(section);
@@ -151,7 +151,7 @@
                     observedElements.add(node);
                   }
                 }
-                node.querySelectorAll?.('.fourth-section').forEach(section => {
+                node.querySelectorAll?.('.fourth-section-container').forEach(section => {
                   if (!observedElements.has(section)) {
                     observer.observe(section);
                     observedElements.add(section);
