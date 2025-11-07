@@ -241,7 +241,7 @@ class DynamicProjectsLoader {
 
         let heading = '';
         if (index === 0) {
-            heading = '<h2 class="fourth-heading">Featured Projects</h2>';
+            heading = '<h2 class="fourth-heading" data-translate="fourth_heading">Featured Projects</h2>';
         }
 
         const containerClass = isReverse ? 'fourth-container' : 'fourth-container';
@@ -263,12 +263,12 @@ class DynamicProjectsLoader {
                         </div>
                         <div class="house-owner-details">
                             <p class="owner-name">${project.projectName}</p>
-                            <p class="see-details">See Details</p>
+                            <p class="see-details" data-translate="see_details">See Details</p>
                         </div>
                     </a>
 
                     <a class="project-details-page-indicator-btn" href="/projects/${project._id}">
-                        <span class="project-button-text">Click for details</span>
+                        <span data-translate="click_details" class="project-button-text">Click for details</span>
                         <img id="project-cta-btn-arrow" src="images/hero/button-arrow.svg" alt="" class="cta-btn-arrow">
                     </a>
                 </div>
@@ -279,9 +279,9 @@ class DynamicProjectsLoader {
             <div class="fourth-video-container" data-video-path="${project.videoPath}">
                 <img src="${project.videoThumbnailPath}" alt="" class="fourth-video-thumbnail">
                 <div class="fourth-video-overlay">
-                    <p style="background-image: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)), url('${project.videoThumbnailPath}');" class="video-overlay-text">PLAY</p>
+                    <p style="background-image: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)), url('${project.videoThumbnailPath}');" class="video-overlay-text" data-translate="video_play">PLAY</p>
                     <img src="images/section-four/video-play-icon.svg" alt="" class="video-play-icon">
-                    <p style="background-image: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)), url('${project.videoThumbnailPath}');" class="video-overlay-text">VIDEO</p>
+                    <p style="background-image: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)), url('${project.videoThumbnailPath}');" class="video-overlay-text" data-translate="video_text">VIDEO</p>
                 </div>
             </div>
         </div>
@@ -321,7 +321,7 @@ class DynamicProjectsLoader {
         contactButton.className = 'cta-btn pcf-open';
         contactButton.style.cssText = 'margin: -50px auto 0;';
         contactButton.innerHTML = `
-            <p class="cta-btn-text">Contact Us</p>
+            <p class="cta-btn-text" data-translate="second_cta">Contact Us</p>
             <img src="images/hero/button-arrow.svg" alt="" class="cta-btn-arrow">
         `;
 
@@ -536,7 +536,7 @@ class DynamicFeedbackLoader {
 
         // Only show "FEEDBACK" title for the first feedback
         const feedbackTitle = index === 0
-            ? '<p class="feedback-title">FEEDBACK</p>'
+            ? '<p class="feedback-title" data-translate="feedback_title">FEEDBACK</p>'
             : '';
 
         section.innerHTML = `
@@ -556,7 +556,7 @@ class DynamicFeedbackLoader {
                 </div>
             </div>
             <button class="feedback-button" data-project-link="${feedback.projectLink}">
-                <p class="feedback-btn-text">SEE FULL PROJECT</p>
+                <p class="feedback-btn-text" data-translate="feedback_btn">SEE FULL PROJECT</p>
                 <img src="images/section-five/feedback-arrow.svg" alt="" class="feedback-arrow">
             </button>
         `;
