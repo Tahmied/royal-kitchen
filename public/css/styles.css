@@ -71,6 +71,40 @@ nav {
   gap: 1rem;
 }
 
+.lang-select {
+  font-style: normal;
+  font-weight: 800;
+  font-size: 13px;
+  line-height: 28px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(222, 235, 250, 0.62);
+  background-color: transparent;
+  border: 1px solid rgba(222, 235, 250, 0.3);
+  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.lang-select:hover {
+  color: rgba(222, 235, 250, 0.9);
+  border-color: rgba(222, 235, 250, 0.6);
+}
+
+.lang-select:focus {
+  outline: none;
+  border-color: rgba(222, 235, 250, 0.8);
+  color: rgba(222, 235, 250, 1);
+}
+
+.lang-select option {
+  background-color: #1a1a2e;
+  color: rgba(222, 235, 250, 0.9);
+  padding: 0.5rem;
+}
+
 /* hero section */
 
 .hero {
