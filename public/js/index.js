@@ -234,13 +234,11 @@ class DynamicProjectsLoader {
             section.id = 'reverse-project-section';
         }
 
-        // Add shadow overlay for first and non-reverse sections
         let shadowOverlay = '';
         if (index === 0 || !isReverse) {
             shadowOverlay = '<img src="images/section-four/fourth-overlay-shadow.png" alt="" class="fourth-overlay-shadow">';
         }
 
-        // Add heading only for first section
         let heading = '';
         if (index === 0) {
             heading = '<h2 class="fourth-heading">Featured Projects</h2>';
