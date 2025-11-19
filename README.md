@@ -1,5 +1,8 @@
 # Royal Kitchen – Premium Kitchen Interior Design Platform (Based in Poland)
 
+<img src='https://raw.githubusercontent.com/Tahmied/royal-kitchen/refs/heads/main/public/screenshot.png'/>
+
+
 Royal Kitchen is a premium kitchen interior design company based in Poland.
 This repository contains the official website, lead collection system, admin panel, and sales panel.
 
