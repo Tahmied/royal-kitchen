@@ -201,10 +201,10 @@ class DynamicProjectsLoader {
         existingSections.forEach(section => section.remove());
 
         // Remove existing contact button if it exists
-        const existingContactBtn = document.getElementById('second-cta-btn');
-        if (existingContactBtn) {
-            existingContactBtn.remove();
-        }
+        // const existingContactBtn = document.getElementById('second-cta-btn');
+        // if (existingContactBtn) {
+        //     existingContactBtn.remove();
+        // }
 
         // Create and insert new dynamic sections
         this.projects.forEach((project, index) => {
@@ -310,10 +310,10 @@ class DynamicProjectsLoader {
         if (!lastVideoContainer) return;
 
         // Remove existing contact button if it exists
-        const existingContactBtn = document.getElementById('second-cta-btn');
-        if (existingContactBtn) {
-            existingContactBtn.remove();
-        }
+        // const existingContactBtn = document.getElementById('second-cta-btn');
+        // if (existingContactBtn) {
+        //     existingContactBtn.remove();
+        // }
 
         // Create the contact button
         const contactButton = document.createElement('button');
