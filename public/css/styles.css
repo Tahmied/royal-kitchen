@@ -1201,7 +1201,7 @@ nav .nav-link:not([style*="animation"]) {
   display: flex;
   border-radius: 900px;
   align-items: center;
-  width: 250px;
+  width: 300px;
   height: 72px;
   justify-content: center;
   cursor: pointer;
@@ -1232,7 +1232,7 @@ nav .nav-link:not([style*="animation"]) {
   display: flex;
   border-radius: 900px;
   align-items: center;
-  width: 250px;
+  width: 280px;
   height: 72px;
   justify-content: center;
   cursor: pointer;
