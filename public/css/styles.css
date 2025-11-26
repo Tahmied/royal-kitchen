@@ -1201,7 +1201,6 @@ nav .nav-link:not([style*="animation"]) {
   display: flex;
   border-radius: 900px;
   align-items: center;
-  width: 300px;
   height: 72px;
   justify-content: center;
   cursor: pointer;
@@ -1232,11 +1231,11 @@ nav .nav-link:not([style*="animation"]) {
   display: flex;
   border-radius: 900px;
   align-items: center;
-  width: 280px;
   height: 72px;
   justify-content: center;
   cursor: pointer;
-
+  padding-left: 2rem;
+  padding-right: 2rem;
   transition: transform 220ms cubic-bezier(.2, .9, .2, 1),
     box-shadow 300ms ease,
     background 300ms ease;
