@@ -82,8 +82,8 @@ const translations = {
     fourth_heading: "Wyróżnione Projekty",
     see_details: "Zobacz Szczegóły",
     click_details: "Kliknij aby zobaczyć",
-    video_play: "ODTWÓRZ",
-    video_text: "WIDEO",
+    video_play: "PLAY",
+    video_text: "VIDEO",
     
     // Fifth Section (Feedback)
     feedback_title: "OPINIE",
