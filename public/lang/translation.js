@@ -93,7 +93,7 @@ const translations = {
     sixth_title: "Dlaczego Royal Kitchen",
     sixth_heading: "Gdzie Doświadczenie Spotyka Innowację",
     sixth_description: "Laserowa precyzja pomiarów, najnowocześniejsza produkcja CNC i wsparcie UE wyznaczają standard w kuchniach na zamówienie od 12 lat.",
-    sixth_cta: "Dowiedz się więcej",
+    sixth_cta: "Więcej",
     
     // Footer
     footer_heading: "Gotowy na Własną Royal Kitchen?",

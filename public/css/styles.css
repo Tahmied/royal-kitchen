@@ -2588,13 +2588,14 @@ nav .nav-link:not([style*="animation"]) {
   justify-content: center;
   align-items: center;
   gap: 1rem;
-  width: 217px;
   height: 58px;
   background: #FFFFFF;
   border: 1px solid #FFFFFF;
   backdrop-filter: blur(17px);
   border-radius: 900px;
   margin: 0 auto;
+  padding-left: 1rem;
+  padding-right: 0.5rem;
 }
 
 .feedback-btn-text {
