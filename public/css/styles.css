@@ -13,6 +13,10 @@ body {
   background-color: #9FADBE;
 }
 
+a {
+  text-decoration: none;
+}
+
 /* hero section */
 
 .first-section {
