@@ -17,14 +17,17 @@ const translations = {
     
     // Third Section (Puls Biznesu)
     puls_text: "Puls Biznesu",
-    third_title: "As Seen in Puls Biznesu",
-    third_description: "Our <span class='third-highlight'>founder's success story</span> was featured in Poland's top <br> business daily",
+    third_title: "Press Feature Puls Biznesu",
+    third_description: "The success story of our founder, <span class='third-highlight'> Wojciech Więckiewicz </span>, was featured in Poland’s top business daily.",
     third_btn: "Read The Article",
+    
+    
+
     
     // Fourth Section (Projects)
     fourth_heading: "Featured Projects",
     see_details: "See Details",
-    click_details: "Click for details",
+    click_details: "See More Photos",
     video_play: "PLAY",
     video_text: "VIDEO",
     
@@ -74,8 +77,8 @@ const translations = {
     
     // Third Section (Puls Biznesu)
     puls_text: "Puls Biznesu",
-    third_title: "Widziane w Puls Biznesu",
-    third_description: "Historia sukcesu <span class='third-highlight'>naszego założyciela</span> została przedstawiona w najlepszym <br> polskim dzienniku biznesowym",
+    third_title: "Wyróżnienie Puls Biznesu",
+    third_description: "Wojciech Więckiewicz, założyciel Royal Kitchen, został opisany na łamach Pulsu Biznesu.",
     third_btn: "Przeczytaj Artykuł",
     
     // Fourth Section (Projects)

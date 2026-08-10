@@ -1,1 +1,1 @@
-export const DB_NAME = 'royalKitchen'
+export const DB_NAME = 'royal_kitchen?authSource=admin'

@@ -8,27 +8,39 @@
     <link rel="stylesheet" href="/css/blog-styles.css">
 </head>
 <body>
+    
     <!-- Navigation (same as homepage) -->
-     <section style="height: auto !important;" class="first-section">
+     <section style="height: auto !important;"  class="first-section">
         <div class="first-container">
             <nav>
-            <div class="left-nav">
-                <a href="#" class="nav-link">Home</a>
-                <a href="#" class="nav-link">Facebook</a>
-            </div>
-            <div class="mid-nav">
-                <a href="/index.html" class="nav-img">
-                    <img src="/images/hero/logo-header.png" alt="royal kitchen logo" class="logo">
-                </a>
-            </div>
-            <div class="right-nav">
-                <a href="#" class="nav-link">Instagram</a>
-                <a href="#" class="nav-link">Twitter</a>
-            </div>
+                <button class="hamburger" aria-label="Open menu" aria-expanded="false">
+                    <span></span><span></span><span></span>
+                </button>
+                <div class="left-nav">
+                    <a href="https://www.facebook.com/RoyalKitchenPL" data-translate="nav_facebook" class="nav-link">Facebook</a>
+                    <a href="https://www.instagram.com/royalkitchen.pl_kuchnie" data-translate="nav_instagram" class="nav-link">Instagram</a>
+                </div>
+                <div class="mid-nav">
+                    <a href="/" class="nav-img">
+                        <img src="https://premium.royal-kitchen.pl/images/main-logo.png" alt="royal kitchen logo" class="logo">
+                    </a>
+                </div>
+                <div class="right-nav">
+                    <a href="tel:+48509153385" data-translate="nav_call" class="nav-link">Call Us</a>
+                    <select id="lang-select" class="lang-select">
+                        <option value="en">EN</option>
+                        <option value="pl">Pl</option>
+                    </select>
+                </div>
             </nav>
+            <div class="mobile-menu" id="mobileMenu">
+                <a href="tel:+1234567890" class="mobile-link">Call Us</a>
+                <a href="#" class="mobile-link">Facebook</a>
+                <a href="#" class="mobile-link">Instagram</a>
+
+            </div>
         </div>
     </section>
-
 
     <!-- Blog Post Content -->
     <main class="blog-post-container">

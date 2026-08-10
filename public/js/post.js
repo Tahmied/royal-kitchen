@@ -140,3 +140,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Load the blog post when page loads
     loadBlogPost();
 });
+
+const hb = document.querySelector('.hamburger');
+const mm = document.getElementById('mobileMenu');
+hb?.addEventListener('click', () => {
+    const open = hb.classList.toggle('is-open');
+    mm.classList.toggle('is-open', open);
+    hb.setAttribute('aria-expanded', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+});

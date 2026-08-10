@@ -268,7 +268,7 @@ class DynamicProjectsLoader {
                     </a>
 
                     <a class="project-details-page-indicator-btn" href="/projects/${project._id}">
-                        <span data-translate="click_details" class="project-button-text">Click for details</span>
+                        <span data-translate="click_details" class="project-button-text">See More Photos</span>
                         <img id="project-cta-btn-arrow" src="images/hero/button-arrow.svg" alt="" class="cta-btn-arrow">
                     </a>
                 </div>
@@ -319,7 +319,7 @@ class DynamicProjectsLoader {
         const contactButton = document.createElement('button');
         contactButton.id = 'second-cta-btn';
         contactButton.className = 'cta-btn pcf-open';
-        contactButton.style.cssText = 'margin: -50px auto 0;';
+        contactButton.style.cssText = 'margin: -30px auto 0;';
         contactButton.innerHTML = `
             <p class="cta-btn-text" data-translate="second_cta">Contact Us</p>
             <img src="images/hero/button-arrow.svg" alt="" class="cta-btn-arrow">
@@ -858,6 +858,16 @@ window.addEventListener('resize', () => {
         updateLayeredBlurPosition();
     }, 100);
 });
+
+const hb = document.querySelector('.hamburger');
+const mm = document.getElementById('mobileMenu');
+hb?.addEventListener('click', () => {
+    const open = hb.classList.toggle('is-open');
+    mm.classList.toggle('is-open', open);
+    hb.setAttribute('aria-expanded', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+});
+
 
 // Optional: Run on orientation change for mobile devices
 window.addEventListener('orientationchange', () => {
