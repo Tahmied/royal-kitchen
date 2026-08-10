@@ -1,5 +1,5 @@
 // Default language (change this to 'pl' for Polish default)
-const DEFAULT_LANGUAGE = 'en';
+const DEFAULT_LANGUAGE = 'pl';
 
 // Wait for translations to be loaded
 function waitForTranslations(callback) {
