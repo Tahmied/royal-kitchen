@@ -407,15 +407,16 @@
 
       const formData = new FormData(this.elements.form);
       const name = formData.get('name')?.toString().trim();
+      const phone = formData.get('phone')?.toString().trim();
       const email = formData.get('email')?.toString().trim();
       const message = formData.get('message')?.toString().trim();
 
-      if (!name || !email || !message) {
+      if (!name || !message || (!email && !phone)) {
         this.shakeModal();
         return;
       }
 
-      await this.submitForm();
+      // Real submission is handled by index.js; do not run the simulated submit.
     },
 
     shakeModal() {

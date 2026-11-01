@@ -4042,6 +4042,7 @@ footer .footer-right-arrow {
 
 .pcf-root input[type="text"],
 .pcf-root input[type="email"],
+.pcf-root input[type="tel"],
 .pcf-root textarea,
 .pcf-root select {
   width: 100%;
@@ -4058,6 +4059,8 @@ footer .footer-right-arrow {
 }
 
 .pcf-root input[type="text"]:focus,
+.pcf-root input[type="email"]:focus,
+.pcf-root input[type="tel"]:focus,
 .pcf-root textarea:focus,
 .pcf-root select:focus {
   box-shadow: 0 6px 18px rgba(124, 58, 237, 0.09);

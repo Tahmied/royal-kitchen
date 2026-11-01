@@ -611,8 +611,8 @@ window.DynamicProjectsLoader = DynamicProjectsLoader;
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('pcf-contactForm');
     const nameInput = document.getElementById('pcf-name');
-    const phoneInput = document.getElementById('pcf-email');       //  "Phone Number" in markup
-    const emailInput = document.getElementById('pcf-company');     //  "Email address" in markup
+    const phoneInput = document.getElementById('pcf-phone');       //  "Phone Number" in markup
+    const emailInput = document.getElementById('pcf-email');       //  "Email address" in markup
     const messageInput = document.getElementById('pcf-message');
     const submitBtn = document.getElementById('pcf-submitBtn');
     const cancelBtn = document.getElementById('pcf-cancelBtn');
@@ -762,6 +762,24 @@ document.addEventListener('DOMContentLoaded', () => {
             const phone = phoneInput?.value?.trim() || '';
             const email = emailInput?.value?.trim() || '';
             const message = messageInput?.value?.trim() || '';
+
+            // validate required fields
+            if (!name) {
+                showToast({
+                    type: 'error',
+                    title: 'Name required',
+                    message: 'Please enter your full name.'
+                });
+                return;
+            }
+            if (!message) {
+                showToast({
+                    type: 'error',
+                    title: 'Message required',
+                    message: 'Please tell us about your project.'
+                });
+                return;
+            }
 
             // validate backend requirement: either email or phone
             if (!email && !phone) {

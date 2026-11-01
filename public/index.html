@@ -438,8 +438,8 @@
                         </svg>
 
                         <div>
-                            <h3 id="pcf-modalTitle">Start a conversation</h3>
-                            <div class="pcf-modal-sub">Tell us a little about your project — we’ll get back within 1
+                            <h3 id="pcf-modalTitle" data-translate="modal_title">Start a conversation</h3>
+                            <div class="pcf-modal-sub" data-translate="modal_subtitle">Tell us a little about your project — we’ll get back within 1
                                 business day.</div>
                         </div>
                     </div>
@@ -450,29 +450,29 @@
                 <form class="pcf-contact" id="pcf-contactForm" novalidate>
                     <div class="pcf-field">
                         <input type="text" id="pcf-name" name="name" autocomplete="name" required />
-                        <label for="pcf-name" class="pcf-floating">Full name</label>
+                        <label for="pcf-name" class="pcf-floating" data-translate="form_name">Full name</label>
                     </div>
 
                     <div class="pcf-field">
-                        <input type="email" id="pcf-email" name="email" autocomplete="email" required />
-                        <label for="pcf-email" class="pcf-floating">Phone Number</label>
+                        <input type="tel" id="pcf-phone" name="phone" autocomplete="tel" />
+                        <label for="pcf-phone" class="pcf-floating" data-translate="form_phone">Phone Number</label>
                     </div>
 
                     <div class="pcf-field pcf-full">
-                        <input type="text" id="pcf-company" name="company" />
-                        <label for="pcf-company" class="pcf-floating">Email address</label>
+                        <input type="email" id="pcf-email" name="email" autocomplete="email" />
+                        <label for="pcf-email" class="pcf-floating" data-translate="form_email">Email address</label>
                     </div>
 
                     <div class="pcf-field pcf-full">
                         <textarea id="pcf-message" name="message" required></textarea>
-                        <label for="pcf-message" class="pcf-floating">Tell us about your project</label>
-                        <div class="pcf-hint">A short summary, timeline, and preferred budget helps us reply faster.
+                        <label for="pcf-message" class="pcf-floating" data-translate="form_message">Tell us about your project</label>
+                        <div class="pcf-hint" data-translate="form_hint">A short summary, timeline, and preferred budget helps us reply faster.
                         </div>
                     </div>
 
                     <div class="pcf-full pcf-actions">
-                        <button type="button" class="pcf-secondary" id="pcf-cancelBtn">Cancel</button>
-                        <button type="submit" class="pcf-submit" id="pcf-submitBtn">Send message</button>
+                        <button type="button" class="pcf-secondary" id="pcf-cancelBtn" data-translate="form_cancel">Cancel</button>
+                        <button type="submit" class="pcf-submit" id="pcf-submitBtn" data-translate="form_submit">Send message</button>
                     </div>
                 </form>
 
