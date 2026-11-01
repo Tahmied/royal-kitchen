@@ -2,6 +2,7 @@ import { Lead } from "../models/leads.model.js";
 import { ApiError } from "../utils/apiError.js";
 import { ApiResponse } from '../utils/apiResponse.js';
 import { asyncHandler } from "../utils/asyncHandler.js";
+import { sendLeadNotification } from "../utils/email.js";
 
 export const submitLead = asyncHandler(async (req, res) => {
     const { name, email, phone, message } = req.body;
@@ -20,8 +21,10 @@ export const submitLead = asyncHandler(async (req, res) => {
             status : 'new',
         });
 
-        // Email notification logic can be added here
-        // sendNewLeadNotification(newLead);
+        // Notify configured recipients about the new lead (fire-and-forget; failures are logged)
+        sendLeadNotification(newLead).catch((err) => {
+            console.error('Lead notification failed:', err?.message || err);
+        });
 
         res.status(201).json(
             new ApiResponse(201, newLead, 'New lead submitted successfully')
