@@ -321,6 +321,14 @@
       }
 
       this.refreshFloatingLabels();
+
+      // Ensure the submit button label follows the active language
+      if (this.elements.submitBtn) {
+        const savedLang = (typeof localStorage !== 'undefined' && localStorage.getItem('preferredLanguage')) || 'pl';
+        const label = (window.translations && window.translations[savedLang] && window.translations[savedLang].form_submit) || this.elements.submitBtn.textContent;
+        this.elements.submitBtn.textContent = label;
+      }
+
       this.setupFocusTrap();
 
       // Focus first input after animation
@@ -396,7 +404,10 @@
 
       if (this.elements.submitBtn) {
         this.elements.submitBtn.disabled = false;
-        this.elements.submitBtn.textContent = 'Send message';
+        // Restore the (possibly translated) label instead of hardcoding English
+        const savedLang = (typeof localStorage !== 'undefined' && localStorage.getItem('preferredLanguage')) || 'pl';
+        const label = (window.translations && window.translations[savedLang] && window.translations[savedLang].form_submit) || 'Send message';
+        this.elements.submitBtn.textContent = label;
       }
 
       this.refreshFloatingLabels();
