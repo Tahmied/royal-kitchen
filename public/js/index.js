@@ -886,6 +886,16 @@ hb?.addEventListener('click', () => {
     document.body.style.overflow = open ? 'hidden' : '';
 });
 
+// Close the mobile menu when a link is tapped (e.g. returning from the dialer)
+mm?.querySelectorAll('.mobile-link').forEach(link => {
+    link.addEventListener('click', () => {
+        hb?.classList.remove('is-open');
+        mm.classList.remove('is-open');
+        hb?.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+    });
+});
+
 
 // Optional: Run on orientation change for mobile devices
 window.addEventListener('orientationchange', () => {
